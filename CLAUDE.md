@@ -47,6 +47,17 @@ content/             # Content files (markdown or similar)
 - Route-level components (`routes/`) compose section components from `components/`
 - Section components live in `components/<section>/` (e.g. `components/home/Hero.tsx`)
 - Shared layout components (`Nav`, `Footer`) live in `components/`
+- Every component folder must have a barrel `index.ts` that re-exports all public members — import from the folder, never from individual files
+
+```ts
+// ✅ correct
+import { Nav, Footer } from "~/components";
+import { Hero, WorkRows } from "~/components/home";
+
+// ❌ avoid
+import { Nav } from "~/components/Nav";
+import { Hero } from "~/components/home/Hero";
+```
 
 ### Styling
 - TailwindCSS v4 — no `tailwind.config` file; tokens defined in `app/app.css` under `@theme`
@@ -92,6 +103,18 @@ export function Nav() {
 ### Animations
 - Use GSAP for all animations; avoid CSS transitions for complex sequences
 - Simple hover transitions (color, opacity, transform) are fine in Tailwind/CSS
+
+## Project Docs
+
+`CLAUDE.md` lives in the root (required for auto-loading). All other project docs go in `.claude/`:
+
+```
+CLAUDE.md        # auto-loaded by Claude Code — must stay in root
+.claude/
+  DESIGN.md
+  ARCHITECTURE.md
+  ...
+```
 
 ## Commands
 
