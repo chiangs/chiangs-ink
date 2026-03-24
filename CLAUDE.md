@@ -61,24 +61,39 @@ import { Hero } from "~/components/home/Hero";
 
 ### Styling
 - TailwindCSS v4 — no `tailwind.config` file; tokens defined in `app/app.css` under `@theme`
-- Use design tokens from `@theme` when available (e.g. `text-accent`, `bg-bg`, `border-border`)
-- Prefer token-based classes; fall back to raw hex only when a token doesn't exist
-- **No border-radius** — `* { border-radius: 0 !important }` is a global rule; never add rounded-* classes
-- Use utility classes from `app.css`: `container-site`, `section-padding`, `text-label`, `font-display`
+- Use design tokens from `@theme` when available — never use raw hex values
+- **No border-radius** — `* { border-radius: 0 !important }` is a global rule; never add `rounded-*` classes
 - Responsive breakpoint: `md` (768px) for desktop/mobile splits
+- No custom utility classes — use token-based Tailwind classes directly:
+  - Layout: `max-w-container mx-auto px-margin-mob md:px-margin`
+  - Section spacing: `py-section-mob md:py-section`
+  - Label text: `text-[11px] font-medium uppercase tracking-[0.15em]`
 
 ### Design Tokens (key values)
-| Token | Value |
-|---|---|
-| `--color-bg` | `#0c0c0c` |
-| `--color-surface` | `#141414` |
-| `--color-card` | `#1a1a1a` |
-| `--color-accent` | `#f5a020` |
-| `--color-text-primary` | `#efefec` |
-| `--color-text-muted` | `#5a5a58` |
-| `--color-border` | `#222220` |
-| `--font-display` | Clash Display |
-| `--font-sans` | Inter |
+| Token | Tailwind class(es) | Value |
+|---|---|---|
+| `--color-bg` | `bg-bg` / `text-bg` | `#0c0c0c` |
+| `--color-surface` | `bg-surface` | `#141414` |
+| `--color-card` | `bg-card` | `#1a1a1a` |
+| `--color-hover-surface` | `bg-hover-surface` | `#1e1e1e` |
+| `--color-accent` | `text-accent` / `bg-accent` / `border-accent` | `#f5a020` |
+| `--color-invert-bg` | `bg-invert-bg` | `#f5a020` |
+| `--color-invert-text` | `text-invert-text` | `#0c0c0c` |
+| `--color-text-primary` | `text-text-primary` | `#efefec` |
+| `--color-text-muted` | `text-text-muted` | `#5a5a58` |
+| `--color-border` | `border-border` | `#222220` |
+| `--color-border-accent` | `border-border-accent` | `#f5a020` |
+| `--font-display` | `font-display` | Clash Display |
+| `--font-body` | `font-body` | Inter (default on `html`) |
+| `--spacing-section` | `py-section` / `pt-section` | `120px` |
+| `--spacing-section-mob` | `py-section-mob` | `72px` |
+| `--spacing-container` | `max-w-container` | `1280px` |
+| `--spacing-margin` | `px-margin` | `80px` |
+| `--spacing-margin-mob` | `px-margin-mob` | `24px` |
+| `--spacing-card` | `p-card` | `40px` |
+| `--transition-fast` | CSS var only | `0.2s ease` |
+| `--transition-base` | CSS var only | `0.3s ease` |
+| `--transition-slow` | CSS var only | `0.6s ease-out` |
 
 ### JSX
 - No logic inside `return()` — compute values (conditionals, derived state, class strings) as named variables before the return
