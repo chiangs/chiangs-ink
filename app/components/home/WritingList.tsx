@@ -31,13 +31,13 @@ const posts = [
 
 export function WritingList() {
   return (
-    <section className="section-padding border-b border-[#222220]">
-      <div className="container-site">
+    <section className="py-section-mob md:py-section border-b border-border">
+      <div className="max-w-container mx-auto px-margin-mob md:px-margin">
         <div className="flex items-baseline justify-between mb-16">
-          <p className="text-label text-[#5a5a58]">{SECTION_LABEL}</p>
+          <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted">{SECTION_LABEL}</p>
           <Link
             to={HREF_WRITING}
-            className="text-label text-[#f5a020] hover:opacity-60 transition-opacity duration-200"
+            className="text-[11px] font-medium uppercase tracking-[0.15em] text-accent hover:opacity-60 transition-opacity duration-200"
           >
             {LABEL_ALL_POSTS}
           </Link>
@@ -63,14 +63,14 @@ function WritingRow({
   return (
     <Link
       to={`/writing/${slug}`}
-      className="group relative flex items-center justify-between py-8 border-b border-[#222220] overflow-hidden"
+      className="group relative flex items-center justify-between py-8 border-b border-border overflow-hidden"
     >
       {/* Hover bar slides in from left */}
-      <span className="absolute left-0 top-0 bottom-0 w-1 bg-[#f5a020] scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-top" />
+      <span className="absolute left-0 top-0 bottom-0 w-1 bg-accent scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-top" />
 
       {/* Ghost number */}
       <span
-        className="font-display font-black text-[#f5a020] select-none pointer-events-none absolute left-0 transition-opacity duration-200 group-hover:opacity-[0.6]"
+        className="font-display font-black text-accent select-none pointer-events-none absolute left-0 transition-opacity duration-200 group-hover:opacity-[0.6]"
         style={{ fontSize: "48px", lineHeight: 1, opacity: 0.2 }}
         aria-hidden
       >
@@ -78,14 +78,14 @@ function WritingRow({
       </span>
 
       {/* Title */}
-      <span className="font-display font-bold text-[28px] md:text-[32px] text-[#efefec] group-hover:text-[#f5a020] transition-colors duration-200 relative z-10 ml-12">
+      <span className="font-display font-bold text-[28px] md:text-[32px] text-text-primary group-hover:text-accent transition-colors duration-200 relative z-10 ml-12">
         {title}
       </span>
 
       {/* Meta */}
       <div className="flex items-center gap-4 relative z-10 shrink-0 ml-8">
-        <span className="text-label text-[#5a5a58]">{date}</span>
-        <span className="text-label text-[#5a5a58]">{readTime}</span>
+        <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted">{date}</span>
+        <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted">{readTime}</span>
       </div>
     </Link>
   );

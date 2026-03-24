@@ -13,13 +13,13 @@ export default function WritingIndex() {
   return (
     <>
       <Nav />
-      <main className="section-padding">
-        <div className="container-site">
-          <p className="text-label text-[#5a5a58] mb-4">{SECTION_LABEL}</p>
-          <h1 className="font-display font-black text-[clamp(48px,7vw,80px)] text-[#efefec] leading-[0.9]">
+      <main className="py-section-mob md:py-section">
+        <div className="max-w-container mx-auto px-margin-mob md:px-margin">
+          <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted mb-4">{SECTION_LABEL}</p>
+          <h1 className="font-display font-black text-[clamp(48px,7vw,80px)] text-text-primary leading-[0.9]">
             {HEADING_LINE_1}
             <br />
-            <span className="text-[#f5a020]">{HEADING_LINE_2}</span>
+            <span className="text-accent">{HEADING_LINE_2}</span>
           </h1>
           {/* Writing list goes here */}
         </div>

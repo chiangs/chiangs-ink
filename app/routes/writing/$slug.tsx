@@ -16,20 +16,20 @@ export default function Article({ params }: Route.ComponentProps) {
   return (
     <>
       <Nav />
-      <main className="section-padding">
-        <div className="container-site max-w-[720px]">
-          <p className="text-label text-[#5a5a58] mb-8">
-            <a href={BREADCRUMB_HREF} className="hover:text-[#f5a020] transition-colors duration-200">
+      <main className="py-section-mob md:py-section">
+        <div className="max-w-container mx-auto px-margin-mob md:px-margin max-w-[720px]">
+          <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted mb-8">
+            <a href={BREADCRUMB_HREF} className="hover:text-accent transition-colors duration-200">
               {BREADCRUMB_LABEL}
             </a>
             {BREADCRUMB_SEPARATOR}
             {params.slug}
           </p>
-          <h1 className="font-display font-black text-[clamp(32px,5vw,56px)] text-[#efefec] leading-[1.05] mb-8">
+          <h1 className="font-display font-black text-[clamp(32px,5vw,56px)] text-text-primary leading-[1.05] mb-8">
             {HEADING}
           </h1>
           {/* MDX content goes here */}
-          <p className="text-[#5a5a58]">{CONTENT_PLACEHOLDER}</p>
+          <p className="text-text-muted">{CONTENT_PLACEHOLDER}</p>
         </div>
       </main>
       <Footer />
