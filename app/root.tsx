@@ -27,11 +27,7 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://api.fontshare.com/v2/css?f[]=clash-display@100,700,900&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Manrope:wght@200..800&display=swap",
   },
   { rel: "manifest", href: "/manifest.json" },
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },

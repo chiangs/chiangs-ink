@@ -34,10 +34,19 @@ npm install -D @types/mdx
 
 ## Font Setup
 
-Clash Display — download from https://www.fontshare.com/fonts/clash-display
-Place font files in /public/fonts/clash-display/
+Space Grotesk and Manrope — both via Google Fonts.
+Add to root.tsx links:
 
-Inter — loaded via Google Fonts in root.tsx
+```tsx
+{ rel: "preconnect", href: "https://fonts.googleapis.com" },
+{ rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+{
+  rel: "stylesheet",
+  href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Manrope:wght@400;500;600&display=swap"
+}
+```
+
+No local font files needed — both fonts load from Google Fonts CDN.
 
 ## Environment Variables
 

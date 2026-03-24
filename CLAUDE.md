@@ -73,19 +73,25 @@ import { Hero } from "~/components/home/Hero";
 ### Design Tokens (key values)
 | Token | Tailwind class(es) | Value |
 |---|---|---|
-| `--color-bg` | `bg-bg` / `text-bg` | `#0c0c0c` |
-| `--color-surface` | `bg-surface` | `#141414` |
+| `--color-bg` | `bg-bg` / `text-bg` | `#131313` |
+| `--color-surface` | `bg-surface` | `#1a1a1a` |
+| `--color-surface-low` | `bg-surface-low` | `#161616` |
+| `--color-surface-high` | `bg-surface-high` | `#202020` |
+| `--color-surface-highest` | `bg-surface-highest` | `#2a2a2a` |
 | `--color-card` | `bg-card` | `#1a1a1a` |
 | `--color-hover-surface` | `bg-hover-surface` | `#1e1e1e` |
-| `--color-accent` | `text-accent` / `bg-accent` / `border-accent` | `#f5a020` |
-| `--color-invert-bg` | `bg-invert-bg` | `#f5a020` |
+| `--color-accent` | `text-accent` / `bg-accent` / `border-accent` | `#FFB77D` |
+| `--color-accent-deep` | `text-accent-deep` / `bg-accent-deep` | `#D97707` |
+| `--color-invert-bg` | `bg-invert-bg` | `#D97707` |
 | `--color-invert-text` | `text-invert-text` | `#0c0c0c` |
-| `--color-text-primary` | `text-text-primary` | `#efefec` |
+| `--color-text-primary` | `text-text-primary` | `#E5E2E1` |
 | `--color-text-muted` | `text-text-muted` | `#5a5a58` |
 | `--color-border` | `border-border` | `#222220` |
-| `--color-border-accent` | `border-border-accent` | `#f5a020` |
-| `--font-display` | `font-display` | Clash Display |
-| `--font-body` | `font-body` | Inter (default on `html`) |
+| `--color-border-accent` | `border-border-accent` | `#FFB77D` |
+| `--color-ghost-border` | CSS var only | `rgba(85,67,54,0.15)` |
+| `--gradient-accent` | CSS var only | `linear-gradient(135deg, #FFB77D, #D97707)` |
+| `--font-display` | `font-display` | Space Grotesk (Google Fonts) |
+| `--font-body` | `font-body` | Manrope (Google Fonts, default on `html`) |
 | `--spacing-section` | `py-section` / `pt-section` | `120px` |
 | `--spacing-section-mob` | `py-section-mob` | `72px` |
 | `--spacing-container` | `max-w-container` | `1280px` |
@@ -95,6 +101,7 @@ import { Hero } from "~/components/home/Hero";
 | `--transition-fast` | CSS var only | `0.2s ease` |
 | `--transition-base` | CSS var only | `0.3s ease` |
 | `--transition-slow` | CSS var only | `0.6s ease-out` |
+| `--transition-drawer` | CSS var only | `0.45s cubic-bezier(0.16,1,0.3,1)` |
 
 ### JSX
 - No logic inside `return()` — compute values (conditionals, derived state, class strings) as named variables before the return

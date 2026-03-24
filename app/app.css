@@ -1,22 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-    /* Colors */
-    --color-bg: #0c0c0c;
-    --color-surface: #141414;
+    /* Colors — reconciled from our decisions + Stitch system */
+    --color-bg: #131313;
+    --color-surface: #1a1a1a;
+    --color-surface-low: #161616;
+    --color-surface-high: #202020;
+    --color-surface-highest: #2a2a2a;
     --color-card: #1a1a1a;
-    --color-invert-bg: #f5a020;
+    --color-invert-bg: #D97707;
     --color-invert-text: #0c0c0c;
-    --color-text-primary: #efefec;
+    --color-text-primary: #E5E2E1;
     --color-text-muted: #5a5a58;
-    --color-accent: #f5a020;
+    --color-accent: #FFB77D;
+    --color-accent-deep: #D97707;
     --color-border: #222220;
-    --color-border-accent: #f5a020;
+    --color-border-accent: #FFB77D;
+    --color-ghost-border: rgba(85, 67, 54, 0.15);
     --color-hover-surface: #1e1e1e;
 
-    /* Typography */
-    --font-display: "Clash Display", sans-serif;
-    --font-body: "Inter", sans-serif;
+    /* Accent gradient — Stitch "Copper Lead" */
+    --gradient-accent: linear-gradient(135deg, #FFB77D, #D97707);
+
+    /* Typography — Space Grotesk + Manrope */
+    --font-display: "Space Grotesk", sans-serif;
+    --font-body: "Manrope", sans-serif;
 
     /* Spacing */
     --spacing-section: 120px;
@@ -30,6 +38,7 @@
     --transition-fast: 0.2s ease;
     --transition-base: 0.3s ease;
     --transition-slow: 0.6s ease-out;
+    --transition-drawer: 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Base */
@@ -44,14 +53,6 @@ html {
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-/* Clash Display font face */
-@font-face {
-    font-family: "Clash Display";
-    src: url("/fonts/clash-display/ClashDisplay-Variable.woff2") format("woff2-variations");
-    font-weight: 100 900;
-    font-display: swap;
 }
 
 /* Scrollbar */
