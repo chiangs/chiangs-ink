@@ -1,5 +1,4 @@
-import { Nav } from "~/components/Nav";
-import { Footer } from "~/components/Footer";
+import { Nav, Footer } from "~/components";
 
 const PAGE_TITLE = "Work — Stephen Chiang";
 const SECTION_LABEL = "Work";

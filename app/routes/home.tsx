@@ -1,11 +1,6 @@
 import type { Route } from "./+types/home";
-import { Nav } from "~/components/Nav";
-import { Footer } from "~/components/Footer";
-import { Hero } from "~/components/home/Hero";
-import { WorkRows } from "~/components/home/WorkRows";
-import { AboutStrip } from "~/components/home/AboutStrip";
-import { WritingList } from "~/components/home/WritingList";
-import { ContactStrip } from "~/components/home/ContactStrip";
+import { Nav, Footer } from "~/components";
+import { Hero, WorkRows, AboutStrip, WritingList, ContactStrip } from "~/components/home";
 
 export function meta({}: Route.MetaArgs) {
   return [

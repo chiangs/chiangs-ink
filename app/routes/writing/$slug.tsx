@@ -1,5 +1,4 @@
-import { Nav } from "~/components/Nav";
-import { Footer } from "~/components/Footer";
+import { Nav, Footer } from "~/components";
 import type { Route } from "./+types/$slug";
 
 const SITE_SUFFIX = "— Stephen Chiang";
