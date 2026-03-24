@@ -21,21 +21,21 @@ export const heroLoadSequence = (gsap: any) => {
     )
     .fromTo(
       "[data-anim='headline-1']",
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6 },
-      0.4,
+      { opacity: 0, y: 32 },
+      { opacity: 1, y: 0, duration: 0.7 },
+      0.35,
     )
     .fromTo(
       "[data-anim='headline-2']",
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6 },
-      0.5,
+      { opacity: 0, y: 32 },
+      { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" },
+      0.55,
     )
     .fromTo(
       "[data-anim='hero-sub']",
-      { opacity: 0 },
-      { opacity: 1, duration: 0.6 },
-      0.7,
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: 0.6 },
+      1.2,
     )
     .fromTo(
       "[data-anim='portrait']",

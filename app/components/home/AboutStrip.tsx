@@ -19,9 +19,11 @@ export function AboutStrip() {
       </span>
 
       <div className="max-w-container mx-auto px-margin-mob md:px-margin relative z-10">
-        <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-invert-text/60 mb-8">{SECTION_LABEL}</p>
+        <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-invert-text/60 mb-8">
+          {SECTION_LABEL}
+        </p>
 
-        <p className="text-[28px] md:text-[32px] font-[500] text-invert-text leading-[1.4] max-w-3xl">
+        <p className="text-[28px] md:text-[32px] font-medium text-invert-text leading-[1.4] max-w-3xl">
           {BIO}
         </p>
 
@@ -32,7 +34,9 @@ export function AboutStrip() {
           >
             {EMAIL}
           </a>
-          <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-invert-text/40">{LOCATION}</span>
+          <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-invert-text/40">
+            {LOCATION}
+          </span>
         </div>
       </div>
     </section>

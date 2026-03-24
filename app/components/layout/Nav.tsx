@@ -77,7 +77,7 @@ export function Nav({ onOpenStyleGuide, onOpenCurrently }: NavProps) {
           <button
             onClick={onOpenCurrently}
             aria-label={ARIA_CURRENTLY}
-            className="bg-transparent border-0 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted cursor-pointer p-0 transition-colors duration-200 hover:text-text-primary"
+            className="bg-transparent border-0 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-accent-deep cursor-pointer p-0 transition-colors duration-200 hover:text-accent"
           >
             {time}
           </button>
@@ -155,7 +155,7 @@ function Monogram({ isHomepage, onOpenStyleGuide }: MonogramProps) {
   }
 
   return (
-    <Link to="/" className={`${MONOGRAM_CLASS} no-underline`}>
+    <Link to="/" viewTransition className={`${MONOGRAM_CLASS} no-underline`}>
       {inner}
     </Link>
   );
@@ -182,6 +182,7 @@ function NavLink({
   return (
     <Link
       to={to}
+      viewTransition
       data-anim="nav-link"
       className={`group relative font-body text-[11px] font-medium uppercase tracking-[0.15em] no-underline pb-0.5 transition-colors duration-200 ${colorClass}`}
     >
@@ -263,6 +264,7 @@ function MobileMenu({
       <Link
         key={link.to}
         to={link.to}
+        viewTransition
         onClick={onClose}
         className={`font-display font-bold text-[32px] no-underline transition-colors duration-200 ${linkColor}`}
         style={{

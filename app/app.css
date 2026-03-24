@@ -127,3 +127,83 @@ html {
     transform: translate(-50%, -50%);
     animation: cursor-ripple 0.5s ease-out forwards;
 }
+
+/* ─── Hero portrait ──────────────────────────────── */
+
+.portrait {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.35) brightness(0.85);
+    display: block;
+}
+
+/* Orange multiply overlay */
+.portrait::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 183, 125, 0.65);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* SVG grain overlay */
+.portrait::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.portrait-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to bottom, transparent 0%, #131313 100%);
+    z-index: 3;
+    pointer-events: none;
+}
+
+.portrait-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 1px;
+    background: #FFB77D;
+    opacity: 0.4;
+    z-index: 4;
+    pointer-events: none;
+}
+
+@media (max-width: 767px) {
+    .portrait-fade {
+        height: 50%;
+    }
+}
+
+/* ─── Scroll arrow pulse ─────────────────────────── */
+
+@keyframes arrow-pulse {
+    0%, 100% { opacity: 1; transform: translateY(0); }
+    50%       { opacity: 0.4; transform: translateY(4px); }
+}
+
+.arrow-pulse {
+    display: inline-block;
+    animation: arrow-pulse 1.8s ease-in-out infinite;
+}
