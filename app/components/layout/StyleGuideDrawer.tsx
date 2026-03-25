@@ -97,6 +97,7 @@ export function StyleGuideDrawer({
       {/* Drawer */}
       <div
         ref={drawerRef}
+        className="style-guide-drawer"
         style={{
           position: "fixed",
           top: 0,

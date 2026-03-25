@@ -80,6 +80,7 @@ export function CurrentlyDrawer({ isOpen, onClose }: CurrentlyDrawerProps) {
       {/* Drawer */}
       <div
         ref={drawerRef}
+        className="currently-drawer"
         style={{
           position: "fixed",
           top: 0,

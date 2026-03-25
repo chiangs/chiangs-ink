@@ -487,6 +487,18 @@ html {
     animation: contact-fade-up 0.5s ease 2.85s forwards;
 }
 
+/* ─── Drawers ───────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .style-guide-drawer,
+    .currently-drawer {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        padding: 48px 24px !important;
+        box-sizing: border-box !important;
+    }
+}
+
 /* ─── Footer ────────────────────────────────────── */
 
 @media (max-width: 767px) {
