@@ -9,7 +9,7 @@ import { heroLoadSequence } from "~/lib/motion";
 const EYEBROW = "STEPHEN CHIANG // PORTFOLIO 2026";
 const HEADLINE_1 = "Engineering";
 const HEADLINE_2 = "design.";
-const SUBHEAD = "Leading delivery.";
+const SUBHEAD = "Leading product delivery.";
 const DESCRIPTOR = "DESIGN TECHNOLOGIST · UX ENGINEER · PRODUCT LEAD";
 const SCROLL_CTA = "SCROLL TO EXPLORE";
 const SCROLL_ARROW = "↓";
@@ -141,7 +141,7 @@ export function Hero() {
 
       {/* ── Technical caption — desktop only, overlaid on portrait ── */}
       <div
-        className="absolute hidden md:block z-[3]"
+        className="absolute hidden md:block z-3"
         style={{ bottom: "80px", right: "24px" }}
       >
         <p
@@ -160,7 +160,7 @@ export function Hero() {
 
       {/* ── Vertical text — desktop only, right edge ── */}
       <div
-        className="absolute hidden md:block z-[3] font-body text-[10px] font-medium uppercase tracking-[0.2em] text-text-muted"
+        className="absolute hidden md:block z-3 font-body text-[10px] font-medium uppercase tracking-[0.2em] text-text-muted"
         style={{
           right: "16px",
           top: "50%",

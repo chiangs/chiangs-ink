@@ -493,7 +493,20 @@ COPY
   Hero tagline:     "Engineering the strategy behind how products get built."
   Hero descriptor:  "Design Technology · Product Strategy ·
                      Human-Machine Interfaces · AI Design & Integration"
-  About strip:      See /content/copy/about-strip.md
+  About strip:      "Most organisations don't hire a Design Technologist. 
+                     They hire a CTO, a Tech Lead, a Head of Product, or 
+                     a Strategy Consultant — and they get someone who only 
+                     speaks one language.
+  
+                     I speak all of them.
+  
+                     20+ years leading product development at the critical 
+                     intersection of people, process, and technology. 
+                     Currently building the next generation of data and 
+                     AI-driven digital experiences at enterprise scale.
+  
+                     The rare hire who closes the gap between what 
+  technology can do and what a business needs to deliver."
   Contact note:     "Currently leading a national design, data, and
                      technology practice. Open to senior technology
                      leadership, head of product, and strategic consulting

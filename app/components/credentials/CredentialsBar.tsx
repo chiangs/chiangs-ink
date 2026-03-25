@@ -73,12 +73,12 @@ export function CredentialsBar() {
   }, []);
 
   return (
-    <section className="pt-15 pb-5">
-      <div className="flex flex-col md:flex-row mx-16">
+    <section>
+      <div className="flex flex-col md:flex-row">
         {/* ── Col 1 — Identity ── */}
         <div
           data-anim="cred-col"
-          className="bg-surface flex flex-col justify-between p-card md:w-[15%] flex-none min-h-65"
+          className="bg-bg flex flex-col justify-between p-card md:w-[15%] flex-none min-h-65"
         >
           <TerminalIcon />
           <h2
@@ -134,7 +134,7 @@ export function CredentialsBar() {
         {/* ── Col 8 — Current status ── */}
         <div
           data-anim="cred-col"
-          className="bg-surface-low flex flex-col justify-between p-card md:w-[20%] flex-none"
+          className="bg-invert-text flex flex-col justify-between p-card md:w-[20%] flex-none"
         >
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted">
