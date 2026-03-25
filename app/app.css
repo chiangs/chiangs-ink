@@ -391,6 +391,22 @@ html {
     }
 }
 
+/* ── Writing rows ── */
+.writing-ghost-number {
+    font-size: 48px;
+}
+
+@media (max-width: 767px) {
+    .writing-ghost-number {
+        font-size: 72px;
+    }
+
+    .writing-row:active .left-bar {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+}
+
 .about-bio2 {
     opacity: 0;
     transform: translateX(48px);

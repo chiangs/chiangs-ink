@@ -64,28 +64,39 @@ function WritingRow({ slug, number, title, date, readTime, category }: WritingRo
   return (
     <Link
       to={`/writing/${slug}`}
-      className="group relative flex items-center justify-between py-8 border-b border-border overflow-hidden"
+      className="writing-row group relative flex flex-wrap md:flex-nowrap items-center md:justify-between py-6 md:py-8 border-b border-border overflow-hidden"
       data-cursor="read"
     >
       {/* Hover bar slides in from left */}
-      <span className="absolute left-0 top-0 bottom-0 w-1 bg-accent scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-top" />
+      <span className="left-bar absolute left-0 top-0 bottom-0 w-1 bg-accent scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-top" />
 
       {/* Ghost number */}
       <span
-        className="font-display font-black text-accent select-none pointer-events-none absolute left-0 transition-opacity duration-200 group-hover:opacity-[0.6]"
-        style={{ fontSize: "48px", lineHeight: 1, opacity: 0.2, position: "absolute", zIndex: 0 }}
+        className="writing-ghost-number font-display font-black text-accent select-none pointer-events-none absolute left-0 transition-opacity duration-200 group-hover:opacity-[0.6]"
+        style={{ lineHeight: 1, opacity: 0.2, position: "absolute", zIndex: 0 }}
         aria-hidden
       >
         {number}
       </span>
 
       {/* Title */}
-      <span className="font-display font-bold text-[28px] md:text-[32px] text-text-primary group-hover:text-accent transition-colors duration-200 ml-12" style={{ position: "relative", zIndex: 1 }}>
+      <span
+        className="font-display font-bold text-[clamp(18px,4.5vw,24px)] md:text-[32px] text-text-primary group-hover:text-accent transition-colors duration-200 ml-12 w-full md:w-auto"
+        style={{ position: "relative", zIndex: 1 }}
+      >
         {title}
       </span>
 
-      {/* Meta */}
-      <div className="flex items-center gap-4 relative z-10 shrink-0 ml-8">
+      {/* Mobile meta — single condensed line below title */}
+      <span
+        className="md:hidden font-body font-medium uppercase text-text-muted ml-12 w-full"
+        style={{ fontSize: "10px", letterSpacing: "0.12em", marginTop: "8px", position: "relative", zIndex: 1 }}
+      >
+        {category} · {date} · {readTime}
+      </span>
+
+      {/* Desktop meta — three separate spans */}
+      <div className="hidden md:flex items-center gap-4 relative z-10 shrink-0 ml-8">
         <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted">
           {category}
         </span>
