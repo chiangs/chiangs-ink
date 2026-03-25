@@ -96,13 +96,21 @@ html {
 }
 
 #cursor-dot.expanded {
-    width: 40px;
-    height: 40px;
+    width: 56px;
+    height: 56px;
     font-family: var(--font-body);
-    font-size: 10px;
-    font-weight: 500;
+    font-size: 9px;
+    font-weight: 600;
     letter-spacing: 0.05em;
     color: var(--color-invert-text);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1;
+    padding: 0;
+    overflow: hidden;
 }
 
 /* Cursor ripple */

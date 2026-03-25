@@ -65,6 +65,7 @@ function WritingRow({ slug, number, title, date, readTime, category }: WritingRo
     <Link
       to={`/writing/${slug}`}
       className="group relative flex items-center justify-between py-8 border-b border-border overflow-hidden"
+      data-cursor="read"
     >
       {/* Hover bar slides in from left */}
       <span className="absolute left-0 top-0 bottom-0 w-1 bg-accent scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-top" />
@@ -72,14 +73,14 @@ function WritingRow({ slug, number, title, date, readTime, category }: WritingRo
       {/* Ghost number */}
       <span
         className="font-display font-black text-accent select-none pointer-events-none absolute left-0 transition-opacity duration-200 group-hover:opacity-[0.6]"
-        style={{ fontSize: "48px", lineHeight: 1, opacity: 0.2 }}
+        style={{ fontSize: "48px", lineHeight: 1, opacity: 0.2, position: "absolute", zIndex: 0 }}
         aria-hidden
       >
         {number}
       </span>
 
       {/* Title */}
-      <span className="font-display font-bold text-[28px] md:text-[32px] text-text-primary group-hover:text-accent transition-colors duration-200 relative z-10 ml-12">
+      <span className="font-display font-bold text-[28px] md:text-[32px] text-text-primary group-hover:text-accent transition-colors duration-200 ml-12" style={{ position: "relative", zIndex: 1 }}>
         {title}
       </span>
 

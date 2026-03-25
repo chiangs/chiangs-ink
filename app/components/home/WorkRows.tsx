@@ -49,7 +49,7 @@ function WorkRow({ slug, number, name, category, outcome, featured }: WorkRowDat
   const rowClass = `work-row relative flex items-center justify-between py-8 ${featuredClass}`;
 
   return (
-    <Link to={`/work/${slug}`} className={rowClass} data-cursor-expand>
+    <Link to={`/work/${slug}`} className={rowClass} data-cursor="view">
       {/* Ghost number */}
       <span
         className="ghost-number font-display font-black text-accent select-none pointer-events-none absolute left-0"

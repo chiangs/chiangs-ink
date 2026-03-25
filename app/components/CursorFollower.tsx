@@ -1,18 +1,33 @@
 // CursorFollower.tsx
 // Renders the #cursor-dot element and drives it with a RAF loop.
 // No-ops on touch devices and on the server.
-// Expands with "VIEW →" label on [data-cursor-expand] elements.
+// Expands with a label on [data-cursor] elements:
+//   data-cursor="view"  → "VIEW →"
+//   data-cursor="read"  → "READ →"
+//   data-cursor (no value) → "VIEW →"
 
 import { useEffect, useState } from "react";
 
-const CURSOR_LABEL = "VIEW →";
+const CURSOR_LABEL_VIEW = "VIEW →";
+const CURSOR_LABEL_READ = "READ →";
 const RIPPLE_DURATION_MS = 500;
+
+const CURSOR_LABELS: Record<string, string> = {
+  view: CURSOR_LABEL_VIEW,
+  read: CURSOR_LABEL_READ,
+};
 
 type Ripple = { id: number; x: number; y: number };
 
+function getCursorLabel(el: Element): string {
+  const val = el.getAttribute("data-cursor");
+  if (val === null) return "";
+  return CURSOR_LABELS[val] ?? CURSOR_LABEL_VIEW;
+}
+
 export function CursorFollower() {
   const [mounted, setMounted] = useState(false);
-  const [expanded, setExpanded] = useState(false);
+  const [label, setLabel] = useState<string | null>(null);
   const [ripples, setRipples] = useState<Ripple[]>([]);
 
   // Step 1 — detect environment; skip touch devices
@@ -49,16 +64,17 @@ export function CursorFollower() {
 
     // Use event delegation — works for elements added after mount
     const onMouseOver = (e: MouseEvent) => {
-      if ((e.target as Element).closest("[data-cursor-expand]")) {
+      const target = (e.target as Element).closest("[data-cursor]");
+      if (target) {
         dot.classList.add("expanded");
-        setExpanded(true);
+        setLabel(getCursorLabel(target));
       }
     };
 
     const onMouseOut = (e: MouseEvent) => {
-      if ((e.target as Element).closest("[data-cursor-expand]")) {
+      if ((e.target as Element).closest("[data-cursor]")) {
         dot.classList.remove("expanded");
-        setExpanded(false);
+        setLabel(null);
       }
     };
 
@@ -89,7 +105,7 @@ export function CursorFollower() {
 
   return (
     <>
-      <div id="cursor-dot">{expanded ? CURSOR_LABEL : null}</div>
+      <div id="cursor-dot">{label}</div>
       {ripples.map((r) => (
         <div
           key={r.id}
