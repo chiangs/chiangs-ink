@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { LINKEDIN_URL } from "~/lib/constants";
 
 const SECTION_LABEL = "About";
@@ -22,8 +23,28 @@ const bio2Style = {
 };
 
 export function AboutStrip() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          section.classList.add("about-in-view");
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="relative overflow-hidden bg-accent py-section-mob md:py-section">
+    <section ref={sectionRef} className="relative overflow-hidden bg-accent py-section-mob md:py-section">
       {/* Ghost number clips left — unchanged */}
       <span
         className="font-display font-black text-invert-text select-none pointer-events-none absolute -left-8 top-1/2 -translate-y-1/2"
@@ -42,7 +63,7 @@ export function AboutStrip() {
           <p className="text-[24px] md:text-[28px] font-medium text-invert-text leading-[1.4]">
             {BIO_1}
           </p>
-          <p className="text-invert-text" style={bio2Style}>
+          <p className="text-invert-text about-bio2" style={bio2Style}>
             {BIO_2}
           </p>
           <p className="text-[18px] md:text-[20px] font-medium text-invert-text/80 leading-[1.6]">
