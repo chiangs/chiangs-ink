@@ -473,6 +473,14 @@ html {
     animation: contact-fade-up 0.5s ease 2.85s forwards;
 }
 
+/* ─── Footer ────────────────────────────────────── */
+
+@media (max-width: 767px) {
+    .footer-easter-egg:active {
+        color: #5a5a58 !important;
+    }
+}
+
 /* ─── Contact strip links ───────────────────────── */
 
 .contact-strip-link {

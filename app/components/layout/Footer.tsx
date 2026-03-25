@@ -11,6 +11,10 @@ import {
   LINKEDIN_URL,
 } from "~/lib/constants";
 
+const EASTER_EGG_TEXT = "This site has secrets. Explore to find them.";
+const LABEL_STYLE_GUIDE = "Style Guide ↗";
+const LABEL_LINKEDIN = "LinkedIn";
+
 interface FooterProps {
   onOpenStyleGuide?: () => void;
 }
@@ -31,85 +35,43 @@ export function Footer({ onOpenStyleGuide }: FooterProps) {
       window.removeEventListener(STYLEGUIDE_UNLOCK_KEY, handleUnlock);
   }, []);
 
+  const year = new Date().getFullYear();
+
   return (
     <footer
-      style={{
-        borderTop: "1px solid #222220",
-        padding: "24px 80px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        flexWrap: "wrap",
-        gap: "16px",
-        background: "#0c0c0c",
-      }}
+      className="border-t border-border flex flex-col md:flex-row md:items-center md:justify-between md:flex-wrap gap-4 p-6 md:px-margin md:py-6"
+      style={{ background: "#0c0c0c" }}
     >
-      {/* Left — name + year */}
-      <p
-        style={{
-          fontFamily: "Inter, sans-serif",
-          fontSize: "11px",
-          fontWeight: 500,
-          letterSpacing: "0.15em",
-          textTransform: "uppercase",
-          color: "#5a5a58",
-          margin: 0,
-        }}
-      >
+      {/* Name + year */}
+      <p className="font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted">
         {SITE_OWNER}{" "}
-        <span style={{ color: "#333330" }}>{new Date().getFullYear()}</span>
+        <span style={{ color: "#333330" }}>{year}</span>
       </p>
 
-      {/* Center — easter egg hint */}
+      {/* Easter egg hint */}
       <p
-        style={{
-          fontFamily: "Inter, sans-serif",
-          fontSize: "10px",
-          letterSpacing: "0.1em",
-          color: "#333330",
-          margin: 0,
-          textAlign: "center",
-          cursor: "default",
-          transition: "color 0.3s ease",
-        }}
+        className="footer-easter-egg font-body text-[10px] tracking-[0.1em] text-left md:text-center"
+        style={{ color: "#2a2a2a", cursor: "default", transition: "color 0.3s ease" }}
         onMouseEnter={(e) => (e.currentTarget.style.color = "#5a5a58")}
-        onMouseLeave={(e) => (e.currentTarget.style.color = "#333330")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "#2a2a2a")}
       >
-        This site has secrets. Explore to find them.
+        {EASTER_EGG_TEXT}
       </p>
 
-      {/* Right — social links + optional style guide link */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "24px",
-        }}
-      >
+      {/* Links */}
+      <div className="flex items-center gap-6">
+        {/* Style guide — desktop only */}
         {unlocked && onOpenStyleGuide && (
           <button
             onClick={onOpenStyleGuide}
-            style={{
-              background: "none",
-              border: "none",
-              fontFamily: "Inter, sans-serif",
-              fontSize: "10px",
-              fontWeight: 500,
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              color: "#f5a020",
-              cursor: "pointer",
-              padding: 0,
-              transition: "opacity 0.2s ease",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.6")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+            className="hidden md:block bg-transparent border-0 font-body text-[10px] font-medium uppercase tracking-[0.15em] cursor-pointer p-0 transition-opacity duration-200 hover:opacity-60"
+            style={{ color: "#f5a020" }}
           >
-            Style Guide ↗
+            {LABEL_STYLE_GUIDE}
           </button>
         )}
 
-        <FooterLink href={LINKEDIN_URL} label="LinkedIn" />
+        <FooterLink href={LINKEDIN_URL} label={LABEL_LINKEDIN} />
       </div>
     </footer>
   );
@@ -121,18 +83,7 @@ function FooterLink({ href, label }: { href: string; label: string }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      style={{
-        fontFamily: "Inter, sans-serif",
-        fontSize: "11px",
-        fontWeight: 500,
-        letterSpacing: "0.15em",
-        textTransform: "uppercase",
-        color: "#5a5a58",
-        textDecoration: "none",
-        transition: "color 0.2s ease",
-      }}
-      onMouseEnter={(e) => (e.currentTarget.style.color = "#f5a020")}
-      onMouseLeave={(e) => (e.currentTarget.style.color = "#5a5a58")}
+      className="font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted no-underline transition-colors duration-200 hover:text-accent"
     >
       {label}
     </a>
