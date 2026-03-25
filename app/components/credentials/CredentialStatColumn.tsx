@@ -5,7 +5,7 @@ type Props = {
 };
 
 const statNumStyle = {
-  fontSize: "clamp(44px, 4.5vw, 64px)",
+  fontSize: "clamp(48px, 4.5vw, 64px)",
   fontFamily: "var(--font-display)",
   fontWeight: 700,
   lineHeight: 1,
@@ -20,13 +20,12 @@ export function CredentialStatColumn({ num, label, className }: Props) {
     <div
       data-anim="cred-col"
       className={className}
-      style={{ paddingTop: "80px" }}
     >
       <div className="flex items-end">
         <span style={statNumStyle}>{num}</span>
       </div>
       <div className="flex-1 items-start">
-        <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted">
+        <span className="text-[10px] md:text-[11px] font-medium uppercase tracking-[0.12em] md:tracking-[0.15em] text-text-muted mt-2 block">
           {label}
         </span>
       </div>

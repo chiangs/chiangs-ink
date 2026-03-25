@@ -33,14 +33,13 @@ const STATUS_BODY_1_C = ".";
 const STATUS_BODY_2 =
   "Available for senior technology and product leadership roles.";
 
-// Stat column classNames
-const STAT_CLASS_COMMON = "flex-1 px-5 pb-8 flex flex-col justify-center gap-3";
-const STAT_CLASS_STEP_COMMON =
-  "border-b md:border-b-0 md:border-r border-border";
-const STAT_CLASS_STEP_1_BORDER = `bg-hover-surface ${STAT_CLASS_COMMON} ${STAT_CLASS_STEP_COMMON}`;
-const STAT_CLASS_STEP_2_BORDER = `bg-surface-high ${STAT_CLASS_COMMON} ${STAT_CLASS_STEP_COMMON}`;
-const STAT_CLASS_STEP_3_BORDER = `bg-surface-highest ${STAT_CLASS_COMMON} ${STAT_CLASS_STEP_COMMON}`;
-const STAT_CLASS_STEP_3_LAST = `bg-surface-highest ${STAT_CLASS_COMMON}`;
+// Stat column classNames — mobile: plain cells; desktop: bg steps + borders + padding
+const STAT_CLASS_COMMON = "flex flex-col gap-3 md:flex-1 md:px-5 md:pb-8 md:pt-20";
+const STAT_CLASS_STEP_COMMON = "md:border-r md:border-border";
+const STAT_CLASS_STEP_1_BORDER = `md:bg-hover-surface ${STAT_CLASS_COMMON} ${STAT_CLASS_STEP_COMMON}`;
+const STAT_CLASS_STEP_2_BORDER = `md:bg-surface-high ${STAT_CLASS_COMMON} ${STAT_CLASS_STEP_COMMON}`;
+const STAT_CLASS_STEP_3_BORDER = `md:bg-surface-highest ${STAT_CLASS_COMMON} ${STAT_CLASS_STEP_COMMON}`;
+const STAT_CLASS_STEP_3_LAST = `md:bg-surface-highest ${STAT_CLASS_COMMON}`;
 
 export function CredentialsBar() {
   useEffect(() => {
@@ -98,7 +97,7 @@ export function CredentialsBar() {
         </div>
 
         {/* ── Cols 2–7 — Stats band ── */}
-        <div className="flex flex-col md:flex-row flex-1">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 p-card md:flex md:flex-row md:flex-1 md:p-0">
           <CredentialStatColumn
             num={STAT_1_NUM}
             label={STAT_1_LABEL}
