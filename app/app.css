@@ -349,10 +349,32 @@ html {
 .work-row .ghost-number {
     opacity: 0.08;
     transition: opacity 0.2s ease;
+    font-size: 160px;
+    line-height: 1;
 }
 
 .work-row:hover .ghost-number {
     opacity: 0.18;
+}
+
+@media (max-width: 767px) {
+    .work-row {
+        min-height: unset;
+    }
+
+    .work-row .ghost-number {
+        font-size: 80px;
+    }
+
+    .work-row .outcome-text {
+        white-space: normal;
+        text-overflow: unset;
+        max-width: 100%;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
 }
 
 /* ─── About strip — BIO_2 slide in from right ───── */
