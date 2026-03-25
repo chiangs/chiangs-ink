@@ -15,10 +15,12 @@ Sub-title:  Leading a national practice integrating design,
 Descriptor: Design Technology · Product Strategy ·
             Human-Machine Interfaces · AI Design & Integration
 Email:      stephen@chiang.studio
+            NOTE: Email is NOT displayed publicly on the site.
+            Contact is via the contact form or LinkedIn only.
 Location:   Stavanger, Norway
 Timezone:   CET (Europe/Oslo)
 LinkedIn:   linkedin.com/in/stephenchiang
-X:          x.com/stephenchiang
+Social:     LinkedIn only — X/Twitter removed from all pages.
 
 Positioning:
   Primary audience:   Hiring managers for CTO, Head of Product,
@@ -185,113 +187,193 @@ Glassmorphism:      Nav on scroll, tooltips only
 
 NAV
   Position:     sticky top, transparent bg
-  Logo:         "SC" — Clash Display 700, #f5a020, 16px
-  Links:        Inter 500, 11px, uppercase, ls 0.15em, #efefec
-  Active:       #f5a020 underline slides in from left on hover
-  Mobile:       hamburger menu
+                On scroll: rgba(19,19,19,0.8) + backdrop-filter blur(20px)
+  Logo:         "SC" — Space Grotesk 700, #FFB77D, 16px
+  Links:        Manrope 500, 11px, uppercase, ls 0.15em, #E5E2E1
+  Active:       #FFB77D underline, scaleX(0)→scaleX(1) from left
+  Time display: Manrope 500, 11px, uppercase, #5a5a58
+                Shows Stavanger time (Europe/Oslo)
+                Clicking triggers Currently drawer
+  Mobile:       Hamburger menu (☰) left of SC monogram
+                Full-screen overlay, slides in from right
+                Links: Space Grotesk 700, clamp(48px,10vw,64px)
+                Left-aligned, 32px left padding, 48px gap between
+                SC monogram top left, ✕ close top right
 
 HERO (homepage)
   Layout:       split — text left 55%, portrait right 45%
-PORTRAIT (homepage hero)
-  filter: grayscale(100%) contrast(1.35) brightness(0.85)
-  overlay: rgba(245,160,32,0.65) mix-blend-mode multiply
-  grain: SVG feTurbulence at 5% opacity (Stitch spec —
-         "gritty screenprint" feel, not heavy noise)
-  fade: gradient to transparent at 60% height
-  caption: none (portrait is a design element, not content)
+  Eyebrow:      "DESIGN TECHNOLOGIST // PORTFOLIO 2026"
+                Manrope 500, 11px, #FFB77D, uppercase, ls 0.15em
+  Headline L1:  "Engineering" — Space Grotesk 300 (light),
+                clamp(72px, 11vw, 120px), #E5E2E1
+  Headline L2:  "design." — Space Grotesk 700 (bold),
+                same size, #FFB77D
+  Sub-headline: "Leading delivery." — Manrope 400, 20px, #5a5a58
+  Bottom strip: "DESIGN TECHNOLOGIST · UX ENGINEER · PRODUCT LEAD"
+                Manrope 500, 11px, #5a5a58, uppercase, ls 0.15em
+  Scroll label: "SCROLL TO EXPLORE ↓" — Manrope 500, 11px, #FFB77D
+
+PORTRAIT (homepage hero — desktop)
+  filter:   grayscale(100%) contrast(1.35) brightness(0.85)
+  overlay:  rgba(255,183,125,0.65) mix-blend-mode multiply
+  grain:    SVG feTurbulence at 5% opacity
+  fade:     gradient to transparent starting at 60% height
+  caption:  "REF_016 // PORTRAIT" + "ISO 400 // 85MM"
+            Manrope 500, 10px, uppercase, #E5E2E1 50% opacity
+            position: bottom right, overlaid on portrait
+  vertical: "STEPHEN CHIANG © 2026" rotated 90deg clockwise
+            right edge, Manrope 500, 10px, #5a5a58, ls 0.2em
+
+PORTRAIT (homepage hero — mobile)
+  Layout:     Full-bleed below text, 50vh height
+  Crop:       object-position: center 35%
+              Tight chest-up crop, face prominent,
+              minimal bar background visible
+  filter:     grayscale(100%) contrast(1.2) brightness(1.0)
+  overlay:    rgba(255,160,50,0.75) mix-blend-mode multiply
+              More saturated than desktop — dramatic amber wash
+  Top fade:   linear-gradient #131313 0%→40%, transparent 100%
+              Blends text section into portrait seamlessly
+  Bottom fade:transparent 0% → #131313 100%, height 200px
+  Section bg: #c97a20 — matches portrait so image bleeds edge to edge
+  Vertical text: hidden on mobile
+  Caption:    hidden on mobile
 
 ALL OTHER IMAGES
   Duotone: highlights → #E5E2E1, shadows → #0E0E0E
-  Grain: 5% SVG feTurbulence overlay on all work images
+  Grain:   5% SVG feTurbulence overlay on all work images
   Caption: "REF_001 // SCALE 1:1" style — see Typography
   Container: 0px radius, no border box
-  Vertical text: "STEPHEN CHIANG © 2026" rotated 90deg,
-                 right edge, 10px Inter, #5a5a58, ls 0.2em
-  Live time:    top right of portrait, 11px, #efefec 60% opacity
 
 WORK ROWS
-  Ghost number: 160px Clash Display 900, #f5a020, opacity 8%
-  Project name: 36–40px Clash Display 700, #efefec
-  Category tag: 11px Inter 500 caps, #5a5a58, right-aligned
-  Outcome:      14px Inter 400, #5a5a58
-  Divider:      1px solid #222220 bottom
-  Hover:        bg → #1e1e1e, name → #f5a020,
+  Ghost number: 160px Space Grotesk 700, #FFB77D, opacity 8%
+  Project name: 36–40px Space Grotesk 700, #E5E2E1
+  Category tag: 11px Manrope 500 caps, #5a5a58, right-aligned
+                white-space: nowrap, text-overflow: ellipsis
+  Outcome:      13px Manrope 400, #5a5a58, right-aligned
+                max-width: 300px, truncated with ellipsis
+  Divider:      1px solid #222220 bottom only
+                NO outer container border
+  Min-height:   110px, align-items: center (flexbox)
+  Hover:        background → #1e1e1e
+                project name → #FFB77D
                 ghost opacity → 18%
-  Featured:     full width, #141414 bg,
-                1px #f5a020 top + bottom border,
-                left 60% name, right 40% outcome
+                transition: all 0.2s ease
+                data-cursor="view" — custom cursor expands
+  Implementation: CSS :hover pseudo-class preferred over JS state
+  Mobile:       font-size: clamp(20px, 5vw, 28px) on title
+                Category + outcome stack below title
+                Ghost number: 80px
+                padding: 24px 16px, no fixed min-height
 
 ABOUT STRIP (inverted section)
-  Background:   #f5a020
+  Background:   #FFB77D (copper accent — confirmed via color dropper)
   All text:     #0c0c0c
-  Ghost number: "001" — 120px Clash Display 900,
-                clips left edge
-  Body text:    28–32px Inter 500
+  Ghost element: "020" — NOT "001"
+                Space Grotesk 700
+                font-size: clamp(160px, 20vw, 240px)
+                opacity: 0.10, color: #0c0c0c
+                position: absolute, left: -20px
+                Bleeds off left edge — intentional
+                "020" echoes the 20+ years in the copy
+  Body text:    Manrope 400/500, 18–20px
+  "I speak all of them." — Space Grotesk 700, 40–48px
+                The dominant visual element of the section
+  Mobile:       Ghost "020": clamp(80px, 18vw, 120px), opacity 0.08
 
 WRITING LIST
-  Ghost number: 48px Clash Display 900, #f5a020, opacity 20%
-  Title:        28–32px Clash Display 700, #efefec
-  Meta:         11px Inter 500 caps, #5a5a58
-  Divider:      1px solid #222220
-  Hover:        title → #f5a020, ghost opacity → 60%,
-                #f5a020 bar slides in from left behind title
+  Ghost number: 48px Space Grotesk 700, #FFB77D, opacity 20%
+  Title:        28–32px Space Grotesk 700, #E5E2E1
+  Meta:         11px Manrope 500 caps, #5a5a58
+                Format: "CATEGORY · MON YYYY · X MIN"
+  Hover:        title → #FFB77D
+                4px left bar in #FFB77D slides in from left
+                NO background lift (different from Work rows)
+                data-cursor="read" — cursor shows "READ →"
+  Mobile:       font-size: clamp(18px, 4.5vw, 24px) on title
+                Meta stacks below title, left-aligned
+                Ghost number: 72px
+                padding: 24px 16px
 
 PULL QUOTE
-  Font:         Clash Display 100, 36px, italic, #efefec
-  Left border:  4px solid #f5a020
-  Background:   #141414
+  Font:         Space Grotesk 300, 36px, italic, #E5E2E1
+  Left border:  4px solid #FFB77D
+  Background:   #1a1a1a
   Padding:      32px
 
 CODE BLOCK
-  Background:   #141414
-  Border:       1px solid #222220
+  Background:   #1a1a1a
+  Border:       rgba(85,67,54,0.15) ghost border
   Padding:      24px
-  Syntax:       #f5a020 for highlights
-  Copy button:  10px Inter caps, #f5a020, top-right
+  Syntax:       #FFB77D for highlights
+  Copy button:  10px Manrope caps, #FFB77D, top-right
 
 CHALLENGE CALLOUT
-  Background:   #141414
-  Left border:  4px solid #f5a020
+  Background:   #1a1a1a
+  Left border:  4px solid #FFB77D
   Padding:      32px
-  Text:         22px Inter 600, #efefec
+  Text:         22px Manrope 600, #E5E2E1
 
 METRICS STRIP
-  Number:       Clash Display 900, 56px, #f5a020
-  Label:        Inter 400, 13px, #5a5a58
-  Dividers:     1px solid #222220 between items
+  Number:       Space Grotesk 700, 56px, #FFB77D
+  Label:        Manrope 400, 13px, #5a5a58
+  Separator:    tonal surface shift, no divider lines
 
-CONTACT FORM
-  Inputs:       underline only — 1px solid #f5a020 bottom,
+CONTACT STRIP (homepage)
+  Headline:     "The right problem. The right partnership."
+                Space Grotesk 700, #E5E2E1, no colour split
+                Animates in two parts — "The right problem."
+                first, "The right partnership." 400ms later
+  Body:         "Open to the right full-time leadership roles
+                and consulting partnerships. If the problem
+                sits at the intersection of design, data,
+                and technology — let's talk."
+                Manrope 400, 16px, #5a5a58, max-width 480px
+                Fades in 300ms after headline completes
+  CTAs:         "Contact form →" links to /contact
+                "LinkedIn →" links to LinkedIn, new tab
+                Both: Manrope 500, 14px, #FFB77D
+                Stagger in 300ms after body, 150ms between links
+  Email:        NOT displayed — contact via form or LinkedIn only
+  Padding:      120px vertical
+
+CONTACT FORM (contact page)
+  Inputs:       underline only — 1px solid #FFB77D bottom,
                 no background, no border box
-  Labels:       10px Inter 500, uppercase, #5a5a58
-  Button:       full width, #f5a020 bg, #0c0c0c text,
-                Clash Display 700, uppercase, 0px radius
-  Hover:        bg inverts — #0c0c0c bg, #f5a020 text
+  Labels:       10px Manrope 500, uppercase, #5a5a58
+  Button:       full width, gradient #FFB77D→#D97707, #0c0c0c text,
+                Space Grotesk 700, uppercase, 0px radius
+  Hover:        bg inverts — #0c0c0c bg, #FFB77D text
 
 FOOTER
-  Content:      "STEPHEN CHIANG 2026" left,
-                easter egg hint center,
-                LINKEDIN · X right
-                (+ "Style Guide ↗" after style guide unlocked)
-  Style:        11px Inter 500 caps, #5a5a58
+  Content:      "STEPHEN CHIANG [year]" left
+                Easter egg hint center
+                "LINKEDIN" right (LinkedIn only — no X)
+                (+ "Style Guide ↗" in #FFB77D after unlocked)
+  Style:        Manrope 500, 11px, uppercase, ls 0.15em, #5a5a58
   Border:       1px solid #222220 top
   Easter hint:  "This site has secrets. Explore to find them."
-                10px Inter, #333330, reveals to #5a5a58 on hover
+                Manrope 400, 10px, #2a2a2a
+                Reveals to #5a5a58 on hover — cursor: default
+  Mobile:       Stack vertically: name → hint → LinkedIn
+                padding: 24px
+                text-align: left throughout
 
 NAV — EASTER EGG INTERACTIONS
   SC monogram:  On homepage — clicking triggers style guide drawer
                 On other pages — navigates to homepage
   Live time:    Clicking triggers "Currently" drawer
                 Shows Stavanger time (Europe/Oslo timezone)
-                Format: HH:MM
+                Format: HH:MM CET
 
 CURRENTLY DRAWER (easter egg — time display click)
   Trigger:      Click live time display in nav
   Animation:    Slides in from right, 0.45s cubic-bezier(0.16,1,0.3,1)
-  Width:        min(420px, 90vw)
-  Background:   #141414
-  Border:       1px solid #f5a020 left edge
+  Width:        min(420px, 90vw) / 100vw on mobile
+  Background:   #1a1a1a
+  Border:       1px solid #FFB77D left edge
   Persistence:  No localStorage — resets each visit
+  Content file: app/lib/currently.ts (edit here to update)
   Sections:
     TRAINING    Strength, Muay Thai, and hiking.
                 Currently trying to get lost in as many
@@ -309,36 +391,40 @@ CURRENTLY DRAWER (easter egg — time display click)
                 And the question nobody is answering well yet:
                 how do you actually measure whether an AI
                 implementation is working?
-  Block style:  4px solid #f5a020 left border, 20px padding-left
-  Label:        10px Inter 500, uppercase, #5a5a58
-  Body:         16px Inter 400, #efefec, lh 1.75
+  Block style:  4px solid #FFB77D left border, 20px padding-left
+  Label:        10px Manrope 500, uppercase, #5a5a58
+  Body:         16px Manrope 400, #E5E2E1, lh 1.75
+  Footer:       "Updated periodically. Last updated March 2026."
+                Manrope 400, 11px, #5a5a58
 
 STYLE GUIDE DRAWER (easter egg — SC monogram click on homepage)
   Trigger:      Click SC monogram when already on homepage
   Animation:    Same as Currently drawer
-  Width:        min(600px, 92vw)
-  Background:   #0f0f0f
-  Border:       1px solid #f5a020 left edge
+  Width:        min(600px, 92vw) / 100vw on mobile
+  Background:   #131313
+  Border:       1px solid #FFB77D left edge
   Persistence:  localStorage key "sc-styleguide-unlocked"
                 On first open: shows unlock message
                 After unlock: "Style Guide ↗" appears in footer
-  Unlock msg:   "You found it." — Clash Display 900, 24px, #f5a020
+  Unlock msg:   "You found it." — Space Grotesk 700, 24px, #FFB77D
                 "The design system behind this site.
                 A link has been added to the footer
                 so you can return whenever you like."
-  Sections:     Color palette swatches
-                Typography scale (live rendered)
-                Spacing system (token table)
-                Motion principles (listed)
-                Build stack (tech credits)
+                Manrope 400, 14px, #5a5a58
+  Sections:     Color palette swatches with hex + token name
+                Typography scale (live rendered samples)
+                Spacing system (token name / value table)
+                Motion principles (listed with values)
+                Build stack: React Router v7 · Tailwind v4 ·
+                GSAP · Space Grotesk · Manrope · Vercel
 
 ---
 
 ## PWA & Favicon
 
 Favicon:        /public/favicon.svg
-                Inter 900, "SC" white on #0c0c0c,
-                4px #f5a020 orange underline bar
+                "SC" — Inter 900, #E5E2E1 on #131313 background
+                4px #FFB77D orange underline bar at bottom
                 Pure SVG — no font dependency issues
                 512×512 viewBox, scales to all sizes
 
@@ -346,8 +432,8 @@ PWA setup:      manifest.json — create in IDE
                 Required icons: 192×192, 512×512 PNG
                 (generate from favicon.svg via realfavicongenerator.net)
                 apple-touch-icon: 180×180 PNG
-                Theme color: #0c0c0c
-                Background color: #0c0c0c
+                Theme color: #131313
+                Background color: #131313
                 Display: standalone
                 Start URL: /
 
@@ -367,46 +453,70 @@ Load sequence (homepage):
   3. 0.4s — "Engineering" slides up 20px, fades in, 0.6s ease-out
   4. 0.5s — "design." slides up 20px, fades in, 0.6s ease-out
   5. 0.7s — subtext fades in
-  6. 0.9s — portrait fades in with duotone wash transition
+  6. 0.9s — portrait fades in
   7. 1.1s — nav links fade in left to right, 40ms stagger
 
 Scroll reveals:
-  Trigger:      when element enters viewport (IntersectionObserver
-                or GSAP ScrollTrigger)
+  Trigger:      GSAP ScrollTrigger, start: "top 85%"
   Animation:    translateY(30px) → translateY(0) + opacity 0 → 1
   Duration:     0.6s ease-out
   Stagger:      200ms between sibling elements
+  once: true    fires once, stays visible
+
+Contact strip animation (scroll-triggered, once):
+  0.0s  "The right problem." — slides up + fades in
+  0.6s  "The right partnership." — slides up + fades in
+  0.9s  Body text — fades in only (no y movement)
+  1.2s  "Contact form →" — slides up + fades in
+  1.35s "LinkedIn →" — slides up + fades in
 
 Hover — work rows:
-  Background:   transition 0.2s ease
-  Text color:   transition 0.2s ease
-  Ghost number: opacity transition 0.2s ease
+  Background:   #1e1e1e, transition 0.2s ease
+  Title color:  #FFB77D, transition 0.2s ease
+  Ghost number: opacity 8% → 18%, transition 0.2s ease
+  Implementation: CSS :hover pseudo-class (not JS state)
+
+Hover — writing rows:
+  Left bar:     4px #FFB77D, scaleX(0)→scaleX(1), 0.2s ease
+  Title color:  #FFB77D, transition 0.2s ease
+  No background lift — different from work rows, intentional
 
 Hover — nav links:
   Underline:    scaleX(0) → scaleX(1), transform-origin left,
                 0.25s ease-out
 
 Hover — buttons:
-  Background/color invert: transition 0.2s ease
+  Invert:       background/color swap, transition 0.2s ease
 
-Cursor follower:
-  Default:      8px circle, #f5a020, 60ms lag
-  On hover:     expands to 40px, "VIEW →" text inside,
-                0.3s ease transition
+CURSOR FOLLOWER (desktop only):
+  Behaviour:    Hybrid — native cursor visible everywhere
+                EXCEPT over [data-cursor] elements
+  Default:      8px circle, #FFB77D, 60ms lag
+                position: fixed, pointer-events: none
+                requestAnimationFrame for smooth movement
+  Expanded:     56px circle, #FFB77D
+                Label: Manrope 500, 9px, #131313, white-space: nowrap
+                transition: width/height 0.3s ease
+  data-cursor="view" → work rows → "VIEW →"
+  data-cursor="read" → writing rows → "READ →"
+  Touch check:  pointer: coarse || ontouchstart ||
+                navigator.maxTouchPoints > 0 → return null
+
+RIPPLE EFFECT (touch/mobile only):
+  Trigger:      onTouchStart on work rows + writing rows
+  Origin:       Exact tap position within element
+  Color:        rgba(255, 183, 125, 0.25)
+  Animation:    scale(0) → scale(2.5), opacity → 0, 0.6s
+  Utility:      app/lib/ripple.ts — createRipple()
+  Desktop:      Does not fire on mouse events
 
 Portrait parallax:
   Rate:         0.6x scroll rate
-  Direction:    moves up as user scrolls down
-  Library:      GSAP ScrollTrigger
+  Library:      GSAP ScrollTrigger, scrub: true
 
-About section reveal:
-  Animation:    background color wipes in left to right
-  Duration:     0.6s ease-out
-  Trigger:      section enters viewport
-
-Writing "&" rotation:
-  Animation:    360deg rotation, 20s linear infinite loop
-  Direction:    clockwise
+About strip reveal:
+  Animation:    clip-path wipes in left to right
+  Duration:     0.6s ease-out, once: true
 
 ---
 
@@ -415,8 +525,9 @@ Writing "&" rotation:
 Framework:    React Router v7 (framework mode)
 Styling:      Tailwind CSS v4
 Animation:    GSAP + ScrollTrigger
-Fonts:        Clash Display via fontshare.com
-              Inter via Google Fonts
+Fonts:        Space Grotesk via Google Fonts (weights 300, 700)
+              Manrope via Google Fonts (weights 400, 500, 600)
+              No local font files — CDN only
 CMS:          MDX files in /content directory
 MDX:          @mdx-js/rollup + @mdx-js/react
 Deploy:       Vercel (vercelPreset() in react-router.config.ts)
@@ -489,26 +600,36 @@ ARTICLES (MDX in /content/writing/)
     — Key insight: user first → team → functionality (design)
                    architecture first → team → user (development)
 
-COPY
-  Hero tagline:     "Engineering the strategy behind how products get built."
-  Hero descriptor:  "Design Technology · Product Strategy ·
-                     Human-Machine Interfaces · AI Design & Integration"
-  About strip:      "Most organisations don't hire a Design Technologist. 
-                     They hire a CTO, a Tech Lead, a Head of Product, or 
-                     a Strategy Consultant — and they get someone who only 
-                     speaks one language.
-  
-                     I speak all of them.
-  
-                     20+ years leading product development at the critical 
-                     intersection of people, process, and technology. 
-                     Currently building the next generation of data and 
-                     AI-driven digital experiences at enterprise scale.
-  
-                     The rare hire who closes the gap between what 
-  technology can do and what a business needs to deliver."
-  Contact note:     "Currently leading a national design, data, and
-                     technology practice. Open to senior technology
-                     leadership, head of product, and strategic consulting
-                     engagements where the gap between design, engineering,
-                     and business strategy needs closing."
+COPY — LOCKED AND FINAL
+  Hero eyebrow:     "DESIGN TECHNOLOGIST // PORTFOLIO 2026"
+  Hero headline:    "Engineering" (Space Grotesk 300)
+                    "design." (Space Grotesk 700, #FFB77D)
+  Hero sub:         "Leading delivery."
+  Hero descriptor:  "DESIGN TECHNOLOGIST · UX ENGINEER · PRODUCT LEAD"
+
+  About strip headline:
+    "Most organisations don't hire a Design Technologist.
+    They hire a CTO, a Tech Lead, a Head of Product, or
+    a Strategy Consultant — and they get someone who only
+    speaks one language."
+  About strip punch:
+    "I speak all of them." (Space Grotesk 700, 40–48px)
+  About strip body:
+    "20+ years leading product development at the critical
+    intersection of people, process, and technology.
+    Currently building the next generation of data and
+    AI-driven digital experiences at enterprise scale."
+  About strip closing:
+    "The rare hire who closes the gap between what
+    technology can do and what a business needs to deliver."
+
+  Contact strip headline:
+    "The right problem. The right partnership."
+    (animates as two separate elements)
+  Contact strip body:
+    "Open to the right full-time leadership roles
+    and consulting partnerships. If the problem
+    sits at the intersection of design, data,
+    and technology — let's talk."
+  Contact CTAs:     "Contact form →" + "LinkedIn →"
+  Email:            NOT displayed publicly anywhere on site
