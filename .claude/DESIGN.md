@@ -29,7 +29,7 @@ Positioning:
   Key differentiator: Senior technology leader who speaks design,
                       engineering, data, and business strategy —
                       without switching modes
-  Military note:      14 years US Army Special Operations —
+  Military note:      10 years US Army Special Operations —
                       referenced as the source of systems thinking
                       and delivery discipline, not as the headline
 
@@ -281,6 +281,56 @@ WORK ROWS
                 Category + outcome stack below title
                 Ghost number: 80px
                 padding: 24px 16px, no fixed min-height
+
+WORK INDEX PAGE (routes/work/index.tsx)
+  Page header:
+    Label:    "SELECTED WORK" — Manrope 500, 11px, #FFB77D, uppercase, ls 0.15em
+    Headline: "Work." — Space Grotesk 700, clamp(56px, 8vw, 96px), #E5E2E1
+    Sub:      "A record of problems solved, systems built,
+              and organisations changed."
+              Manrope 400, 18px, #5a5a58, max-width 560px, mt 16px
+  Control bar:
+    Background: #1a1a1a, padding 20px 24px
+    Three zones in one row (stacks vertically on mobile):
+      Left:   Search input, width 280px (full-width mobile)
+              Underline-only border (#222220), bg #131313
+              Search icon (SVG magnifier, 14px, #5a5a58) left of text
+              Clears on ESC key
+      Middle: Two multi-select filter dropdowns (gap 12px)
+              Industry + Solution Type
+              Trigger: bg #131313, border-bottom #222220, Manrope 500, 12px
+              Panel: bg #1e1e1e, border #222220, min-width 220px
+              Selected options: #FFB77D + ✓ checkmark right-aligned
+              Stays open until outside click
+              One dropdown closes when the other opens
+      Right:  "[n] projects" or "[n] results" + "Clear all →" when active
+              Manrope 400/500, 12px, #5a5a58 / #FFB77D
+  Active filter tags row (below control bar, shown when any filter active):
+    Background: #1a1a1a, border-top #131313, padding 12px 24px
+    Tags: bg #2a2a2a, Manrope 500, 11px, #FFB77D, uppercase, ls 0.1em
+    × removes individual tag; clicking tag also removes it
+  Project row layout (4 zones):
+    Zone 1: Ghost number — Space Grotesk 700, 120px (desktop) / 72px (mobile)
+            #FFB77D, opacity 8% → 16% on hover, absolute left-[-10px]
+    Zone 2: Title (clamp 18–28px, Space Grotesk 700) + tags (max 3)
+            Title → #FFB77D on row hover
+    Zone 3: Metrics (max 3) — desktop only, hidden on mobile
+            Value: Space Grotesk 700, 16px, #FFB77D
+            Label: Manrope 400, 11px, #5a5a58
+    Zone 4: Year + Status (+ Industry on desktop) — right-aligned
+  Empty state:
+    "No projects match your search." — Space Grotesk 300, 24px, #5a5a58
+    "Clear filters →" — Manrope 500, 14px, #FFB77D, below
+  Search + filter logic:
+    Fuse.js — keys: title (0.5), tags (0.3), roles (0.2), threshold 0.3
+    Filter order: fuse → industry → solutionType (AND logic)
+    State managed via useReducer (5 pieces of state)
+  MDX frontmatter additions:
+    industry: string[]    (e.g. ["Maritime"])
+    solutionType: string[] (e.g. ["Data & Analytics Platforms"])
+  Animations:
+    Load: header slides up 24px + fades, control bar fades (−0.3s), rows stagger
+    Filter change: rows fade in 0.2s with 0.04s stagger (GSAP)
 
 ABOUT STRIP (inverted section)
   Background:   #FFB77D (copper accent — confirmed via color dropper)
@@ -580,7 +630,7 @@ Deploy:       Vercel (vercelPreset() in react-router.config.ts)
 5.  Root layout — _layout.tsx wiring all drawers
 6.  Homepage — Hero, Work rows, About strip,
     Writing list, Contact strip
-7.  Work index page
+7.  ✓ Work index page — COMPLETE
 8.  Project page template
 9.  Writing index page
 10. Article page template

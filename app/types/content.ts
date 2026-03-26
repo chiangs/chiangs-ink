@@ -22,6 +22,8 @@ export type ProjectFrontmatter = {
   year: string;
   status: string;
   tags: string[];
+  industry: string[];
+  solutionType: string[];
   metrics: ProjectMetric[];
   heroImage: string;
   featured: boolean;

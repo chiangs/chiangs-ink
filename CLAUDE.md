@@ -312,6 +312,11 @@ export function Hero() {
 - Ripple effect on touch: `createRipple()` from `~/lib/ripple`
   applied via `onTouchStart` on work rows and writing rows
 
+### State Management
+- **Use `useReducer` when a component has more than three
+  pieces of state** — `useState` for simple, isolated values;
+  `useReducer` for anything more complex
+
 ### Utilities
 - Pure functions shared across components → `~/lib/utils.ts`
   (e.g. `formatDate`)
