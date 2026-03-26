@@ -8,7 +8,7 @@ const LANGUAGES = [
 ] as const;
 
 const LANG_NOTE =
-  "Working across 6 countries and 4 languages has shaped how I think about communication, precision, and the assumptions we make when we share a common language.";
+  "Working across 8 countries and 4 languages has shaped how I think about communication, precision, and the assumptions we make when we share a common language.";
 
 export function LanguageList() {
   return (

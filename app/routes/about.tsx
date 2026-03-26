@@ -50,16 +50,27 @@ const BIO_STATS = [
   { num: "20+", label: "Projects delivered" },
   { num: "9", label: "Industries" },
   { num: "8", label: "Countries" },
-  { num: "20+", label: "Years combined experience" },
+  { num: "20+", label: "Years experience" },
 ] as const;
 
-const BIO_PARAS = [
-  "I'm a senior technology and product leader operating at the intersection of design, engineering, and business strategy. Currently, I lead a national practice at a global design agency — building the capability that brings design, data, and technology together as a single integrated discipline, not three separate teams talking past each other.",
-  "My background spans the full product development stack: frontend engineering, design systems, human-machine interfaces, AI and ML integration, enterprise software, and data platforms. I've held the titles of Tech Lead, Product Owner, Scrum Master, and Design Technologist — not because I couldn't specialise, but because the problems I'm hired to solve don't respect those boundaries.",
-  "What differentiates my practice is the layer that sits around the craft. I bring 14 years of US Army Special Operations leadership into every engagement — the systems thinking, the deliberate process, the ability to lead multifunctional teams through ambiguity and deliver under pressure. That discipline doesn't show up on a Figma file. It shows up in how I structure a programme, how I align stakeholders, and how I make consequential technology decisions when the stakes are high.",
-  "I've worked across the USA, Denmark, Norway, Laos, Sri Lanka, the Maldives, Iraq, and Korea — for enterprises, agencies, and governments. I don't fill roles. I raise the ceiling of what those roles can deliver.",
-  "Based in Stavanger, Norway. Operating globally.",
-] as const;
+const BIO_P1_PRE =
+  "I'm a senior technology and product leader operating at the intersection of design, engineering, and business strategy. Currently, I lead a national practice at a global design agency — building the capability that brings design, data, and technology together as a ";
+const BIO_P1_HL = "single integrated discipline";
+const BIO_P1_POST = ", not three separate teams talking past each other.";
+
+const BIO_P2 =
+  "My background spans the full product development stack: frontend engineering, design systems, human-machine interfaces, AI and ML integration, enterprise software, and data platforms. I've held the titles of Tech Lead, Product Owner, Scrum Master, and Design Technologist — not because I couldn't specialise, but because the problems I'm hired to solve don't respect those boundaries.";
+
+const BIO_P3_PRE =
+  "What differentiates my practice is the layer that sits around the craft. I bring 14 years of US Army Special Operations leadership into every engagement — the systems thinking, the deliberate process, the ability to lead multifunctional teams through ambiguity and deliver under pressure. That discipline ";
+const BIO_P3_HL = "doesn't show up on a Figma file";
+const BIO_P3_POST =
+  ". It shows up in how I structure a programme, how I align stakeholders, and how I make consequential technology decisions when the stakes are high.";
+
+const BIO_P4 =
+  "I've worked across the USA, Denmark, Norway, Laos, Sri Lanka, the Maldives, Iraq, and Korea — for enterprises, agencies, and governments. I don't fill roles. I raise the ceiling of what those roles can deliver.";
+
+const BIO_P5 = "Based in Stavanger, Norway. Operating globally.";
 
 // ── EXPERIENCE ───────────────────────────────────────────────────
 
@@ -95,7 +106,7 @@ const portraitCircleImgStyle: React.CSSProperties = {
   width: "100%",
   height: "100%",
   objectFit: "cover",
-  objectPosition: "center 20%",
+  objectPosition: "center 30%",
   display: "block",
 };
 
@@ -432,7 +443,7 @@ export default function About() {
               </p>
 
               {/* Hero row: headline left, circular portrait right */}
-              <div className="flex items-center gap-8 mb-16">
+              <div className="flex items-center gap-12 mb-16">
                 <div className="min-w-0">
                   <h1 className="font-display" style={{ lineHeight: 0.9 }}>
                     <span
@@ -455,10 +466,16 @@ export default function About() {
                   </h1>
                 </div>
 
-                {/* Circular portrait */}
-                <div className="shrink-0">
+                {/* Circular portrait — desktop only; mobile version sits above bio text */}
+                <div
+                  className="shrink-0 hidden md:block"
+                  style={{
+                    filter:
+                      "drop-shadow(0 1px 2px rgba(0,0,0,1)) drop-shadow(0 2px 4px rgba(0,0,0,0.9)) drop-shadow(0 3px 6px rgba(0,0,0,0.8)) drop-shadow(0 4px 8px rgba(0,0,0,0.6)) drop-shadow(0 5px 10px rgba(0,0,0,0.4))",
+                  }}
+                >
                   <div
-                    className="portrait-circle-wrap relative overflow-hidden w-14 h-14 md:w-44 md:h-44"
+                    className="portrait-circle-wrap relative overflow-hidden w-14 h-14 md:w-[211px] md:h-[211px]"
                     style={{ clipPath: "circle(50%)" }}
                   >
                     <img
@@ -511,21 +528,60 @@ export default function About() {
                 ))}
               </div>
 
+              {/* Portrait — mobile only, above bio text */}
+              <div
+                className="md:hidden mb-6 flex justify-center"
+                style={{
+                  filter:
+                    "drop-shadow(0 1px 2px rgba(0,0,0,1)) drop-shadow(0 2px 3px rgba(0,0,0,0.8)) drop-shadow(0 3px 5px rgba(0,0,0,0.5))",
+                }}
+              >
+                <div
+                  className="portrait-circle-wrap relative overflow-hidden w-24 h-24"
+                  style={{ clipPath: "circle(50%)" }}
+                >
+                  <img
+                    src={PORTRAIT_SRC}
+                    alt={PORTRAIT_ALT}
+                    className="portrait-circle-img"
+                    style={portraitCircleImgStyle}
+                  />
+                  <svg style={portraitGrainStyle} aria-hidden="true">
+                    <filter id="portrait-grain-mob">
+                      <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.65"
+                        numOctaves="3"
+                        stitchTiles="stitch"
+                      />
+                      <feColorMatrix type="saturate" values="0" />
+                    </filter>
+                    <rect
+                      width="100%"
+                      height="100%"
+                      filter="url(#portrait-grain-mob)"
+                    />
+                  </svg>
+                </div>
+              </div>
+
               {/* Bio text */}
               <div data-anim="bio-text" style={{ maxWidth: "680px" }}>
-                {BIO_PARAS.map((para, i) => (
-                  <p
-                    key={i}
-                    className="font-body text-text-primary"
-                    style={{
-                      fontSize: "18px",
-                      lineHeight: 1.8,
-                      marginTop: i > 0 ? "28px" : 0,
-                    }}
-                  >
-                    {para}
-                  </p>
-                ))}
+                <p className="font-body text-text-primary" style={{ fontSize: "18px", lineHeight: 1.8 }}>
+                  {BIO_P1_PRE}<span className="text-accent-deep">{BIO_P1_HL}</span>{BIO_P1_POST}
+                </p>
+                <p className="font-body text-text-primary" style={{ fontSize: "18px", lineHeight: 1.8, marginTop: "28px" }}>
+                  {BIO_P2}
+                </p>
+                <p className="font-body text-text-primary" style={{ fontSize: "18px", lineHeight: 1.8, marginTop: "28px" }}>
+                  {BIO_P3_PRE}<span className="text-accent-deep">{BIO_P3_HL}</span>{BIO_P3_POST}
+                </p>
+                <p className="font-body text-text-primary" style={{ fontSize: "18px", lineHeight: 1.8, marginTop: "28px" }}>
+                  {BIO_P4}
+                </p>
+                <p className="font-body text-text-primary" style={{ fontSize: "18px", lineHeight: 1.8, marginTop: "28px" }}>
+                  {BIO_P5}
+                </p>
               </div>
             </section>
 
@@ -589,7 +645,7 @@ export default function About() {
               <p className="font-body font-medium text-[11px] uppercase tracking-[0.15em] text-accent block mb-3">
                 {IMG_LABEL}
               </p>
-              <h2 className="font-display font-bold text-[32px] text-text-primary mb-[60px] leading-[1.1]">
+              <h2 className="font-display font-bold text-[32px] text-text-primary mb-15 leading-[1.1]">
                 {IMG_TITLE}
               </h2>
               <div data-anim="section-content">
