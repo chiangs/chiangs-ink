@@ -12,7 +12,7 @@
     --color-invert-bg: #D97707;
     --color-invert-text: #0c0c0c;
     --color-text-primary: #E5E2E1;
-    --color-text-muted: #5a5a58;
+    --color-text-muted: #737371;
     --color-accent: #FFB77D;
     --color-accent-deep: #D97707;
     --color-border: #222220;
@@ -508,7 +508,7 @@ html {
 
 @media (max-width: 767px) {
     .footer-easter-egg:active {
-        color: #5a5a58 !important;
+        color: #737371 !important;
     }
 }
 

@@ -50,7 +50,7 @@ export const STYLEGUIDE_COLORS: ColorEntry[] = [
   { token: "--color-card", hex: "#1a1a1a", name: "Card" },
   { token: "--color-accent", hex: "#f5a020", name: "Accent" },
   { token: "--color-text-primary", hex: "#efefec", name: "Text Primary" },
-  { token: "--color-text-muted", hex: "#5a5a58", name: "Text Muted" },
+  { token: "--color-text-muted", hex: "#737371", name: "Text Muted" },
   { token: "--color-border", hex: "#222220", name: "Border" },
   { token: "--color-invert-bg", hex: "#f5a020", name: "Invert Background" },
 ];

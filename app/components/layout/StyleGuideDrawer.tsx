@@ -127,7 +127,7 @@ export function StyleGuideDrawer({
             right: "24px",
             background: "none",
             border: "none",
-            color: "#5a5a58",
+            color: "#737371",
             fontSize: "14px",
             fontFamily: "Inter, sans-serif",
             fontWeight: 500,
@@ -138,7 +138,7 @@ export function StyleGuideDrawer({
             transition: "color 0.2s ease",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.color = "#f5a020")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "#5a5a58")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "#737371")}
         >
           ESC ✕
         </button>
@@ -168,7 +168,7 @@ export function StyleGuideDrawer({
               style={{
                 fontFamily: "Manrope, sans-serif",
                 fontSize: "14px",
-                color: "#5a5a58",
+                color: "#737371",
                 margin: 0,
                 lineHeight: 1.6,
               }}
@@ -209,7 +209,7 @@ export function StyleGuideDrawer({
             style={{
               fontFamily: "Manrope, sans-serif",
               fontSize: "14px",
-              color: "#5a5a58",
+              color: "#737371",
               margin: 0,
             }}
           >
@@ -250,7 +250,7 @@ export function StyleGuideDrawer({
                     style={{
                       fontFamily: "monospace",
                       fontSize: "14px",
-                      color: "#5a5a58",
+                      color: "#737371",
                       margin: 0,
                     }}
                   >
@@ -288,7 +288,7 @@ export function StyleGuideDrawer({
                   style={{
                     fontFamily: "monospace",
                     fontSize: "14px",
-                    color: "#5a5a58",
+                    color: "#737371",
                     margin: 0,
                   }}
                 >
@@ -313,7 +313,7 @@ export function StyleGuideDrawer({
                   paddingBottom: "8px",
                 }}
               >
-                <span style={{ fontFamily: "Manrope, sans-serif", fontSize: "14px", color: "#5a5a58" }}>
+                <span style={{ fontFamily: "Manrope, sans-serif", fontSize: "14px", color: "#737371" }}>
                   {s.name}
                 </span>
                 <span style={{ fontFamily: "monospace", fontSize: "14px", color: "#f5a020" }}>
@@ -347,7 +347,7 @@ export function StyleGuideDrawer({
                   style={{
                     fontFamily: "monospace",
                     fontSize: "14px",
-                    color: "#5a5a58",
+                    color: "#737371",
                     margin: 0,
                   }}
                 >
@@ -363,7 +363,7 @@ export function StyleGuideDrawer({
           style={{
             fontFamily: "Manrope, sans-serif",
             fontSize: "14px",
-            color: "#5a5a58",
+            color: "#737371",
             letterSpacing: "0.05em",
             lineHeight: 1.6,
             borderTop: "1px solid #222220",

@@ -54,7 +54,7 @@ decisions take precedence. Stitch's superior principles
 --color-invert-text:      #0c0c0c   /* Text on inverted section */
 --color-text-primary:     #E5E2E1   /* Primary text — Stitch's warmer
                                        off-white, papery feel */
---color-text-muted:       #5a5a58   /* Muted / secondary text */
+--color-text-muted:       #737371   /* Muted / secondary text */
 --color-accent:           #FFB77D   /* Stitch's copper primary — warm,
                                        ember-like. ONLY accent color. */
 --color-accent-deep:      #D97707   /* Stitch's primary_container —
@@ -209,7 +209,7 @@ NAV
   Links:        Manrope 500, 11px, uppercase, ls 0.15em, #E5E2E1
   Order:        ABOUT · WORK · WRITING · CONTACT
   Active:       #FFB77D underline, scaleX(0)→scaleX(1) from left
-  Time display: Manrope 500, 11px, uppercase, #5a5a58
+  Time display: Manrope 500, 11px, uppercase, #737371
                 Shows Stavanger time (Europe/Oslo)
                 Clicking triggers Currently drawer
   Mobile:       Hamburger menu (☰) left of SC monogram
@@ -226,9 +226,9 @@ HERO (homepage)
                 clamp(72px, 11vw, 120px), #E5E2E1
   Headline L2:  "design." — Space Grotesk 700 (bold),
                 same size, #FFB77D
-  Sub-headline: "Leading delivery." — Manrope 400, 20px, #5a5a58
+  Sub-headline: "Leading delivery." — Manrope 400, 20px, #737371
   Bottom strip: "DESIGN TECHNOLOGIST · UX ENGINEER · PRODUCT LEAD"
-                Manrope 500, 11px, #5a5a58, uppercase, ls 0.15em
+                Manrope 500, 11px, #737371, uppercase, ls 0.15em
   Scroll label: "SCROLL TO EXPLORE ↓" — Manrope 500, 11px, #FFB77D
 
 PORTRAIT (homepage hero — desktop)
@@ -240,7 +240,7 @@ PORTRAIT (homepage hero — desktop)
             Manrope 500, 10px, uppercase, #E5E2E1 50% opacity
             position: bottom right, overlaid on portrait
   vertical: "STEPHEN CHIANG © 2026" rotated 90deg clockwise
-            right edge, Manrope 500, 10px, #5a5a58, ls 0.2em
+            right edge, Manrope 500, 10px, #737371, ls 0.2em
 
 PORTRAIT (homepage hero — mobile)
   Layout:     Full-bleed below text, 50vh height
@@ -281,9 +281,9 @@ ALL OTHER IMAGES
 WORK ROWS
   Ghost number: 160px Space Grotesk 700, #FFB77D, opacity 8%
   Project name: 36–40px Space Grotesk 700, #E5E2E1
-  Category tag: 11px Manrope 500 caps, #5a5a58, right-aligned
+  Category tag: 11px Manrope 500 caps, #737371, right-aligned
                 white-space: nowrap, text-overflow: ellipsis
-  Outcome:      13px Manrope 400, #5a5a58, right-aligned
+  Outcome:      13px Manrope 400, #737371, right-aligned
                 max-width: 300px, truncated with ellipsis
   Divider:      1px solid #222220 bottom only
                 NO outer container border
@@ -349,9 +349,9 @@ WORK INDEX PAGE (routes/work/index.tsx)
     Inner content: max-w-container mx-auto px-margin-mob md:px-margin
     Padding: 32px vertical
     Toggle row: "WORK INSIGHTS" label (#FFB77D, Manrope 500, 11px,
-                uppercase, ls 0.15em) + "Hide ↑"/"Show ↓" (#5a5a58)
+                uppercase, ls 0.15em) + "Hide ↑"/"Show ↓" (#737371)
     Sub-label: "N projects across X industries."
-               Manrope 400, 12px, #5a5a58
+               Manrope 400, 12px, #737371
     Default: expanded (desktop), collapsed (mobile)
     Collapse: GSAP height tween 0.4s
     Always receives ALL projects (not filtered subset)
@@ -380,10 +380,10 @@ WORK INDEX PAGE (routes/work/index.tsx)
         Cells labeled with tech name, #FFB77D if count≥2
       Row 2, Col 3: AVG. TIME TO MVP — Stat
         Number: Space Grotesk 700, 48px, #FFB77D
-        Sub-label: "months to MVP" — Manrope 400, 14px, #5a5a58
+        Sub-label: "months to MVP" — Manrope 400, 14px, #737371
         Computed from metrics where label contains "month" or "MVP"
     All charts: bg #131313 cells, 20px cell padding
-    Chart labels: Manrope 500, 10px, #5a5a58
+    Chart labels: Manrope 500, 10px, #737371
     SSR guard: mounted state (useState + useEffect) — all charts
       render only after mount (client-side only)
     Responsive widths: useParentSize from @visx/responsive
@@ -400,7 +400,7 @@ WORK INDEX PAGE (routes/work/index.tsx)
     Three zones in one row (stacks vertically on mobile):
       Left:   Search input, width 280px (full-width mobile), height 40px
               Underline-only border (#222220), bg #131313
-              Search icon (SVG magnifier, 14px, #5a5a58) absolute left
+              Search icon (SVG magnifier, 14px, #737371) absolute left
               padding 0 16px 0 32px (32px left clears icon), clears on ESC
               Placeholder: "What are you interested in?"
       Middle: Two multi-select filter dropdowns (gap 12px), height 40px
@@ -411,7 +411,7 @@ WORK INDEX PAGE (routes/work/index.tsx)
               Stays open until outside click
               One dropdown closes when the other opens
       Right:  "[n] projects" or "[n] results" + "Clear all →" when active
-              Manrope 400/500, 12px, #5a5a58 / #FFB77D
+              Manrope 400/500, 12px, #737371 / #FFB77D
 
   Active filter tags row (below control bar, shown when any filter active):
     Background: #1a1a1a, border-top #131313
@@ -430,11 +430,11 @@ WORK INDEX PAGE (routes/work/index.tsx)
             Title → #FFB77D on row hover
     Zone 3: Metrics (max 3) — desktop only, hidden on mobile
             Value: Space Grotesk 700, 16px, #FFB77D
-            Label: Manrope 400, 11px, #5a5a58
+            Label: Manrope 400, 11px, #737371
     Zone 4: Year + Status (+ Industry on desktop) — right-aligned
 
   Empty state:
-    "No projects match your search." — Space Grotesk 300, 24px, #5a5a58
+    "No projects match your search." — Space Grotesk 300, 24px, #737371
     "Clear filters →" — Manrope 500, 14px, #FFB77D, below
 
   Search + filter logic:
@@ -472,12 +472,12 @@ MAP (Industries section — about page)
   Container:    #1a1a1a surface — provides subtle frame
   Hover:        highlighted countries → #D97707 on hover
   Caption:      "8 countries across 4 continents"
-                Manrope 400, 12px, #5a5a58, italic
+                Manrope 400, 12px, #737371, italic
 
 WRITING LIST
   Ghost number: 48px Space Grotesk 700, #FFB77D, opacity 20%
   Title:        28–32px Space Grotesk 700, #E5E2E1
-  Meta:         11px Manrope 500 caps, #5a5a58
+  Meta:         11px Manrope 500 caps, #737371
                 Format: "CATEGORY · MON YYYY · X MIN"
   Hover:        title → #FFB77D
                 4px left bar in #FFB77D slides in from left
@@ -509,7 +509,7 @@ CHALLENGE CALLOUT
 
 METRICS STRIP
   Number:       Space Grotesk 700, 56px, #FFB77D
-  Label:        Manrope 400, 13px, #5a5a58
+  Label:        Manrope 400, 13px, #737371
   Separator:    tonal surface shift, no divider lines
 
 CONTACT STRIP (homepage)
@@ -521,7 +521,7 @@ CONTACT STRIP (homepage)
                 and consulting partnerships. If the problem
                 sits at the intersection of design, data,
                 and technology — let's talk."
-                Manrope 400, 16px, #5a5a58, max-width 480px
+                Manrope 400, 16px, #737371, max-width 480px
                 Fades in 300ms after headline completes
   CTAs:         "Contact form →" links to /contact
                 "LinkedIn →" links to LinkedIn, new tab
@@ -533,7 +533,7 @@ CONTACT STRIP (homepage)
 CONTACT FORM (contact page)
   Inputs:       underline only — 1px solid #FFB77D bottom,
                 no background, no border box
-  Labels:       10px Manrope 500, uppercase, #5a5a58
+  Labels:       10px Manrope 500, uppercase, #737371
   Button:       full width, gradient #FFB77D→#D97707, #0c0c0c text,
                 Space Grotesk 700, uppercase, 0px radius
   Hover:        bg inverts — #0c0c0c bg, #FFB77D text
@@ -543,11 +543,11 @@ FOOTER
                 Easter egg hint center
                 "LINKEDIN" right (LinkedIn only — no X)
                 (+ "Style Guide ↗" in #FFB77D after unlocked)
-  Style:        Manrope 500, 11px, uppercase, ls 0.15em, #5a5a58
+  Style:        Manrope 500, 11px, uppercase, ls 0.15em, #737371
   Border:       1px solid #222220 top
   Easter hint:  "This site has secrets. Explore to find them."
                 Manrope 400, 10px, #2a2a2a
-                Reveals to #5a5a58 on hover — cursor: default
+                Reveals to #737371 on hover — cursor: default
   Mobile:       Stack vertically: name → hint → LinkedIn
                 padding: 24px
                 text-align: left throughout
@@ -594,10 +594,10 @@ CURRENTLY DRAWER (easter egg — time display click)
   Block hover:  scale(1.03) + drop-shadow(0 6px 20px rgba(0,0,0,0.6))
                 transform: 0.35s cubic-bezier(0.34,1.56,0.64,1) (spring)
                 filter: 0.3s ease
-  Label:        10px Manrope 500, uppercase, #5a5a58
+  Label:        10px Manrope 500, uppercase, #737371
   Body:         16px Manrope 400, #E5E2E1, lh 1.75
   Footer:       "Updated periodically. Last updated March 2026."
-                Manrope 400, 11px, #5a5a58
+                Manrope 400, 11px, #737371
 
 STYLE GUIDE DRAWER (easter egg — SC monogram click on homepage)
   Trigger:      Click SC monogram when already on homepage
@@ -612,7 +612,7 @@ STYLE GUIDE DRAWER (easter egg — SC monogram click on homepage)
                 "The design system behind this site.
                 A link has been added to the footer
                 so you can return whenever you like."
-                Manrope 400, 14px, #5a5a58
+                Manrope 400, 14px, #737371
   Sections:     Color palette swatches with hex + token name
                 Typography scale (live rendered samples)
                 Spacing system (token name / value table)
