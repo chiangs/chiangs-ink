@@ -272,26 +272,13 @@ export default function WorkIndex() {
       (tl as ReturnType<typeof gsap.timeline>)
         // All three animate simultaneously
         .to(
-          "#cover-chaos",
-          {
-            scaleX: 0,
-            scaleY: 0,
-            opacity: 0,
-            transformOrigin: "0% 0%",
-            duration: 0.7,
-            ease: "power2.out",
-          },
+          "#chaos-clip-rect",
+          { attr: { width: 1, height: 1 }, duration: 0.65, ease: "power2.out" },
           0,
         )
         .to(
-          "#cover-waves",
-          {
-            scaleX: 0,
-            opacity: 0,
-            transformOrigin: "100% 50%",
-            duration: 0.55,
-            ease: "power1.inOut",
-          },
+          "#waves-clip-rect",
+          { attr: { x: 0, width: 1 }, duration: 0.1, ease: "power1.inOut" },
           0,
         )
         .to(
@@ -403,22 +390,30 @@ export default function WorkIndex() {
               radius={1.7}
               fill="var(--color-invert-bg)"
             />
+            <clipPath id="chaos-clip" clipPathUnits="objectBoundingBox">
+              <rect id="chaos-clip-rect" x="0" y="0" width="0" height="0" />
+            </clipPath>
+            <clipPath id="waves-clip" clipPathUnits="objectBoundingBox">
+              <rect id="waves-clip-rect" x="1" y="0" width="0" height="1" />
+            </clipPath>
           </defs>
           {/* LEFT: Chaos — crosshatch */}
-          <rect
-            x="0"
-            y="0"
-            width="33.33%"
-            height="100%"
-            fill="url(#chaos-lines-1)"
-          />
-          <rect
-            x="0"
-            y="0"
-            width="33.33%"
-            height="100%"
-            fill="url(#chaos-lines-2)"
-          />
+          <g clipPath="url(#chaos-clip)">
+            <rect
+              x="0"
+              y="0"
+              width="33.33%"
+              height="100%"
+              fill="url(#chaos-lines-1)"
+            />
+            <rect
+              x="0"
+              y="0"
+              width="33.33%"
+              height="100%"
+              fill="url(#chaos-lines-2)"
+            />
+          </g>
           {/* MIDDLE: Transition — waves */}
           <rect
             x="33.33%"
@@ -426,6 +421,7 @@ export default function WorkIndex() {
             width="33.33%"
             height="100%"
             fill="url(#wave-pattern)"
+            clipPath="url(#waves-clip)"
           />
           {/* RIGHT: Order — dot grid */}
           <rect
@@ -436,27 +432,8 @@ export default function WorkIndex() {
             height="100%"
             fill="url(#dot-grid)"
           />
-          {/* Reveal covers — GSAP animates these away on load */}
-          <rect
-            id="cover-chaos"
-            x="0"
-            y="0"
-            width="33.33%"
-            height="100%"
-            fill="var(--color-bg)"
-          />
-          <rect
-            id="cover-waves"
-            x="33.33%"
-            y="0"
-            width="33.33%"
-            height="100%"
-            fill="var(--color-bg)"
-          />
         </svg>
-        <div
-          className="relative z-[1] max-w-container mx-auto px-margin-mob md:px-margin pt-section-mob md:pt-section pb-12 md:pb-16"
-        >
+        <div className="relative z-1 max-w-container mx-auto px-margin-mob md:px-margin pt-section-mob md:pt-section pb-12 md:pb-16">
           <p className="text-sm font-medium uppercase tracking-[0.15em] text-accent mb-4">
             {SECTION_LABEL}
           </p>
@@ -540,9 +517,7 @@ export default function WorkIndex() {
 
         {/* Active filter tags */}
         {activeTags.length > 0 && (
-          <div
-            className="bg-surface border-t border-bg py-3"
-          >
+          <div className="bg-surface border-t border-bg py-3">
             <div className="max-w-container mx-auto px-margin-mob md:px-margin flex flex-wrap gap-2">
               {activeTags.map((tag) => (
                 <button
@@ -642,12 +617,9 @@ function FilterDropdown({
   );
 }
 
-
 function EmptyState({ onClear }: { onClear: () => void }) {
   return (
-    <div
-      className="flex flex-col items-center justify-center my-20 mx-auto"
-    >
+    <div className="flex flex-col items-center justify-center my-20 mx-auto">
       <p className="font-display font-light text-2xl text-text-muted text-center">
         {LABEL_NO_RESULTS}
       </p>
