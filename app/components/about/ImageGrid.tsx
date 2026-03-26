@@ -4,6 +4,8 @@ import { SITE_OWNER } from "~/lib/constants";
 
 const IMG_INTRO =
   "Strength training, Muay Thai, hiking Norwegian fjords. Single father of three. The discipline outside work is the same discipline inside it.";
+const IMG_INTRO2 =
+  "I build mechanical keyboards and custom PCs — because the best way to understand how humans interact with machines is to build them yourself. That obsession with how things feel to use shapes how I think about HMI design and how AI should show up in the hands of real people.";
 
 const IMG_PRO_SRC = "/images/about/professional-01.jpg";
 const IMG_PRO_ALT = SITE_OWNER;
@@ -38,11 +40,22 @@ export function ImageGrid() {
         style={{
           fontSize: "16px",
           lineHeight: 1.7,
-          marginBottom: "40px",
+          marginBottom: "10px",
           maxWidth: "480px",
         }}
       >
         {IMG_INTRO}
+      </p>
+      <p
+        className="font-body text-text-muted"
+        style={{
+          fontSize: "16px",
+          lineHeight: 1.7,
+          marginBottom: "40px",
+          maxWidth: "480px",
+        }}
+      >
+        {IMG_INTRO2}
       </p>
 
       {/* Desktop grid: large left spanning 2 rows, two small right */}

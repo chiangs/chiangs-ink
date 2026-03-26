@@ -21,6 +21,13 @@ export const CURRENTLY_ITEMS: CurrentlyItem[] = [
     ],
   },
   {
+    label: "Building",
+    paragraphs: [
+      "Mechanical keyboards and custom PCs.",
+      "The best way to understand how humans interact with machines is to build them yourself.",
+    ],
+  },
+  {
     label: "Reading",
     bookTitle: "The UX of AI",
     paragraphs: [

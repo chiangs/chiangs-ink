@@ -3,7 +3,7 @@
 // Slides in from the right as a personal "currently" snapshot.
 // Content is sourced from app/lib/currently.ts — edit there, not here.
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   CURRENTLY_ITEMS,
   CURRENTLY_TITLE,
@@ -96,7 +96,7 @@ export function CurrentlyDrawer({ isOpen, onClose }: CurrentlyDrawerProps) {
           padding: "48px 40px",
           display: "flex",
           flexDirection: "column",
-          gap: "40px",
+          gap: "12px",
         }}
       >
         {/* Close button */}
@@ -134,6 +134,7 @@ export function CurrentlyDrawer({ isOpen, onClose }: CurrentlyDrawerProps) {
 // Individual content block — label + paragraphs, with optional book title italicised
 function CurrentlyBlock({ item }: { item: CurrentlyItem }) {
   const { label, paragraphs, bookTitle } = item;
+  const [hovered, setHovered] = useState(false);
 
   const renderedParagraphs = paragraphs.map((text, i) => {
     const content =
@@ -151,9 +152,17 @@ function CurrentlyBlock({ item }: { item: CurrentlyItem }) {
 
   return (
     <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
-        borderLeft: "4px solid var(--color-accent)",
-        paddingLeft: "20px",
+        background: "#1e1e1e",
+        padding: "20px 24px",
+        transform: hovered ? "scale(1.03)" : "scale(1)",
+        filter: hovered
+          ? "drop-shadow(0 6px 20px rgba(0,0,0,0.6))"
+          : "drop-shadow(0 0 0 rgba(0,0,0,0))",
+        transition:
+          "transform 0.35s cubic-bezier(0.34,1.56,0.64,1), filter 0.3s ease",
       }}
     >
       <p className="font-body text-[10px] font-medium uppercase tracking-[0.15em] text-text-muted mb-3">

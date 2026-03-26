@@ -190,6 +190,7 @@ NAV
                 On scroll: rgba(19,19,19,0.8) + backdrop-filter blur(20px)
   Logo:         "SC" — Space Grotesk 700, #FFB77D, 16px
   Links:        Manrope 500, 11px, uppercase, ls 0.15em, #E5E2E1
+  Order:        ABOUT · WORK · WRITING · CONTACT
   Active:       #FFB77D underline, scaleX(0)→scaleX(1) from left
   Time display: Manrope 500, 11px, uppercase, #5a5a58
                 Shows Stavanger time (Europe/Oslo)
@@ -239,6 +240,21 @@ PORTRAIT (homepage hero — mobile)
   Vertical text: hidden on mobile
   Caption:    hidden on mobile
 
+PORTRAIT (about page)
+  Shape:      Circle clip-path, full colour (no duotone/grayscale)
+  Desktop:    w-211px h-211px, beside headline in hero row
+              drop-shadow: 5 layers, 1–10px, rgba(0,0,0,0.4–1.0)
+  Mobile:     w-96px h-96px, centered, above bio text paragraphs
+              Same drop-shadow treatment, tighter spread
+  Crop:       object-position: center 30%
+  Animation:  Simple fade in on load (no clip-path wipe)
+  B&W reveal: None — full colour always
+
+BIO TEXT HIGHLIGHTS (about page)
+  Phrase:     "single integrated discipline" → #D97707 (accent-deep)
+  Phrase:     "doesn't show up on a Figma file" → #D97707 (accent-deep)
+  Treatment:  Inline <span class="text-accent-deep"> — no bold/italic
+
 ALL OTHER IMAGES
   Duotone: highlights → #E5E2E1, shadows → #0E0E0E
   Grain:   5% SVG feTurbulence overlay on all work images
@@ -280,6 +296,18 @@ ABOUT STRIP (inverted section)
   "I speak all of them." — Space Grotesk 700, 40–48px
                 The dominant visual element of the section
   Mobile:       Ghost "020": clamp(80px, 18vw, 120px), opacity 0.08
+
+MAP (Industries section — about page)
+  Library:      D3.js, geoNaturalEarth1 projection
+  Data:         world-atlas countries-110m.json
+  Base:         transparent — non-highlighted countries
+                match page background, creating cutout effect
+  Highlighted:  #FFB77D copper — Norway, USA, Denmark,
+                South Korea, Laos, Sri Lanka, Maldives, Iraq
+  Container:    #1a1a1a surface — provides subtle frame
+  Hover:        highlighted countries → #D97707 on hover
+  Caption:      "8 countries across 4 continents"
+                Manrope 400, 12px, #5a5a58, italic
 
 WRITING LIST
   Ghost number: 48px Space Grotesk 700, #FFB77D, opacity 20%
@@ -371,7 +399,7 @@ CURRENTLY DRAWER (easter egg — time display click)
   Animation:    Slides in from right, 0.45s cubic-bezier(0.16,1,0.3,1)
   Width:        min(420px, 90vw) / 100vw on mobile
   Background:   #1a1a1a
-  Border:       1px solid #FFB77D left edge
+  Border:       1px solid #FFB77D left edge (drawer outer only)
   Persistence:  No localStorage — resets each visit
   Content file: app/lib/currently.ts (edit here to update)
   Sections:
@@ -382,6 +410,10 @@ CURRENTLY DRAWER (easter egg — time display click)
                 Mid-way through the chapter on Digital Twins.
                 The overlap with my current project work
                 is uncomfortably well-timed.
+    BUILDING    Mechanical keyboards and custom PCs.
+                The best way to understand how humans
+                interact with machines is to build
+                them yourself.
     LIFE        Single father of three.
                 Everything else fits around that.
     ON MY MIND  How AI changes the roles of both the designer
@@ -391,7 +423,12 @@ CURRENTLY DRAWER (easter egg — time display click)
                 And the question nobody is answering well yet:
                 how do you actually measure whether an AI
                 implementation is working?
-  Block style:  4px solid #FFB77D left border, 20px padding-left
+  Block style:  Card — background #1e1e1e, padding 20px 24px
+                No left border on blocks
+                Gap between blocks: 12px
+  Block hover:  scale(1.03) + drop-shadow(0 6px 20px rgba(0,0,0,0.6))
+                transform: 0.35s cubic-bezier(0.34,1.56,0.64,1) (spring)
+                filter: 0.3s ease
   Label:        10px Manrope 500, uppercase, #5a5a58
   Body:         16px Manrope 400, #E5E2E1, lh 1.75
   Footer:       "Updated periodically. Last updated March 2026."
