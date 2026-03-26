@@ -7,7 +7,7 @@ import { getAllProjects } from "~/lib/mdx.server";
 import { createRipple } from "~/lib/ripple";
 import { ITEM_STAGGER_S } from "~/lib/constants";
 import { InsightsPanel } from "~/components/work";
-import { PatternWaves } from "~/lib/visx";
+import { PatternWaves, PatternLines, PatternCircles } from "~/lib/visx";
 
 // ─── Page copy ───────────────────────────────────────────────────────────────
 
@@ -16,9 +16,7 @@ const PAGE_DESCRIPTION =
   "Enterprise software, data platforms, and design systems across maritime, oil & gas, defence, and technology industries.";
 const SECTION_LABEL = "SELECTED WORK";
 const HEADLINE = "Work.";
-const SUBHEADLINE =
-  "A record of problems solved, systems built, and organisations changed.";
-const PLACEHOLDER_SEARCH = "Search projects...";
+const PLACEHOLDER_SEARCH = "What are you interested in?";
 const LABEL_ALL_INDUSTRIES = "All Industries";
 const LABEL_ALL_SOLUTION_TYPES = "All Solution Types";
 const LABEL_INDUSTRY = "Industry";
@@ -64,9 +62,8 @@ const waveOverlayStyle = {
   zIndex: 0,
 };
 const headerContentStyle = { position: "relative" as const, zIndex: 1 };
-const subHeadlineStyle = { maxWidth: "560px" };
-const controlBarStyle = { padding: "24px 32px" };
-const activeTagsBarStyle = { padding: "12px 24px" };
+const controlBarStyle = { paddingTop: "24px", paddingBottom: "24px" };
+const activeTagsBarStyle = { paddingTop: "12px", paddingBottom: "12px" };
 const emptyStateStyle = { margin: "80px auto" };
 
 // ─── Fuse config ──────────────────────────────────────────────────────────────
@@ -273,6 +270,29 @@ export default function WorkIndex() {
     };
   }, []);
 
+  // Pattern reveal animation — runs once on mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let tl: { kill(): void } | null = null;
+    let isMounted = true;
+    const init = async () => {
+      const { default: gsap } = await import("gsap");
+      if (!isMounted) return;
+      gsap.set("#dots-pattern", { y: 40, opacity: 0 });
+      tl = gsap.timeline({ delay: 0.2 });
+      (tl as ReturnType<typeof gsap.timeline>)
+        // All three animate simultaneously
+        .to("#cover-chaos", { scaleX: 0, scaleY: 0, opacity: 0, transformOrigin: "0% 0%", duration: 0.7, ease: "power2.out" }, 0)
+        .to("#cover-waves", { scaleX: 0, opacity: 0, transformOrigin: "100% 50%", duration: 0.55, ease: "power1.inOut" }, 0)
+        .to("#dots-pattern", { y: 0, opacity: 1, duration: 0.55, ease: "power2.out" }, 0);
+    };
+    init();
+    return () => {
+      isMounted = false;
+      tl?.kill();
+    };
+  }, []);
+
   // Filter transition — fade rows in when filteredProjects changes
   const isFirstRender = useRef(true);
   useEffect(() => {
@@ -319,26 +339,67 @@ export default function WorkIndex() {
 
   const handleClearAll = () => dispatch({ type: "CLEAR_ALL" });
 
+  const projectsList =
+    filteredProjects.length > 0 ? (
+      filteredProjects.map((project, i) => (
+        <ProjectRow key={project.slug} project={project} index={i} />
+      ))
+    ) : (
+      <EmptyState onClear={handleClearAll} />
+    );
+
   return (
     <main>
       {/* Page header */}
       <div ref={headerRef} style={headerWrapStyle}>
-        <svg style={waveOverlayStyle} aria-hidden="true">
+        <svg
+          style={waveOverlayStyle}
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
           <defs>
-            <PatternWaves
-              id="work-wave-pattern"
-              width={80}
-              height={80}
+            <PatternLines
+              id="chaos-lines-1"
+              height={100}
+              width={100}
               stroke="var(--color-invert-bg)"
-              strokeWidth={0.4}
+              strokeWidth={0.5}
+              orientation={["diagonal"]}
+            />
+            <PatternLines
+              id="chaos-lines-2"
+              height={20}
+              width={20}
+              stroke="var(--color-invert-bg)"
+              strokeWidth={0.5}
+              orientation={["diagonalRightToLeft"]}
+            />
+            <PatternWaves
+              id="wave-pattern"
+              height={50}
+              width={50}
+              fill="transparent"
+              stroke="var(--color-invert-bg)"
+              strokeWidth={0.6}
+            />
+            <PatternCircles
+              id="dot-grid"
+              height={22}
+              width={22}
+              radius={1.7}
+              fill="var(--color-invert-bg)"
             />
           </defs>
-          <rect
-            width="100%"
-            height="100%"
-            fill="url(#work-wave-pattern)"
-            opacity={0.8}
-          />
+          {/* LEFT: Chaos — crosshatch */}
+          <rect x="0" y="0" width="33.33%" height="100%" fill="url(#chaos-lines-1)" />
+          <rect x="0" y="0" width="33.33%" height="100%" fill="url(#chaos-lines-2)" />
+          {/* MIDDLE: Transition — waves */}
+          <rect x="33.33%" y="0" width="33.33%" height="100%" fill="url(#wave-pattern)" />
+          {/* RIGHT: Order — dot grid */}
+          <rect id="dots-pattern" x="66.66%" y="0" width="33.34%" height="100%" fill="url(#dot-grid)" />
+          {/* Reveal covers — GSAP animates these away on load */}
+          <rect id="cover-chaos" x="0" y="0" width="33.33%" height="100%" fill="#131313" />
+          <rect id="cover-waves" x="33.33%" y="0" width="33.33%" height="100%" fill="#131313" />
         </svg>
         <div
           className="max-w-container mx-auto px-margin-mob md:px-margin pt-section-mob md:pt-section pb-12 md:pb-16"
@@ -353,12 +414,6 @@ export default function WorkIndex() {
           >
             {HEADLINE}
           </h1>
-          <p
-            className="font-body font-normal text-[18px] text-text-muted mt-4"
-            style={subHeadlineStyle}
-          >
-            {SUBHEADLINE}
-          </p>
         </div>
       </div>
 
@@ -368,9 +423,9 @@ export default function WorkIndex() {
       {/* Control bar + active tags */}
       <div ref={controlBarRef}>
         <div className="bg-surface" style={controlBarStyle}>
-          <div className="max-w-container mx-auto flex flex-col md:flex-row md:items-center gap-4 md:gap-0">
+          <div className="max-w-container mx-auto px-margin-mob md:px-margin flex flex-col md:flex-row md:items-center gap-4 md:gap-0">
             {/* Search input */}
-            <div className="relative flex items-center w-full md:w-[280px]">
+            <div className="relative flex items-center w-full md:w-70">
               <SearchIcon />
               <input
                 type="text"
@@ -383,7 +438,7 @@ export default function WorkIndex() {
                 className="w-full bg-bg border-b border-border font-body font-normal text-[14px] text-text-primary placeholder:text-text-muted outline-none focus:border-accent"
                 style={{
                   height: "40px",
-                  padding: "0 16px 0 28px",
+                  padding: "0 16px 0 32px",
                   transition: "border-color var(--transition-fast)",
                 }}
               />
@@ -441,7 +496,7 @@ export default function WorkIndex() {
             className="bg-surface border-t border-bg"
             style={activeTagsBarStyle}
           >
-            <div className="max-w-container mx-auto flex flex-wrap gap-2">
+            <div className="max-w-container mx-auto px-margin-mob md:px-margin flex flex-wrap gap-2">
               {activeTags.map((tag) => (
                 <button
                   key={`${tag.kind}-${tag.value}`}
@@ -467,14 +522,8 @@ export default function WorkIndex() {
       </div>
 
       {/* Project list */}
-      <div ref={rowsContainerRef}>
-        {filteredProjects.length > 0 ? (
-          filteredProjects.map((project, i) => (
-            <ProjectRow key={project.slug} project={project} index={i} />
-          ))
-        ) : (
-          <EmptyState onClear={handleClearAll} />
-        )}
+      <div ref={rowsContainerRef} className="max-w-container mx-auto px-margin-mob md:px-margin">
+        {projectsList}
       </div>
     </main>
   );
@@ -667,7 +716,7 @@ function EmptyState({ onClear }: { onClear: () => void }) {
 function SearchIcon() {
   return (
     <svg
-      className="absolute left-0 text-text-muted pointer-events-none"
+      className="absolute left-[10px] text-text-muted pointer-events-none"
       width="14"
       height="14"
       viewBox="0 0 14 14"

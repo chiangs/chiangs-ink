@@ -148,6 +148,16 @@ Side margins:       80px (desktop) / 24px (mobile)
 Card padding:       40px (desktop) / 24px (mobile)
 Row padding:        32px vertical per work row
 
+HORIZONTAL ALIGNMENT RULE (all sections — work index page):
+  All content inner wrappers use:
+    max-w-container mx-auto px-margin-mob md:px-margin
+  This aligns all left edges — header label, insights panel,
+  search bar, and work rows — at exactly 80px from the
+  container edge on desktop, 24px on mobile.
+  Full-bleed backgrounds (bg-surface, bg-bg) remain on outer
+  wrappers with no horizontal padding. Content constraint is
+  purely on the inner wrapper.
+
 ---
 
 ## Borders, Radius & Depth
@@ -284,49 +294,108 @@ WORK ROWS
 
 WORK INDEX PAGE (routes/work/index.tsx)
   Page header:
-    Label:    "SELECTED WORK" — Manrope 500, 11px, #FFB77D, uppercase, ls 0.15em
+    Layout:   position: relative, overflow: hidden
+              Full-bleed pattern SVG background (position: absolute,
+              inset: 0, width/height 100%, preserveAspectRatio: none)
+              Text content constrained to max-w-container mx-auto
+              px-margin-mob md:px-margin
+    Label:    "SELECTED WORK" — Manrope 500, 11px, #FFB77D,
+              uppercase, ls 0.15em
     Headline: "Work." — Space Grotesk 700, clamp(56px, 8vw, 96px), #E5E2E1
-    Sub:      "A record of problems solved, systems built,
-              and organisations changed."
-              Manrope 400, 18px, #5a5a58, max-width 560px, mt 16px
+    No subheadline — removed
+
+  Header background pattern (SVG — three equal segments, full bleed):
+    Left third — Chaos: crosshatch (two overlapping PatternLines,
+      diagonal + diagonalRightToLeft, stroke: var(--color-invert-bg),
+      strokeWidth 0.5, height/width 100/20)
+    Middle third — Transition: PatternWaves
+      (stroke: var(--color-invert-bg), strokeWidth 0.6,
+      height/width 50)
+    Right third — Order: PatternCircles
+      (fill: var(--color-invert-bg), radius 1.7, height/width 22)
+    No fade or gradient between segments — hard edges
+    Pattern components: @visx/pattern via ~/lib/visx.ts
+      Exports: PatternWaves, PatternLines, PatternCircles
+
+  Header pattern reveal animation (GSAP, client-side only):
+    Technique:  Opaque cover rects (#131313) placed over each
+                segment in the SVG render tree. GSAP animates them
+                away on load — NOT clip-path animation on <defs>
+                elements (those do not respond to CSS transforms).
+    Trigger:    useEffect, typeof window !== 'undefined' guard
+    Delay:      0.2s before timeline starts
+    All three segments animate simultaneously (position: 0 in timeline)
+    Chaos cover:  scaleX: 1→0, scaleY: 1→0,
+                  transformOrigin: "0% 0%" (top-left corner),
+                  duration 0.7s, ease power2.out, opacity 1→0
+    Waves cover:  scaleX: 1→0,
+                  transformOrigin: "100% 50%" (right edge, reveals left→right),
+                  duration 0.55s, ease power1.inOut, opacity 1→0
+    Dots cover:   attr.y animates from 0 → large pixel value (slides down),
+                  duration 0.55s, ease power2.out, opacity 1→0
+                  Effect: dots appear rendered, then slide down off-screen
+                  (opposite of "slide up to reveal" — the content itself exits)
+    Cleanup:    tl.kill() in useEffect return
+
   Insights panel (InsightsPanel component — above control bar):
-    Background: #1a1a1a, padding 32px, border-bottom #222220
-    Toggle row: "WORK INSIGHTS" label (#FFB77D) + "Hide ↑"/"Show ↓" (#5a5a58)
-    Sub-label: "Derived from N projects across X industries." Manrope 400, 12px
+    Background: #1a1a1a (bg-surface), full bleed
+    Inner content: max-w-container mx-auto px-margin-mob md:px-margin
+    Padding: 32px vertical
+    Toggle row: "WORK INSIGHTS" label (#FFB77D, Manrope 500, 11px,
+                uppercase, ls 0.15em) + "Hide ↑"/"Show ↓" (#5a5a58)
+    Sub-label: "N projects across X industries."
+               Manrope 400, 12px, #5a5a58
     Default: expanded (desktop), collapsed (mobile)
     Collapse: GSAP height tween 0.4s
     Always receives ALL projects (not filtered subset)
-    Layout — asymmetric grid (2-col):
-      Left (row-span-2): Waffle chart — 10×10 = 100 cells, industry proportion
-        Cell: 18×18px, 2px gap, 0px radius
-        Colors: Maritime=#FFB77D, Oil&Gas=#D97707, others mapped
-        Hover: dim non-hovered cells + tooltip showing industry+%
-        Legend: 2-col grid below chart, 12×12 color swatch + name%
-      Right top: "PROJECTS BY INDUSTRY" horizontal bars
-        Bar: 8px height, bg-accent fill, bg-border track
-        GSAP animate width 0→% on expand, 0.6s stagger 80ms
-      Right bottom: "ACTIVITY BY YEAR" line + "ROLES" frequency (side by side)
-        Line: @visx/scale (scalePoint + scaleLinear), plain SVG path
-        Dots: 5px → 8px on hover, tooltip shows year:count
-        Line draw: GSAP stroke-dashoffset 0.8s on expand
-        Roles: role name left + Space Grotesk 700 20px count right, sorted desc
-    Full-width bottom row (3-col):
-      Solution types: "SOLUTION TYPES" — top 6 tags as horizontal bars (same as industry)
-      Tech stack: 3 sub-groups (FRAMEWORKS / LANGUAGES / PLATFORMS)
-        Pills: bg #2a2a2a, #FFB77D if count≥2, #5a5a58 if count=1
-      Avg MVP time: Space Grotesk 700 56px #FFB77D + "months to MVP" sub-label
+    Layout — 3-column × 2-row grid:
+      Row 1, Col 1: INDUSTRY PROPORTION — Waffle chart
+        10×10 = 100 cells, industry proportion by project count
+        Cell: 14×14px, 2px gap, 0px radius
+        Colors: industry-mapped to accent scale
+        Legend: below chart, color swatch + name + %
+      Row 1, Col 2: PROJECT ACTIVITY — Calendar heatmap
+        @visx/heatmap HeatmapRect
+        Years (columns) × Months (rows)
+        Filled cells: #FFB77D at varying opacity by count
+        Empty cells: #1a1a1a (surface)
+      Row 1, Col 3: WORK CONNECTIONS — Network graph
+        @visx/network Graph + d3-force simulation
+        Nodes: projects + shared tags/roles
+        Edges: connections between shared attributes
+        Simulation: frozen after 200 ticks (simulation.stop()
+          before tick loop — CRITICAL for performance)
+        No continuous animation — static layout after init
+      Row 2, Col 1–2 (span-2): TECH STACK — Treemap
+        @visx/hierarchy Treemap + treemapSquarify
+        d3.hierarchy for data structure
+        Height: 200px fixed
+        Cells labeled with tech name, #FFB77D if count≥2
+      Row 2, Col 3: AVG. TIME TO MVP — Stat
+        Number: Space Grotesk 700, 48px, #FFB77D
+        Sub-label: "months to MVP" — Manrope 400, 14px, #5a5a58
         Computed from metrics where label contains "month" or "MVP"
-    Mobile: single column, panel collapsed by default
+    All charts: bg #131313 cells, 20px cell padding
+    Chart labels: Manrope 500, 10px, #5a5a58
+    SSR guard: mounted state (useState + useEffect) — all charts
+      render only after mount (client-side only)
+    Responsive widths: useParentSize from @visx/responsive
+    Data: computeInsights useMemo — derived from all projects
     MDX frontmatter additions (for charts):
       industries: string[]  (mirrors industry field)
       stack: { frameworks, languages, platforms } string arrays
+    Mobile: single column, panel collapsed by default
+
   Control bar:
-    Background: #1a1a1a, padding 24px 32px
+    Background: #1a1a1a (bg-surface), full bleed
+    Inner content: max-w-container mx-auto px-margin-mob md:px-margin
+    Padding: 24px vertical
     Three zones in one row (stacks vertically on mobile):
       Left:   Search input, width 280px (full-width mobile), height 40px
               Underline-only border (#222220), bg #131313
-              Search icon (SVG magnifier, 14px, #5a5a58) left of text
-              padding 0 16px, clears on ESC key
+              Search icon (SVG magnifier, 14px, #5a5a58) absolute left
+              padding 0 16px 0 32px (32px left clears icon), clears on ESC
+              Placeholder: "What are you interested in?"
       Middle: Two multi-select filter dropdowns (gap 12px), height 40px
               Industry + Solution Type
               Trigger: bg #131313, border-bottom #222220, Manrope 500, 12px
@@ -336,10 +405,17 @@ WORK INDEX PAGE (routes/work/index.tsx)
               One dropdown closes when the other opens
       Right:  "[n] projects" or "[n] results" + "Clear all →" when active
               Manrope 400/500, 12px, #5a5a58 / #FFB77D
+
   Active filter tags row (below control bar, shown when any filter active):
-    Background: #1a1a1a, border-top #131313, padding 12px 24px
+    Background: #1a1a1a, border-top #131313
+    Inner content: max-w-container mx-auto px-margin-mob md:px-margin
     Tags: bg #2a2a2a, Manrope 500, 11px, #FFB77D, uppercase, ls 0.1em
     × removes individual tag; clicking tag also removes it
+
+  Project rows container:
+    max-w-container mx-auto px-margin-mob md:px-margin
+    (ensures rows left-align with header, insights panel, search bar)
+
   Project row layout (4 zones):
     Zone 1: Ghost number — Space Grotesk 700, 120px (desktop) / 72px (mobile)
             #FFB77D, opacity 8% → 16% on hover, absolute left-[-10px]
@@ -349,16 +425,20 @@ WORK INDEX PAGE (routes/work/index.tsx)
             Value: Space Grotesk 700, 16px, #FFB77D
             Label: Manrope 400, 11px, #5a5a58
     Zone 4: Year + Status (+ Industry on desktop) — right-aligned
+
   Empty state:
     "No projects match your search." — Space Grotesk 300, 24px, #5a5a58
     "Clear filters →" — Manrope 500, 14px, #FFB77D, below
+
   Search + filter logic:
     Fuse.js — keys: title (0.5), tags (0.3), roles (0.2), threshold 0.3
     Filter order: fuse → industry → solutionType (AND logic)
     State managed via useReducer (5 pieces of state)
+
   Animations:
     Load: header slides up 24px + fades, control bar fades (−0.3s), rows stagger
     Filter change: rows fade in 0.2s with 0.04s stagger (GSAP)
+    Header pattern: cover rect reveal, all segments simultaneous, 0.2s delay
 
 ABOUT STRIP (inverted section)
   Background:   #FFB77D (copper accent — confirmed via color dropper)
@@ -603,6 +683,19 @@ Hover — nav links:
 Hover — buttons:
   Invert:       background/color swap, transition 0.2s ease
 
+WORK INDEX — Header pattern reveal (on page load):
+  Technique:    Cover rects (fill #131313) layered over each pattern
+                segment. Animated away simultaneously on load.
+  Chaos:        scaleX+scaleY 1→0 from top-left, 0.7s, power2.out
+                + opacity 1→0
+  Waves:        scaleX 1→0 from right edge (reveals left→right),
+                0.55s, power1.inOut + opacity 1→0
+  Dots:         attr.y 0→large offset (slides down off-screen),
+                0.55s, power2.out + opacity 1→0
+  All three:    Start simultaneously at position 0 in GSAP timeline
+  Delay:        0.2s before timeline starts
+  Guard:        typeof window !== 'undefined'
+
 CURSOR FOLLOWER (desktop only):
   Behaviour:    Hybrid — native cursor visible everywhere
                 EXCEPT over [data-cursor] elements
@@ -647,6 +740,18 @@ CMS:          MDX files in /content directory
 MDX:          @mdx-js/rollup + @mdx-js/react
 Deploy:       Vercel (vercelPreset() in react-router.config.ts)
 
+Third-party library wrappers (~/lib/):
+  ~/lib/visx.ts   — @visx/* static re-exports
+                    scaleLinear, scalePoint, scaleBand
+                    PatternWaves, PatternLines, PatternCircles
+                    HeatmapRect, hierarchy, Treemap,
+                    treemapSquarify, Graph, useParentSize
+  ~/lib/fuse.ts   — fuse.js static re-export (Fuse, IFuseOptions)
+  ~/lib/d3.ts     — async loadD3() for d3 + topojson-client
+                    async loadD3Force() for d3-force
+  RULE: Never import directly from third-party packages in
+        components or routes. Always route through ~/lib/.
+
 ---
 
 ## Build Order
@@ -682,6 +787,10 @@ PROJECTS (MDX in /content/work/)
     — Stack: React Router v7, BFF → .NET → Snowflake
     — Metrics: 200+ users, 300+ vessels, 5 months, 2 legacy apps sunsetted
     — AI angle: data structured and positioned for future AI experiences
+    — industries: ["Maritime"]
+    — stack: { frameworks: ["React Router v7", "TypeScript"],
+               languages: ["TypeScript", "SQL"],
+               platforms: ["Snowflake", ".NET", "Vercel"] }
 
   enterprise-data-governance-ai-readiness.mdx
     — Anonymous global oil & gas major
@@ -689,6 +798,10 @@ PROJECTS (MDX in /content/work/)
     — Role: Design Technologist (service design team)
     — Focus: federated governance model, AI-ready master data management
     — No hard metrics — scope and client scale carry the proof
+    — industries: ["Oil & Gas / Energy"]
+    — stack: { frameworks: ["Service Design"],
+               languages: [],
+               platforms: ["Snowflake", "Collibra"] }
 
   maritime-operations-financial-intelligence.mdx
     — Anonymous maritime operator
@@ -698,6 +811,10 @@ PROJECTS (MDX in /content/work/)
     — Metrics: 4 months to MVP
     — Notable: waffle charts, maps with near-real time updates,
                bar charts, typographic hierarchy as visualisation tool
+    — industries: ["Maritime"]
+    — stack: { frameworks: ["Remix v2", "React", "D3.js"],
+               languages: ["TypeScript"],
+               platforms: ["Tailwind CSS", "Vercel"] }
 
 ARTICLES (MDX in /content/writing/)
   dashboards-are-not-for-overview.mdx

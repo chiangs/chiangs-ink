@@ -21,13 +21,13 @@ const LABEL_MONTHS_TO_MVP = "months to MVP";
 // ─── Industry colour map ──────────────────────────────────────────────────────
 
 const INDUSTRY_COLORS: Record<string, string> = {
-  "Maritime":                           "var(--color-accent)",
-  "Oil & Gas / Energy":                 "var(--color-accent-deep)",
-  "Defence / Military":                 "var(--color-text-muted)",
-  "Government / Public Sector":         "var(--color-text-primary)",
+  Maritime: "var(--color-accent)",
+  "Oil & Gas / Energy": "var(--color-accent-deep)",
+  "Defence / Military": "var(--color-text-muted)",
+  "Government / Public Sector": "var(--color-text-primary)",
   "Consulting & Professional Services": "#3a3a38",
-  "Healthcare":                         "#2e2e2c",
-  "Technology / SaaS":                  "#4a4a48",
+  Healthcare: "#2e2e2c",
+  "Technology / SaaS": "#4a4a48",
 };
 const INDUSTRY_COLOR_FALLBACK = "var(--color-border)";
 
@@ -40,7 +40,20 @@ const WAFFLE_GAP = 2;
 const WAFFLE_TOTAL = WAFFLE_COLS * WAFFLE_ROWS;
 const WAFFLE_SVG = WAFFLE_COLS * (WAFFLE_CELL + WAFFLE_GAP) - WAFFLE_GAP;
 
-const HEAT_MONTHS = ["J","F","M","A","M","J","J","A","S","O","N","D"];
+const HEAT_MONTHS = [
+  "J",
+  "F",
+  "M",
+  "A",
+  "M",
+  "J",
+  "J",
+  "A",
+  "S",
+  "O",
+  "N",
+  "D",
+];
 const HEAT_CELL = 14;
 const HEAT_GAP = 2;
 
@@ -48,9 +61,15 @@ const NETWORK_NODE_R = 5;
 
 // ─── Style objects ────────────────────────────────────────────────────────────
 
-const panelStyle = { padding: "32px" };
+const panelStyle = { paddingTop: "32px", paddingBottom: "32px" };
 const cellStyle = { padding: "20px", background: "#131313" };
-const avgValueStyle = { fontSize: "48px", lineHeight: 1, color: "var(--color-accent)", fontFamily: "var(--font-display)", fontWeight: 700 };
+const avgValueStyle = {
+  fontSize: "48px",
+  lineHeight: 1,
+  color: "var(--color-accent)",
+  fontFamily: "var(--font-display)",
+  fontWeight: 700,
+};
 const legendGridStyle = { gridTemplateColumns: "1fr 1fr" };
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -89,13 +108,19 @@ function computeInsights(projects: ProjectFrontmatter[]): InsightData {
 
     for (const ind of p.industries ?? p.industry ?? []) {
       rawIndustry[ind] = (rawIndustry[ind] ?? 0) + 1;
-      if (!nodeSet.has(`ind:${ind}`)) { nodeSet.add(`ind:${ind}`); }
+      if (!nodeSet.has(`ind:${ind}`)) {
+        nodeSet.add(`ind:${ind}`);
+      }
     }
     for (const role of p.roles) {
-      if (!nodeSet.has(`role:${role}`)) { nodeSet.add(`role:${role}`); }
+      if (!nodeSet.has(`role:${role}`)) {
+        nodeSet.add(`role:${role}`);
+      }
     }
     for (const tag of p.solutionType ?? p.tags ?? []) {
-      if (!nodeSet.has(`tag:${tag}`)) { nodeSet.add(`tag:${tag}`); }
+      if (!nodeSet.has(`tag:${tag}`)) {
+        nodeSet.add(`tag:${tag}`);
+      }
     }
     // link roles ↔ industries
     for (const ind of p.industries ?? p.industry ?? []) {
@@ -109,9 +134,12 @@ function computeInsights(projects: ProjectFrontmatter[]): InsightData {
     }
 
     if (p.stack) {
-      for (const f of p.stack.frameworks) rawFrameworks[f] = (rawFrameworks[f] ?? 0) + 1;
-      for (const l of p.stack.languages) rawLanguages[l] = (rawLanguages[l] ?? 0) + 1;
-      for (const pl of p.stack.platforms) rawPlatforms[pl] = (rawPlatforms[pl] ?? 0) + 1;
+      for (const f of p.stack.frameworks)
+        rawFrameworks[f] = (rawFrameworks[f] ?? 0) + 1;
+      for (const l of p.stack.languages)
+        rawLanguages[l] = (rawLanguages[l] ?? 0) + 1;
+      for (const pl of p.stack.platforms)
+        rawPlatforms[pl] = (rawPlatforms[pl] ?? 0) + 1;
     }
     for (const m of p.metrics) {
       if (/month|mvp/i.test(m.label)) {
@@ -131,8 +159,8 @@ function computeInsights(projects: ProjectFrontmatter[]): InsightData {
     type: id.startsWith("ind:")
       ? ("industry" as const)
       : id.startsWith("role:")
-      ? ("role" as const)
-      : ("tag" as const),
+        ? ("role" as const)
+        : ("tag" as const),
   }));
 
   // Build year-month data
@@ -192,7 +220,9 @@ function WaffleChart({
   const [hoveredIndustry, setHoveredIndustry] = useState<string | null>(null);
 
   const { cells, cellInfo } = useMemo(() => {
-    const filledCells = new Array<string>(WAFFLE_TOTAL).fill(INDUSTRY_COLOR_FALLBACK);
+    const filledCells = new Array<string>(WAFFLE_TOTAL).fill(
+      INDUSTRY_COLOR_FALLBACK,
+    );
     const info = new Array<string>(WAFFLE_TOTAL).fill("");
     let idx = 0;
     for (const [industry, count] of industryCounts) {
@@ -221,7 +251,10 @@ function WaffleChart({
           const row = Math.floor(i / WAFFLE_ROWS);
           const x = col * (WAFFLE_CELL + WAFFLE_GAP);
           const y = row * (WAFFLE_CELL + WAFFLE_GAP);
-          const isDimmed = hoveredIndustry !== null && cellInfo[i] !== hoveredIndustry && cellInfo[i] !== "";
+          const isDimmed =
+            hoveredIndustry !== null &&
+            cellInfo[i] !== hoveredIndustry &&
+            cellInfo[i] !== "";
           return (
             <rect
               key={i}
@@ -232,7 +265,9 @@ function WaffleChart({
               fill={color}
               opacity={isDimmed ? 0.2 : 1}
               style={{ cursor: "default", transition: "opacity 0.15s" }}
-              onMouseEnter={() => { if (cellInfo[i]) setHoveredIndustry(cellInfo[i]); }}
+              onMouseEnter={() => {
+                if (cellInfo[i]) setHoveredIndustry(cellInfo[i]);
+              }}
               onMouseLeave={() => setHoveredIndustry(null)}
             />
           );
@@ -244,7 +279,10 @@ function WaffleChart({
           const color = INDUSTRY_COLORS[industry] ?? INDUSTRY_COLOR_FALLBACK;
           return (
             <div key={industry} className="flex items-center gap-1.5 min-w-0">
-              <span className="shrink-0 inline-block" style={{ width: 10, height: 10, background: color }} />
+              <span
+                className="shrink-0 inline-block"
+                style={{ width: 10, height: 10, background: color }}
+              />
               <span className="font-body font-normal text-[10px] text-text-muted truncate">
                 {industry} {pct}%
               </span>
@@ -296,8 +334,8 @@ function CalendarHeatmap({
                 return t > 0.6
                   ? "var(--color-accent)"
                   : t > 0.3
-                  ? "var(--color-accent-deep)"
-                  : "#3a3a38";
+                    ? "var(--color-accent-deep)"
+                    : "#3a3a38";
               }}
               opacityScale={() => 1}
               binWidth={HEAT_CELL}
@@ -316,7 +354,7 @@ function CalendarHeatmap({
                       fill={bin.color ?? "#1a1a1a"}
                       rx={0}
                     />
-                  ))
+                  )),
                 )
               }
             </HeatmapRect>
@@ -356,7 +394,12 @@ function CalendarHeatmap({
 
 // ─── NetworkGraph ─────────────────────────────────────────────────────────────
 
-type NodeDatum = { id: string; type: "role" | "industry" | "tag"; x?: number; y?: number };
+type NodeDatum = {
+  id: string;
+  type: "role" | "industry" | "tag";
+  x?: number;
+  y?: number;
+};
 type LinkDatum = { source: string; target: string };
 
 function NetworkGraph({
@@ -379,23 +422,34 @@ function NetworkGraph({
     let isMounted = true;
 
     const run = async () => {
-      const { forceSimulation, forceLink, forceManyBody, forceCenter } = await loadD3Force();
+      const { forceSimulation, forceLink, forceManyBody, forceCenter } =
+        await loadD3Force();
       if (!isMounted) return;
 
-      const nodesCopy: (NodeDatum & { x: number; y: number })[] = rawNodes.map((n) => ({
-        ...n,
-        x: width / 2 + (Math.random() - 0.5) * 100,
-        y: HEIGHT / 2 + (Math.random() - 0.5) * 100,
-      }));
+      const nodesCopy: (NodeDatum & { x: number; y: number })[] = rawNodes.map(
+        (n) => ({
+          ...n,
+          x: width / 2 + (Math.random() - 0.5) * 100,
+          y: HEIGHT / 2 + (Math.random() - 0.5) * 100,
+        }),
+      );
 
       const nodeById = new Map(nodesCopy.map((n) => [n.id, n]));
 
       const linksCopy = rawLinks
-        .map((l) => ({ source: nodeById.get(l.source)!, target: nodeById.get(l.target)! }))
+        .map((l) => ({
+          source: nodeById.get(l.source)!,
+          target: nodeById.get(l.target)!,
+        }))
         .filter((l) => l.source && l.target);
 
       const sim = forceSimulation(nodesCopy as never[])
-        .force("link", forceLink(linksCopy).id((d: unknown) => (d as NodeDatum).id).distance(40))
+        .force(
+          "link",
+          forceLink(linksCopy)
+            .id((d: unknown) => (d as NodeDatum).id)
+            .distance(40),
+        )
         .force("charge", forceManyBody().strength(-60))
         .force("center", forceCenter(width / 2, HEIGHT / 2))
         .stop();
@@ -405,7 +459,12 @@ function NetworkGraph({
       if (!isMounted) return;
 
       setPositions({
-        nodes: nodesCopy.map((n) => ({ id: n.id, x: n.x ?? 0, y: n.y ?? 0, type: n.type })),
+        nodes: nodesCopy.map((n) => ({
+          id: n.id,
+          x: n.x ?? 0,
+          y: n.y ?? 0,
+          type: n.type,
+        })),
         links: linksCopy.map((l) => ({
           x1: (l.source as { x: number }).x ?? 0,
           y1: (l.source as { y: number }).y ?? 0,
@@ -416,15 +475,17 @@ function NetworkGraph({
     };
 
     run();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, [width, rawNodes, rawLinks]);
 
   const nodeColor = (type: string) =>
     type === "industry"
       ? "var(--color-accent)"
       : type === "role"
-      ? "var(--color-text-primary)"
-      : "var(--color-text-muted)";
+        ? "var(--color-text-primary)"
+        : "var(--color-text-muted)";
 
   const graphLinks = positions
     ? positions.links.map((l, i) => ({
@@ -441,12 +502,22 @@ function NetworkGraph({
   return (
     <div style={cellStyle}>
       <ChartLabel>{LABEL_WORK_CONNECTIONS}</ChartLabel>
-      <div ref={parentRef as React.RefObject<HTMLDivElement>} style={{ height: HEIGHT, position: "relative" }}>
+      <div
+        ref={parentRef as React.RefObject<HTMLDivElement>}
+        style={{ height: HEIGHT, position: "relative" }}
+      >
         {positions && width > 0 && (
           <svg width={width} height={HEIGHT} style={{ display: "block" }}>
             <Graph
               graph={{ nodes: graphNodes, links: graphLinks }}
-              linkComponent={({ link }: { link: { source: { x: number; y: number }; target: { x: number; y: number } } }) => (
+              linkComponent={({
+                link,
+              }: {
+                link: {
+                  source: { x: number; y: number };
+                  target: { x: number; y: number };
+                };
+              }) => (
                 <line
                   x1={link.source.x}
                   y1={link.source.y}
@@ -456,7 +527,11 @@ function NetworkGraph({
                   strokeWidth={1}
                 />
               )}
-              nodeComponent={({ node }: { node: { id: string; x: number; y: number; type: string } }) => (
+              nodeComponent={({
+                node,
+              }: {
+                node: { id: string; x: number; y: number; type: string };
+              }) => (
                 <circle
                   cx={0}
                   cy={0}
@@ -477,13 +552,20 @@ function NetworkGraph({
 
 type TreeLeaf = { name: string; value?: number; children?: TreeLeaf[] };
 
-function TechTreemap({ stackTree }: { stackTree: { name: string; children: { name: string; value: number }[] }[] }) {
+function TechTreemap({
+  stackTree,
+}: {
+  stackTree: { name: string; children: { name: string; value: number }[] }[];
+}) {
   const { parentRef, width } = useParentSize({ debounceTime: 100 });
   const HEIGHT = 200;
 
   if (!stackTree.length) return null;
 
-  const root = hierarchy<TreeLeaf>({ name: "root", children: stackTree as TreeLeaf[] })
+  const root = hierarchy<TreeLeaf>({
+    name: "root",
+    children: stackTree as TreeLeaf[],
+  })
     .sum((d) => d.value ?? 0)
     .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
 
@@ -496,7 +578,10 @@ function TechTreemap({ stackTree }: { stackTree: { name: string; children: { nam
   return (
     <div style={cellStyle}>
       <ChartLabel>{LABEL_TECH_STACK}</ChartLabel>
-      <div ref={parentRef as React.RefObject<HTMLDivElement>} style={{ height: HEIGHT }}>
+      <div
+        ref={parentRef as React.RefObject<HTMLDivElement>}
+        style={{ height: HEIGHT }}
+      >
         {width > 0 && (
           <Treemap
             top={0}
@@ -508,46 +593,52 @@ function TechTreemap({ stackTree }: { stackTree: { name: string; children: { nam
           >
             {(treemap) => (
               <svg width={width} height={HEIGHT}>
-                {treemap.descendants().filter((n) => n.depth > 0).map((node, i) => {
-                  const x = node.x0;
-                  const y = node.y0;
-                  const w = node.x1 - node.x0;
-                  const h = node.y1 - node.y0;
-                  const isLeaf = node.depth === 2;
-                  const parentName = node.parent?.data?.name ?? "";
-                  const fill = isLeaf
-                    ? "#1e1e1e"
-                    : (groupColors[node.data?.name ?? ""] ?? "#2a2a2a");
-                  return (
-                    <g key={`treemap-${i}`}>
-                      <rect
-                        x={x + 1}
-                        y={y + 1}
-                        width={Math.max(w - 2, 0)}
-                        height={Math.max(h - 2, 0)}
-                        fill={fill}
-                      />
-                      {isLeaf && w > 40 && h > 14 && (
-                        <text
-                          x={x + 6}
-                          y={y + 14}
-                          fontSize={9}
-                          fontFamily="var(--font-body)"
-                          fontWeight={500}
-                          fill={groupColors[parentName] ?? "var(--color-text-muted)"}
-                          clipPath={`url(#clip-${i})`}
-                        >
-                          {node.data?.name}
-                        </text>
-                      )}
-                      <defs>
-                        <clipPath id={`clip-${i}`}>
-                          <rect x={x} y={y} width={w} height={h} />
-                        </clipPath>
-                      </defs>
-                    </g>
-                  );
-                })}
+                {treemap
+                  .descendants()
+                  .filter((n) => n.depth > 0)
+                  .map((node, i) => {
+                    const x = node.x0;
+                    const y = node.y0;
+                    const w = node.x1 - node.x0;
+                    const h = node.y1 - node.y0;
+                    const isLeaf = node.depth === 2;
+                    const parentName = node.parent?.data?.name ?? "";
+                    const fill = isLeaf
+                      ? "#1e1e1e"
+                      : (groupColors[node.data?.name ?? ""] ?? "#2a2a2a");
+                    return (
+                      <g key={`treemap-${i}`}>
+                        <rect
+                          x={x + 1}
+                          y={y + 1}
+                          width={Math.max(w - 2, 0)}
+                          height={Math.max(h - 2, 0)}
+                          fill={fill}
+                        />
+                        {isLeaf && w > 40 && h > 14 && (
+                          <text
+                            x={x + 6}
+                            y={y + 14}
+                            fontSize={9}
+                            fontFamily="var(--font-body)"
+                            fontWeight={500}
+                            fill={
+                              groupColors[parentName] ??
+                              "var(--color-text-muted)"
+                            }
+                            clipPath={`url(#clip-${i})`}
+                          >
+                            {node.data?.name}
+                          </text>
+                        )}
+                        <defs>
+                          <clipPath id={`clip-${i}`}>
+                            <rect x={x} y={y} width={w} height={h} />
+                          </clipPath>
+                        </defs>
+                      </g>
+                    );
+                  })}
               </svg>
             )}
           </Treemap>
@@ -564,8 +655,8 @@ function AvgMVPStat({ avgMVP }: { avgMVP: number | null }) {
     avgMVP === null
       ? "—"
       : Number.isInteger(avgMVP)
-      ? String(avgMVP)
-      : avgMVP.toFixed(1);
+        ? String(avgMVP)
+        : avgMVP.toFixed(1);
 
   return (
     <div style={cellStyle} className="flex flex-col justify-between h-full">
@@ -582,7 +673,11 @@ function AvgMVPStat({ avgMVP }: { avgMVP: number | null }) {
 
 // ─── InsightsPanel ────────────────────────────────────────────────────────────
 
-export function InsightsPanel({ projects }: { projects: ProjectFrontmatter[] }) {
+export function InsightsPanel({
+  projects,
+}: {
+  projects: ProjectFrontmatter[];
+}) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [mounted, setMounted] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -614,61 +709,68 @@ export function InsightsPanel({ projects }: { projects: ProjectFrontmatter[] }) 
         height: "auto",
         duration: 0.4,
         ease: "power2.inOut",
-        onComplete: () => { el.style.overflow = ""; },
+        onComplete: () => {
+          el.style.overflow = "";
+        },
       });
     }
     setIsExpanded((prev) => !prev);
   };
 
   return (
-    <div className="bg-surface border-b border-border" style={panelStyle}>
-      {/* Toggle header */}
-      <button
-        onClick={handleToggle}
-        className="w-full flex items-center justify-between"
-        aria-expanded={isExpanded}
+    <div className="bg-surface border-b border-border">
+      <div
+        className="max-w-container mx-auto px-margin-mob md:px-margin"
+        style={panelStyle}
       >
-        <span className="font-body font-medium text-[11px] text-accent uppercase tracking-[0.15em]">
-          {LABEL_WORK_INSIGHTS}
-        </span>
-        <span className="font-body font-medium text-[11px] text-text-muted">
-          {isExpanded ? LABEL_HIDE : LABEL_SHOW}
-        </span>
-      </button>
+        {/* Toggle header */}
+        <button
+          onClick={handleToggle}
+          className="w-full flex items-center justify-between"
+          aria-expanded={isExpanded}
+        >
+          <span className="font-body font-medium text-[11px] text-accent uppercase tracking-[0.15em]">
+            {LABEL_WORK_INSIGHTS}
+          </span>
+          <span className="font-body font-medium text-[11px] text-text-muted">
+            {isExpanded ? LABEL_HIDE : LABEL_SHOW}
+          </span>
+        </button>
 
-      {/* Collapsible body */}
-      <div ref={contentRef}>
-        <p className="font-body font-normal text-[12px] text-text-muted mt-3 mb-6">
-          {subLabel}
-        </p>
+        {/* Collapsible body */}
+        <div ref={contentRef}>
+          <p className="font-body font-normal text-[12px] text-text-muted mt-3 mb-6">
+            {subLabel}
+          </p>
 
-        {mounted && (
-          <>
-            {/* Row 1 — 3 columns */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <WaffleChart
-                industryCounts={insights.industryCounts}
-                total={insights.totalProjects}
-              />
-              <CalendarHeatmap
-                yearMonthData={insights.yearMonthData}
-                years={insights.years}
-              />
-              <NetworkGraph
-                nodes={insights.networkNodes}
-                links={insights.networkLinks}
-              />
-            </div>
-
-            {/* Row 2 — treemap spans 2, stat spans 1 */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
-              <div className="md:col-span-2">
-                <TechTreemap stackTree={insights.stackTree} />
+          {mounted && (
+            <>
+              {/* Row 1 — 3 columns */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <WaffleChart
+                  industryCounts={insights.industryCounts}
+                  total={insights.totalProjects}
+                />
+                <CalendarHeatmap
+                  yearMonthData={insights.yearMonthData}
+                  years={insights.years}
+                />
+                <NetworkGraph
+                  nodes={insights.networkNodes}
+                  links={insights.networkLinks}
+                />
               </div>
-              <AvgMVPStat avgMVP={insights.avgMVP} />
-            </div>
-          </>
-        )}
+
+              {/* Row 2 — treemap spans 2, stat spans 1 */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+                <div className="md:col-span-2">
+                  <TechTreemap stackTree={insights.stackTree} />
+                </div>
+                <AvgMVPStat avgMVP={insights.avgMVP} />
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
