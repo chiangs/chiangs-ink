@@ -25,10 +25,14 @@ export function createRipple(event: React.TouchEvent<HTMLElement>) {
   ripple.className = "circle";
   element.appendChild(ripple);
 
-  // Force reflow so the browser registers the initial scale(0) state
-  // before the animation begins — required on mobile Safari / Android Chrome
-  void ripple.offsetWidth;
-  ripple.style.animation = "ripple-expand 0.6s ease-out forwards";
+  // Double rAF ensures the browser commits the initial scale(0) paint
+  // before starting the animation — void offsetWidth is not reliable on
+  // mobile Safari / Android Chrome
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      ripple.style.animation = "ripple-expand 0.6s ease-out forwards";
+    });
+  });
 
-  setTimeout(() => ripple.remove(), 600);
+  setTimeout(() => ripple.remove(), 700);
 }
