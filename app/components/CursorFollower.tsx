@@ -7,6 +7,7 @@
 //   data-cursor (no value) → "VIEW →"
 
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import { CURSOR_LAG } from "~/lib/constants";
 
 const CURSOR_LABEL_VIEW = "VIEW →";
@@ -30,6 +31,7 @@ export function CursorFollower() {
   const [mounted, setMounted] = useState(false);
   const [label, setLabel] = useState<string | null>(null);
   const [ripples, setRipples] = useState<Ripple[]>([]);
+  const location = useLocation();
 
   // Step 1 — detect environment; skip touch/hybrid devices
   useEffect(() => {
@@ -40,6 +42,15 @@ export function CursorFollower() {
     if (isTouchDevice) return;
     setMounted(true);
   }, []);
+
+  // Reset expanded state on route change
+  useEffect(() => {
+    if (!mounted) return;
+    const dot = document.getElementById("cursor-dot");
+    if (!dot) return;
+    dot.classList.remove("expanded");
+    setLabel(null);
+  }, [location.pathname, mounted]);
 
   // Step 2 — start RAF loop and attach listeners once dot is in the DOM
   useEffect(() => {

@@ -34,7 +34,7 @@
     --color-viz-green: #34D399;
 
     /* Visualization gradient — flows through solid stream colors */
-    --gradient-viz: linear-gradient(135deg, #F472B6, #A78BFA, #34D399, #FF9A3C, #00E5C7, #4DA6FF);
+    --gradient-viz: linear-gradient(135deg, #F472B6, #F472B6, #F472B6, #4DA6FF, #34D399, #00E5C7);
     --gradient-viz-cool: linear-gradient(135deg, #4DA6FF, #00E5C7, #34D399, #4DA6FF);
     --gradient-viz-hot: linear-gradient(135deg, #F472B6, #A78BFA, #FF9A3C, #F472B6);
 

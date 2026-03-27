@@ -1098,7 +1098,8 @@ CURSOR FOLLOWER (desktop only):
                 Label: Manrope 500, 9px, #131313, white-space: nowrap
                 transition: width/height 0.3s ease
   data-cursor="view" → work rows → "VIEW →"
-  data-cursor="read" → writing rows → "READ →"
+  data-cursor="read" → writing index rows → "READ →"
+  Article page related articles: default trailing dot (no data-cursor)
   Touch check:  pointer: coarse || ontouchstart ||
                 navigator.maxTouchPoints > 0 → return null
 

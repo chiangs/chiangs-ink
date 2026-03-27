@@ -8,7 +8,11 @@
 import { useEffect, useState } from "react";
 import type { MetaFunction } from "react-router";
 import { ButtonCta } from "~/components/common";
-import { Heatmap404, NetworkGraph404, Treemap404 } from "~/components/common/404";
+import {
+  Heatmap404,
+  NetworkGraph404,
+  Treemap404,
+} from "~/components/common/404";
 
 // ── Meta ──────────────────────────────────────────────────────────────────────
 
@@ -26,7 +30,8 @@ export const meta: MetaFunction = () => [
 const EYEBROW = "ERROR // 404";
 const HEADLINE_LIGHT = "Page";
 const HEADLINE_BOLD = "not found.";
-const BODY = "This URL doesn't exist. Possibly never did. Head somewhere more useful";
+const BODY =
+  "This URL doesn't exist. Possibly never did. Head somewhere more useful";
 const BODY_REFRESH_JOIN = ", or ";
 const REFRESH_LABEL = "click here";
 const BODY_REFRESH_TAIL = " to see a different visualisation.";
@@ -70,7 +75,9 @@ const mobilePanelStyle: React.CSSProperties = {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function NotFound() {
-  const [variant, setVariant] = useState<"graph" | "heatmap" | "treemap" | null>(null);
+  const [variant, setVariant] = useState<
+    "graph" | "heatmap" | "treemap" | null
+  >(null);
 
   useEffect(() => {
     const variants = ["graph", "heatmap", "treemap"] as const;
@@ -87,9 +94,13 @@ export default function NotFound() {
   }
 
   return (
-    <section className={`relative min-h-screen overflow-hidden max-w-container mx-auto md:grid md:grid-cols-12 ${variant === "heatmap" || variant === "treemap" ? "md:gap-0" : ""}`}>
+    <section
+      className={`relative min-h-screen overflow-hidden max-w-container mx-auto md:grid md:grid-cols-12 ${variant === "heatmap" || variant === "treemap" ? "md:gap-0" : ""}`}
+    >
       {/* Text — cols 1–7, z-10, sets row height */}
-      <div className={`md:col-start-1 md:col-end-8 md:row-start-1 relative z-10 px-margin-mob pt-40 pb-section-mob md:pt-80 md:pb-section ${variant === "heatmap" || variant === "treemap" ? "md:pl-margin" : "md:px-margin"}`}>
+      <div
+        className={`md:col-start-1 md:col-end-8 md:row-start-1 relative z-10 px-margin-mob pt-40 pb-section-mob md:pt-80 md:pb-section ${variant === "heatmap" || variant === "treemap" ? "md:pl-margin" : "md:px-margin"}`}
+      >
         <div className="relative">
           {variant === "graph" && (
             <span
@@ -129,7 +140,11 @@ export default function NotFound() {
             </p>
 
             {/* Mobile visualisation — compact panel between body and CTA */}
-            <div aria-hidden="true" className="md:hidden mb-10" style={mobilePanelStyle}>
+            <div
+              aria-hidden="true"
+              className="md:hidden mb-10"
+              style={mobilePanelStyle}
+            >
               {variant === "graph" && <NetworkGraph404 />}
               {variant === "heatmap" && <Heatmap404 />}
               {variant === "treemap" && <Treemap404 />}
