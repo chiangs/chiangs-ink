@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useReducer, useRef } from "react";
 import { useLoaderData } from "react-router";
-import { Fuse } from "~/lib/fuse";
-import type { Route } from "./+types/index";
-import type { ProjectFrontmatter } from "~/types/content";
-import { getAllProjects } from "~/lib/mdx.server";
-import { ITEM_STAGGER_S } from "~/lib/constants";
+import { EmptyState, FilterDropdown, SearchIcon, WorkRow } from "~/components/common";
 import { InsightsPanel } from "~/components/work";
-import { WorkRow } from "~/components/common";
-import { PatternWaves, PatternLines, PatternCircles } from "~/lib/visx";
+import { ITEM_STAGGER_S, SEARCH_INPUT_STYLE } from "~/lib/constants";
+import { Fuse } from "~/lib/fuse";
+import { getAllProjects } from "~/lib/mdx.server";
+import { PatternCircles, PatternLines, PatternWaves } from "~/lib/visx";
+import type { ProjectFrontmatter } from "~/types/content";
+import type { Route } from "./+types/index";
 
 // ─── Page copy ───────────────────────────────────────────────────────────────
 
@@ -50,13 +50,6 @@ const SOLUTION_TYPE_OPTIONS = [
   "Human-Machine Interfaces",
 ] as const;
 
-// ─── Style objects ────────────────────────────────────────────────────────────
-
-const searchInputStyle: React.CSSProperties = {
-  height: "40px",
-  padding: "0 16px 0 32px",
-  transition: "border-color var(--transition-fast)",
-};
 
 // ─── Fuse config ──────────────────────────────────────────────────────────────
 
@@ -346,7 +339,11 @@ export default function WorkIndex() {
         <WorkRow key={project.slug} project={project} index={i} />
       ))
     ) : (
-      <EmptyState onClear={handleClearAll} />
+      <EmptyState
+        noResultsLabel={LABEL_NO_RESULTS}
+        clearFiltersLabel={LABEL_CLEAR_FILTERS}
+        onClear={handleClearAll}
+      />
     );
 
   return (
@@ -465,7 +462,7 @@ export default function WorkIndex() {
                 onKeyDown={handleSearchKeyDown}
                 placeholder={PLACEHOLDER_SEARCH}
                 className="w-full bg-bg border-b border-border font-body font-normal text-sm text-text-primary placeholder:text-text-muted outline-none focus:border-accent"
-                style={searchInputStyle}
+                style={SEARCH_INPUT_STYLE}
               />
             </div>
 
@@ -554,104 +551,3 @@ export default function WorkIndex() {
   );
 }
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
-
-type FilterDropdownProps = {
-  label: string;
-  defaultLabel: string;
-  options: string[];
-  selected: string[];
-  isOpen: boolean;
-  onToggleOpen: () => void;
-  onToggleOption: (value: string) => void;
-};
-
-function FilterDropdown({
-  label,
-  defaultLabel,
-  options,
-  selected,
-  isOpen,
-  onToggleOpen,
-  onToggleOption,
-}: FilterDropdownProps) {
-  const buttonLabel =
-    selected.length > 0 ? `${label} (${selected.length})` : defaultLabel;
-  const chevronClass = `ml-auto pl-4 inline-block ${isOpen ? "rotate-180" : "rotate-0"}`;
-  const chevronStyle = { transition: "transform var(--transition-fast)" };
-
-  return (
-    <div className="relative" data-dropdown>
-      <button
-        onClick={onToggleOpen}
-        className="flex items-center justify-between w-full md:w-auto bg-bg border-b border-border font-body font-medium text-sm text-text-muted uppercase tracking-[0.1em] px-3 whitespace-nowrap h-10"
-        style={{ transition: "color var(--transition-fast)" }}
-      >
-        {buttonLabel}
-        <span className={chevronClass} style={chevronStyle}>
-          ↓
-        </span>
-      </button>
-      {isOpen && (
-        <div className="absolute top-full left-0 z-50 bg-hover-surface border border-border w-full md:w-auto md:min-w-55 mt-1">
-          {options.map((option) => {
-            const isSelected = selected.includes(option);
-            const optionClass = `flex items-center justify-between w-full text-left font-body font-normal text-sm px-4 py-2.5 ${
-              isSelected ? "text-accent" : "text-text-primary"
-            }`;
-            return (
-              <button
-                key={option}
-                onClick={() => onToggleOption(option)}
-                className={optionClass}
-                style={{ transition: "background var(--transition-fast)" }}
-              >
-                {option}
-                {isSelected && <span className="text-accent">✓</span>}
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function EmptyState({ onClear }: { onClear: () => void }) {
-  return (
-    <div className="flex flex-col items-center justify-center my-20 mx-auto">
-      <p className="font-display font-light text-2xl text-text-muted text-center">
-        {LABEL_NO_RESULTS}
-      </p>
-      <button
-        onClick={onClear}
-        className="font-body font-medium text-sm text-accent mt-4"
-        style={{ transition: "opacity var(--transition-fast)" }}
-      >
-        {LABEL_CLEAR_FILTERS}
-      </button>
-    </div>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <svg
-      className="absolute left-2.5 text-text-muted pointer-events-none"
-      width="14"
-      height="14"
-      viewBox="0 0 14 14"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
-    >
-      <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M9.5 9.5L13 13"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="square"
-      />
-    </svg>
-  );
-}

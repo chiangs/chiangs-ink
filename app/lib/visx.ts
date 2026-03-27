@@ -3,9 +3,18 @@
 // Add new visx exports here as needed — never import @visx/* directly
 // in components or routes.
 
-export { scaleLinear, scalePoint, scaleBand } from "@visx/scale";
+export { AxisBottom } from "@visx/axis";
+export { Group } from "@visx/group";
 export { hierarchy, Treemap, treemapSquarify } from "@visx/hierarchy";
 export { Graph } from "@visx/network";
-export { PatternWaves, PatternLines, PatternCircles } from "@visx/pattern";
+export { PatternCircles, PatternLines, PatternWaves } from "@visx/pattern";
 export { useParentSize } from "@visx/responsive";
-export { Group } from "@visx/group";
+export { scaleBand, scaleLinear, scalePoint } from "@visx/scale";
+export { AreaStack } from "@visx/shape";
+// d3-shape is a direct dependency of @visx/shape
+export {
+  curveBasis,
+  stack as d3Stack,
+  stackOffsetWiggle,
+  stackOrderInsideOut,
+} from "d3-shape";

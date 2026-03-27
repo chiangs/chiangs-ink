@@ -29,3 +29,10 @@ export const HREF_WRITING = "/writing";
 // Animation timing
 export const ITEM_STAGGER_S = 0.07;
 export const CURSOR_LAG = 0.15;
+
+// Shared UI styles
+export const SEARCH_INPUT_STYLE: React.CSSProperties = {
+  height: "40px",
+  padding: "0 16px 0 32px",
+  transition: "border-color var(--transition-fast)",
+};

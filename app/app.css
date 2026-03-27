@@ -24,6 +24,13 @@
     /* Accent gradient — Stitch "Copper Lead" */
     --gradient-accent: linear-gradient(135deg, #FFB77D, #D97707);
 
+    /* Visualization palette — used sparingly in data viz contexts */
+    --color-viz-teal: #2DD4BF;
+    --color-viz-blue: #60A5FA;
+    --color-viz-pink: #F472B6;
+    --color-viz-purple: #A78BFA;
+    --color-viz-green: #34D399;
+
     /* Typography — Space Grotesk + Manrope */
     --font-display: "Space Grotesk", sans-serif;
     --font-body: "Manrope", sans-serif;

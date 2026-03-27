@@ -4,6 +4,7 @@ export type ArticleFrontmatter = {
   date: string;
   readTime: string;
   category: string;
+  tags?: string[];
   featured: boolean;
   order: number;
   status?: "draft" | "published";

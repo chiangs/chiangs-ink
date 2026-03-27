@@ -66,6 +66,17 @@ decisions take precedence. Stitch's superior principles
                                        for technical boundaries only */
 --color-hover-surface:    #1e1e1e   /* Work row hover background */
 
+VISUALIZATION PALETTE (used sparingly in charts only — not UI chrome):
+  --color-viz-orange:  #FF9A3C   /* Solid stream 1 — primary accent */
+  --color-viz-teal:    #00E5C7   /* Solid stream 2 */
+  --color-viz-blue:    #4DA6FF   /* Solid stream 3 */
+  --color-viz-pink:    #F472B6   /* Patterned stream 4 */
+  --color-viz-purple:  #A78BFA   /* Patterned stream 5 */
+  --color-viz-green:   #34D399   /* Patterned stream 6 */
+  Defined in app.css @theme. Import as Tailwind class or CSS var.
+  Rule: do not use viz palette colors in UI chrome, buttons, or text.
+        They are reserved for data visualization fills only.
+
 ACCENT GRADIENT (Stitch's "Copper Lead" — for primary CTAs):
   background: linear-gradient(135deg, #FFB77D, #D97707)
   Mimics the sheen of polished metal.
@@ -447,6 +458,103 @@ WORK INDEX PAGE (routes/work/index.tsx)
     Filter change: rows fade in 0.2s with 0.04s stagger (GSAP)
     Header pattern: cover rect reveal, all segments simultaneous, 0.2s delay
 
+WRITING INDEX PAGE (routes/writing/index.tsx)
+  Page header:
+    Layout:   Same structure as Work index — position: relative,
+              overflow: hidden, full-bleed pattern SVG background
+              Text constrained to max-w-container mx-auto
+              px-margin-mob md:px-margin
+    Label:    "SELECTED WRITING" — Manrope 500, 11px, #FFB77D,
+              uppercase, ls 0.15em
+    Headline: "Writing." — Space Grotesk 700,
+              clamp(56px, 8vw, 96px), #E5E2E1
+
+  Header background pattern (SVG — same three-segment treatment
+    as Work index: Chaos → Transition → Order using @visx/pattern)
+
+  Insights panel (WritingInsightsPanel component):
+    Background:   #1a1a1a (bg-surface), full bleed
+    Inner content: max-w-container mx-auto px-margin-mob md:px-margin
+    Padding:      32px vertical
+    Toggle row:   "WRITING INSIGHTS" label + "Hide ↑"/"Show ↓"
+    Sub-label:    "N articles. Writing focus over time."
+                  Manrope 400, 12px, #737371
+    Default:      expanded (desktop), collapsed (mobile)
+    Collapse:     GSAP height tween 0.4s
+    Always receives ALL articles (not filtered subset)
+    Content:      WritingStreamgraph (see below)
+    Insufficient data guard: return null when < 2 quarters OR < 4 articles
+                             (no placeholder — the panel simply does not render)
+
+  WritingStreamgraph (inside WritingInsightsPanel):
+    Type:         Streamgraph — @visx/shape AreaStack
+    X axis:       Quarterly time buckets (e.g. "Q1 2024")
+    Streams:      Article tags (each article contributes +1 to every tag)
+    Subtitle:     "Writing focus over time — by tag"
+                  Manrope 400, 12px, #737371
+    Stack offset: stackOffsetWiggle + stackOrderInsideOut (canonical streamgraph)
+                  Wiggle minimises slope, produces organic bidirectional flow
+    Y domain:     Pre-computed via d3Stack() before passing to AreaStack —
+                  required because wiggle produces negative y values
+    Curve:        curveBasis — smooth organic flow
+    Colors:       Top 3 tags (by frequency) → solid streams
+                  Remaining tags → patterned streams (textured fills)
+    Solid colors: #FF9A3C (orange), #00E5C7 (teal), #4DA6FF (blue)
+                  fillOpacity 1, stroke: none
+    Patterned:    Base fills from design system surface shades:
+                  index 3 → base: #2a2a2a, pattern: #3a3a38
+                  index 4 → base: #222220, pattern: #333330
+                  index 5 → base: #1e1e1e, pattern: #2a2a2a
+                  index 6+ → base: #1a1a1a, pattern: #222220
+                  Base layer opacity 0.9, pattern layer opacity 0.5,
+                  stroke: none
+    Draw order:   Patterned streams rendered first (bottom),
+                  solid streams rendered last (top) — two-pass render
+    Patterns:     @visx/pattern PatternLines (diagonal, horizontal),
+                  PatternCircles — imported via ~/lib/visx.ts
+    Legend:       Below chart, horizontal flex-wrap
+                  Solid: color swatch
+                  Patterned: swatch with baseFill bg, 1px patternColor outline
+    Responsive:   useParentSize from @visx/responsive
+    SSR guard:    mounted state — client-side only
+    Animation:    See Motion System → Streamgraph
+
+  Control bar (writing):
+    Same structure as Work index control bar
+    Search input: "What are you looking for?"
+                  Uses shared SearchIcon + SEARCH_INPUT_STYLE
+    Filters:      Category (multi-select), Read time (multi-select)
+    Result count: "[n] articles" / "[n] results" + "Clear all →"
+    State:        useReducer (search, category filter, readTime filter,
+                  dropdown open state, mounted) — 5+ pieces of state
+
+  Writing rows:
+    See WRITING LIST component pattern for full spec.
+    Container: max-w-container mx-auto px-margin-mob md:px-margin
+
+  Empty state:
+    Shared EmptyState component from ~/components/common
+    Labels: "No articles match your search." + "Clear filters →"
+
+SHARED COMMON COMPONENTS (~/components/common/)
+  SearchIcon:
+    14×14px SVG magnifier (circle + line), currentColor
+    className="absolute left-2.5 text-text-muted pointer-events-none"
+    aria-hidden
+    Used in: Work index search input, Writing index search input
+
+  EmptyState:
+    Props: noResultsLabel, clearFiltersLabel, onClear
+    Layout: flex-col items-center justify-center my-20 mx-auto
+    Headline: font-display font-light text-2xl text-text-muted text-center
+    Button:   font-body font-medium text-sm text-accent mt-4
+    Used in: Work index, Writing index
+
+  SEARCH_INPUT_STYLE (~/lib/constants.ts):
+    height: "40px", padding: "0 16px 0 32px",
+    transition: "border-color var(--transition-fast)"
+    Used in: Work index search, Writing index search
+
 ABOUT STRIP (inverted section)
   Background:   #FFB77D (copper accent — confirmed via color dropper)
   All text:     #0c0c0c
@@ -475,7 +583,11 @@ MAP (Industries section — about page)
                 Manrope 400, 12px, #737371, italic
 
 WRITING LIST
-  Ghost number: 48px Space Grotesk 700, #FFB77D, opacity 20%
+  Ghost number: Space Grotesk 700, opacity 8%, #FFB77D
+                Always 3 digits — padStart(3, "0") (001, 002, ... 010, ...)
+                Desktop: 120px, absolute left-[-10px], hidden md:block
+                Mobile:  72px, absolute left-[-8px], md:hidden
+                (Same dual-span pattern as Work rows)
   Title:        28–32px Space Grotesk 700, #E5E2E1
   Meta:         11px Manrope 500 caps, #737371
                 Format: "CATEGORY · MON YYYY · X MIN"
@@ -485,7 +597,6 @@ WRITING LIST
                 data-cursor="read" — cursor shows "READ →"
   Mobile:       font-size: clamp(18px, 4.5vw, 24px) on title
                 Meta stacks below title, left-aligned
-                Ghost number: 72px
                 padding: 24px 16px
 
 PULL QUOTE
@@ -703,6 +814,21 @@ WORK INDEX — Header pattern reveal (on page load):
   Delay:        0.2s before timeline starts
   Guard:        typeof window !== 'undefined'
 
+WRITING INDEX — Streamgraph animation (on mount, client-side only):
+  Technique 1 — Clip scan reveal:
+    SVG <clipPath> containing a <rect> with width animated 0 → full width
+    AreaStack Group wrapped in clipPath="url(#stream-chart-clip)"
+    Axis Group is NOT clipped (labels always visible)
+    gsap.fromTo rect attr.width: 0 → chartWidth
+    Duration: 1.8s, ease: power2.inOut
+  Technique 2 — Stream stagger fade+rise:
+    .stream-path class on all AreaStack path elements
+    gsap.set: opacity 0, y: 6
+    gsap.to: opacity 1, y: 0, duration 0.7s, stagger 0.12s,
+             ease power2.out, delay 0.1s
+  Guard: isMounted flag + typeof window !== 'undefined'
+  Cleanup: tl.kill() in useEffect return
+
 CURSOR FOLLOWER (desktop only):
   Behaviour:    Hybrid — native cursor visible everywhere
                 EXCEPT over [data-cursor] elements
@@ -753,6 +879,9 @@ Third-party library wrappers (~/lib/):
                     PatternWaves, PatternLines, PatternCircles
                     HeatmapRect, hierarchy, Treemap,
                     treemapSquarify, Graph, useParentSize
+                    AreaStack, AxisBottom
+                    curveBasis, stackOffsetWiggle,
+                    stackOrderInsideOut, d3Stack (from d3-shape)
   ~/lib/fuse.ts   — fuse.js static re-export (Fuse, IFuseOptions)
   ~/lib/d3.ts     — async loadD3() for d3 + topojson-client
                     async loadD3Force() for d3-force
@@ -772,7 +901,7 @@ Third-party library wrappers (~/lib/):
     Writing list, Contact strip
 7.  ✓ Work index page — COMPLETE
 8.  Project page template
-9.  Writing index page
+9.  ✓ Writing index page — COMPLETE
 10. Article page template
 11. Contact page
 12. MDX loader + /content directory wiring

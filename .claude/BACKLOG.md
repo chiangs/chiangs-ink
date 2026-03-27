@@ -13,10 +13,6 @@
       process, outcome, metrics strip, pull quotes,
       challenge callouts, related projects
 
-- [ ] Writing index page (`writing/index.tsx`)
-      Full article list with search/filter
-      Consider streamgraph visualisation (see below)
-
 - [ ] Article page template (`writing/$slug.tsx`)
       Long-form article layout — hero, table of contents,
       pull quotes, code blocks, related articles
@@ -39,14 +35,10 @@
       Library: @visx/shape area stack
       Revisit: when about page gets visual upgrade
 
-- [ ] **Streamgraph — Writing index**
-      Location: writing index page insights panel
-      X axis: publish date by month/quarter
-      Streams: article categories
-        (Data & AI, Design Technology, etc)
-      Story: shows how writing focus evolves over time
-      Data volume: needs 8+ articles to look meaningful
-      Revisit: when article count reaches 8+
+- [x] **Streamgraph — Writing index** — DONE ✓
+      Implemented with stackOffsetWiggle + stackOrderInsideOut,
+      6-color palette (solid top 3 / patterned remainder),
+      clip scan + stagger animation, tags as data metric
 
 - [ ] **Hiker SVG animation**
       Simple stick figure hiking up a diagonal trail
@@ -146,8 +138,8 @@
 - [ ] **DESIGN.md sync**
       Update DESIGN.md after every significant
       build session per CLAUDE.md instructions.
-      Last updated: March 2026 (homepage + about
-      page complete)
+      Last updated: March 2026 (writing index page +
+      streamgraph + shared components complete)
 
 ---
 
@@ -182,6 +174,8 @@
 - [x] About page — desktop + mobile
 - [x] Work index page — with insights panel,
       search, filters, visualisations
+- [x] Writing index page — with streamgraph insights panel,
+      search, filters, 3-digit ghost numbers
 - [x] Nav order: ABOUT · WORK · WRITING · CONTACT
 - [x] Easter eggs — Currently drawer,
       Style Guide drawer
