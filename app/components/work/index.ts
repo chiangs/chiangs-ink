@@ -1,1 +1,1 @@
-export { InsightsPanel } from "./InsightsPanel";
+export { WorkInsightsPanel } from "./WorkInsightsPanel";

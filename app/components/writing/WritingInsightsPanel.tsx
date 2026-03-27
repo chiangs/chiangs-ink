@@ -1,4 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { InsightsPanel } from "~/components/common";
+import { useCountDown } from "~/hooks";
+import { STORAGE_WRITING_INSIGHTS } from "~/lib/constants";
 import type { ArticleFrontmatter } from "~/types/content";
 import {
   AreaStack,
@@ -18,8 +21,6 @@ import {
 // ─── Copy ─────────────────────────────────────────────────────────────────────
 
 const LABEL_WRITING_INSIGHTS = "WRITING INSIGHTS";
-const LABEL_HIDE = "Hide ↑";
-const LABEL_SHOW = "Show ↓";
 const LABEL_TOPIC_FREQUENCY = "TOP 5 TOPICS";
 const LABEL_TOPIC_FREQUENCY_SUB = "Most written about subjects";
 const LABEL_READ_TIME = "READ TIME";
@@ -33,7 +34,6 @@ const LABEL_FOCUS_OVER_TIME_SUB =
 
 // ─── Style objects ────────────────────────────────────────────────────────────
 
-const panelStyle = { paddingTop: "32px", paddingBottom: "32px" };
 const cellStyle: React.CSSProperties = {
   padding: "20px",
   background: "var(--color-bg)",
@@ -495,59 +495,16 @@ export function WritingInsightsPanel({
 }: {
   articles: ArticleFrontmatter[];
 }) {
-  const [isExpanded, setIsExpanded] = useState(true);
-  const [mounted, setMounted] = useState(false);
   const [animationKey, setAnimationKey] = useState(0);
-  const contentRef = useRef<HTMLDivElement>(null);
   const barContainerRef = useRef<HTMLDivElement>(null);
-  const isAnimating = useRef(false);
-
-  useEffect(() => {
-    setMounted(true);
-    if (window.innerWidth < 768 && contentRef.current) {
-      setIsExpanded(false);
-      contentRef.current.style.height = "0px";
-      contentRef.current.style.overflow = "hidden";
-    }
-  }, []);
 
   const insights = useMemo(() => computeInsights(articles), [articles]);
 
-  const handleToggle = async () => {
-    if (isAnimating.current || !contentRef.current) return;
-    isAnimating.current = true;
-    const el = contentRef.current;
-    const { default: gsap } = await import("gsap");
-    if (!isExpanded) {
-      setIsExpanded(true);
-      el.style.overflow = "hidden";
-      setAnimationKey((k) => k + 1);
-      gsap.to(el, {
-        height: "auto",
-        duration: 0.4,
-        ease: "power2.out",
-        onComplete: () => {
-          el.style.overflow = "";
-          isAnimating.current = false;
-        },
-      });
-    } else {
-      gsap.set(el, { height: el.scrollHeight, overflow: "hidden" });
-      gsap.to(el, {
-        height: 0,
-        duration: 0.3,
-        ease: "power2.in",
-        onComplete: () => {
-          setIsExpanded(false);
-          isAnimating.current = false;
-        },
-      });
-    }
-  };
+  const displayReadTime = useCountDown(insights.avgReadTime, animationKey);
 
-  // Animate bars when panel opens
+  // Animate bars on initial mount and on every re-expand
   useEffect(() => {
-    if (!isExpanded || !mounted || !barContainerRef.current) return;
+    if (!animationKey || !barContainerRef.current) return;
     let isMounted = true;
     const run = async () => {
       const { default: gsap } = await import("gsap");
@@ -571,7 +528,7 @@ export function WritingInsightsPanel({
     return () => {
       isMounted = false;
     };
-  }, [isExpanded, mounted]);
+  }, [animationKey]);
 
   const maxTagCount =
     insights.tagFrequency.length > 0 ? insights.tagFrequency[0][1] : 1;
@@ -582,93 +539,44 @@ export function WritingInsightsPanel({
     1,
   );
 
+  const handlePanelEvent = () => setAnimationKey((k) => k + 1);
+
   return (
-    <div className="bg-surface border-b border-border">
-      <div
-        className="max-w-container mx-auto px-margin-mob md:px-margin"
-        style={panelStyle}
-      >
-        {/* Toggle header */}
-        <button
-          onClick={handleToggle}
-          className="w-full flex items-center justify-between"
-          aria-expanded={isExpanded}
-        >
-          <span className="font-body font-medium text-sm text-accent uppercase tracking-[0.15em]">
-            {LABEL_WRITING_INSIGHTS}
-          </span>
-          <span className="font-body font-medium text-sm accent-glow-pulse">
-            {isExpanded ? LABEL_HIDE : LABEL_SHOW}
-          </span>
-        </button>
-
-        {/* Collapsible body */}
-        <div ref={contentRef}>
-          {mounted && (
-            <>
-              {/* Row 1 — Topic frequency + Read time */}
-              <div
-                ref={barContainerRef}
-                className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-7"
-              >
-                {/* Cell 1 — Tag frequency (spans 2 cols) */}
-                <div className="md:col-span-2" style={cellStyle}>
-                  <p className="font-body font-medium text-sm text-text-muted uppercase tracking-[0.1em] mb-1">
-                    {LABEL_TOPIC_FREQUENCY}
-                  </p>
-                  <p className="font-body font-normal text-sm text-text-muted mb-4">
-                    {LABEL_TOPIC_FREQUENCY_SUB}
-                  </p>
-                  <div className="flex flex-col gap-3">
-                    {insights.tagFrequency.length === 0 ? (
-                      <p className="font-body font-normal text-sm text-text-muted">
-                        {LABEL_NO_TAGS}
-                      </p>
-                    ) : (
-                      insights.tagFrequency.map(([tag, count]) => {
-                        const pct = `${Math.round((count / maxTagCount) * 100)}%`;
-                        return (
-                          <div key={tag}>
-                            <div className="flex justify-between items-center mb-1.5">
-                              <span className="font-body font-normal text-sm text-text-primary">
-                                {tag}
-                              </span>
-                              <span className="font-body font-medium text-xs text-accent">
-                                {count}
-                              </span>
-                            </div>
-                            <div className="relative w-full h-2 bg-border">
-                              <div
-                                className="bar-fill absolute left-0 top-0 h-full bg-accent"
-                                data-width={pct}
-                                style={{ width: 0 }}
-                              />
-                            </div>
-                          </div>
-                        );
-                      })
-                    )}
-                  </div>
-                </div>
-
-                {/* Cell 2 — Read time distribution + avg (col 3) */}
-                <div style={cellStyle}>
-                  {/* Part A — Distribution bars */}
-                  <p className="font-body font-medium text-sm text-text-muted uppercase tracking-[0.1em] mb-1">
-                    {LABEL_READ_TIME}
-                  </p>
-                  <p className="font-body font-normal text-sm text-text-muted mb-4">
-                    {LABEL_READ_TIME_SUB}
-                  </p>
-                  <div className="flex flex-col gap-3">
-                    {READ_TIME_BUCKETS.map(({ label, key }) => {
-                      const count = insights.readTimeBuckets[key];
-                      const pct = `${Math.round((count / maxBucketCount) * 100)}%`;
+    <InsightsPanel
+      label={LABEL_WRITING_INSIGHTS}
+      storageKey={STORAGE_WRITING_INSIGHTS}
+      onMount={handlePanelEvent}
+      onExpand={handlePanelEvent}
+    >
+      {({ mounted }) =>
+        !mounted ? null : (
+          <>
+            {/* Row 1 — Topic frequency + Read time */}
+            <div
+              ref={barContainerRef}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-7"
+            >
+              {/* Cell 1 — Tag frequency (spans 2 cols) */}
+              <div className="md:col-span-2" style={cellStyle}>
+                <p className="font-body font-medium text-sm text-text-muted uppercase tracking-[0.1em] mb-1">
+                  {LABEL_TOPIC_FREQUENCY}
+                </p>
+                <p className="font-body font-normal text-sm text-text-muted mb-4">
+                  {LABEL_TOPIC_FREQUENCY_SUB}
+                </p>
+                <div className="flex flex-col gap-3">
+                  {insights.tagFrequency.length === 0 ? (
+                    <p className="font-body font-normal text-sm text-text-muted">
+                      {LABEL_NO_TAGS}
+                    </p>
+                  ) : (
+                    insights.tagFrequency.map(([tag, count]) => {
+                      const pct = `${Math.round((count / maxTagCount) * 100)}%`;
                       return (
-                        <div key={key}>
+                        <div key={tag}>
                           <div className="flex justify-between items-center mb-1.5">
-                            <span className="font-body font-medium text-xs text-text-muted uppercase tracking-[0.05em]">
-                              {label}
+                            <span className="font-body font-normal text-sm text-text-primary">
+                              {tag}
                             </span>
                             <span className="font-body font-medium text-xs text-accent">
                               {count}
@@ -683,38 +591,77 @@ export function WritingInsightsPanel({
                           </div>
                         </div>
                       );
-                    })}
-                  </div>
-
-                  {/* Part B — Average read time stat */}
-                  <div style={avgSeparatorStyle}>
-                    <p className="font-body font-medium text-xs text-text-muted uppercase tracking-[0.1em] mb-2">
-                      {LABEL_AVG_READ_TIME}
-                    </p>
-                    {insights.avgReadTime !== null ? (
-                      <div className="flex items-baseline gap-2">
-                        <span style={avgValueStyle}>{insights.avgReadTime}</span>
-                        <span className="font-body font-normal text-sm text-text-muted">
-                          {LABEL_MIN_READ}
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="font-body font-normal text-sm text-text-muted">
-                        —
-                      </span>
-                    )}
-                  </div>
+                    })
+                  )}
                 </div>
               </div>
 
-              {/* Row 2 — Streamgraph (full width) */}
-              <div className="mt-6">
-                <WritingStreamgraph articles={articles} animationKey={animationKey} />
+              {/* Cell 2 — Read time distribution + avg (col 3) */}
+              <div style={cellStyle}>
+                {/* Part A — Distribution bars */}
+                <p className="font-body font-medium text-sm text-text-muted uppercase tracking-[0.1em] mb-1">
+                  {LABEL_READ_TIME}
+                </p>
+                <p className="font-body font-normal text-sm text-text-muted mb-4">
+                  {LABEL_READ_TIME_SUB}
+                </p>
+                <div className="flex flex-col gap-3">
+                  {READ_TIME_BUCKETS.map(({ label, key }) => {
+                    const count = insights.readTimeBuckets[key];
+                    const pct = `${Math.round((count / maxBucketCount) * 100)}%`;
+                    return (
+                      <div key={key}>
+                        <div className="flex justify-between items-center mb-1.5">
+                          <span className="font-body font-medium text-xs text-text-muted uppercase tracking-[0.05em]">
+                            {label}
+                          </span>
+                          <span className="font-body font-medium text-xs text-accent">
+                            {count}
+                          </span>
+                        </div>
+                        <div className="relative w-full h-2 bg-border">
+                          <div
+                            className="bar-fill absolute left-0 top-0 h-full bg-accent"
+                            data-width={pct}
+                            style={{ width: 0 }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Part B — Average read time stat */}
+                <div style={avgSeparatorStyle}>
+                  <p className="font-body font-medium text-xs text-text-muted uppercase tracking-[0.1em] mb-2">
+                    {LABEL_AVG_READ_TIME}
+                  </p>
+                  {displayReadTime !== null ? (
+                    <div className="flex items-baseline gap-2">
+                      <span style={avgValueStyle}>{displayReadTime}</span>
+                      <span className="font-body font-normal text-sm text-text-muted">
+                        {LABEL_MIN_READ}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="font-body font-normal text-sm text-text-muted">
+                      —
+                    </span>
+                  )}
+                </div>
               </div>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
+            </div>
+
+            {/* Row 2 — Streamgraph (full width) */}
+            <div className="mt-6">
+              <WritingStreamgraph
+                articles={articles}
+                animationKey={animationKey}
+              />
+            </div>
+          </>
+        )
+      }
+    </InsightsPanel>
   );
 }

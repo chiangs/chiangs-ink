@@ -1,4 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { InsightsPanel } from "~/components/common";
+import { useCountDown } from "~/hooks";
+import { STORAGE_WORK_INSIGHTS } from "~/lib/constants";
 import {
   hierarchy,
   Treemap,
@@ -12,8 +15,6 @@ import type { ProjectFrontmatter } from "~/types/content";
 // ─── Copy ─────────────────────────────────────────────────────────────────────
 
 const LABEL_WORK_INSIGHTS = "WORK INSIGHTS";
-const LABEL_HIDE = "Hide ↑";
-const LABEL_SHOW = "Show ↓";
 const LABEL_INDUSTRY_PROPORTION = "INDUSTRY PROPORTION";
 const LABEL_INDUSTRY_PROPORTION_SUB = "Proportion of work by sector";
 const LABEL_CAPABILITY_SPREAD = "CAPABILITY SPREAD";
@@ -65,7 +66,6 @@ const NETWORK_LABEL_MAX = 14;
 
 // ─── Style objects ────────────────────────────────────────────────────────────
 
-const panelStyle = { paddingTop: "32px", paddingBottom: "32px" };
 const cellStyle = { padding: "20px", background: "#131313" };
 const avgValueStyle: React.CSSProperties = {
   fontSize: "64px",
@@ -729,7 +729,12 @@ function NetworkGraph({
           gsap.fromTo(
             links,
             { opacity: 0 },
-            { opacity: 1, duration: 0.4, stagger: { amount: 0.3 }, ease: "power2.out" },
+            {
+              opacity: 1,
+              duration: 0.4,
+              stagger: { amount: 0.3 },
+              ease: "power2.out",
+            },
           ),
         );
       }
@@ -1202,56 +1207,13 @@ function AvgMVPStat({
   avgMVP: number | null;
   animationKey: number;
 }) {
-  const isInt = avgMVP !== null && Number.isInteger(avgMVP);
-  const finalDisplay =
-    avgMVP === null ? "—" : isInt ? String(avgMVP) : avgMVP.toFixed(1);
-
-  const [displayValue, setDisplayValue] = useState(finalDisplay);
-
-  useEffect(() => {
-    if (avgMVP === null) return;
-    let isMounted = true;
-    let tween: { kill(): void } | null = null;
-
-    const run = async () => {
-      const { default: gsap } = await import("gsap");
-      if (!isMounted) return;
-
-      const startValue = Math.ceil(avgMVP * 3);
-      const counter = { value: startValue };
-      setDisplayValue(isInt ? String(startValue) : startValue.toFixed(1));
-
-      tween = gsap.to(counter, {
-        value: avgMVP,
-        duration: 1.5,
-        ease: "power2.out",
-        onUpdate() {
-          if (!isMounted) return;
-          setDisplayValue(
-            isInt
-              ? String(Math.round(counter.value))
-              : counter.value.toFixed(1),
-          );
-        },
-        onComplete() {
-          if (!isMounted) return;
-          setDisplayValue(finalDisplay);
-        },
-      });
-    };
-
-    run();
-    return () => {
-      isMounted = false;
-      tween?.kill();
-    };
-  }, [avgMVP, animationKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  const displayValue = useCountDown(avgMVP, animationKey);
 
   return (
     <div style={cellStyle} className="flex flex-col justify-between h-full">
       <ChartLabel>{LABEL_AVG_MVP}</ChartLabel>
       <div className="flex flex-col justify-center items-center flex-1">
-        <span style={avgValueStyle}>{displayValue}</span>
+        <span style={avgValueStyle}>{displayValue ?? "—"}</span>
         <span className="font-body font-normal text-sm text-text-muted block mt-2">
           {LABEL_MONTHS_TO_MVP}
         </span>
@@ -1260,133 +1222,61 @@ function AvgMVPStat({
   );
 }
 
-// ─── InsightsPanel ────────────────────────────────────────────────────────────
+// ─── WorkInsightsPanel ────────────────────────────────────────────────────────
 
-export function InsightsPanel({
+export function WorkInsightsPanel({
   projects,
 }: {
   projects: ProjectFrontmatter[];
 }) {
-  const [isExpanded, setIsExpanded] = useState(true);
-  const [mounted, setMounted] = useState(false);
   const [animationKey, setAnimationKey] = useState(0);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const isAnimating = useRef(false);
-
   const insights = useMemo(() => computeInsights(projects), [projects]);
 
-  const subLabel = `${projects.length} project${projects.length !== 1 ? "s" : ""} across ${insights.uniqueIndustries} ${insights.uniqueIndustries !== 1 ? "industries" : "industry"}.`;
-
-  useEffect(() => {
-    setMounted(true);
-    if (window.innerWidth < 768 && contentRef.current) {
-      setIsExpanded(false);
-      contentRef.current.style.height = "0px";
-      contentRef.current.style.overflow = "hidden";
-    }
-  }, []);
-
-  const handleToggle = async () => {
-    if (isAnimating.current) return;
-    isAnimating.current = true;
-    const { default: gsap } = await import("gsap");
-    const el = contentRef.current;
-    if (!el) {
-      isAnimating.current = false;
-      return;
-    }
-
-    if (isExpanded) {
-      gsap.set(el, { height: el.scrollHeight, overflow: "hidden" });
-      gsap.to(el, {
-        height: 0,
-        duration: 0.4,
-        ease: "power2.inOut",
-        onComplete: () => {
-          isAnimating.current = false;
-        },
-      });
-    } else {
-      el.style.overflow = "hidden";
-      setAnimationKey((k) => k + 1);
-      gsap.to(el, {
-        height: "auto",
-        duration: 0.4,
-        ease: "power2.inOut",
-        onComplete: () => {
-          el.style.overflow = "";
-          isAnimating.current = false;
-        },
-      });
-    }
-    setIsExpanded((prev) => !prev);
-  };
-
   return (
-    <div className="bg-surface border-b border-border">
-      <div
-        className="max-w-container mx-auto px-margin-mob md:px-margin"
-        style={panelStyle}
-      >
-        {/* Toggle header */}
-        <button
-          onClick={handleToggle}
-          className="w-full flex items-center justify-between"
-          aria-expanded={isExpanded}
-        >
-          <span className="font-body font-medium text-sm text-accent uppercase tracking-[0.15em]">
-            {LABEL_WORK_INSIGHTS}
-          </span>
-          <span className="font-body font-medium text-sm accent-glow-pulse">
-            {isExpanded ? LABEL_HIDE : LABEL_SHOW}
-          </span>
-        </button>
+    <InsightsPanel
+      label={LABEL_WORK_INSIGHTS}
+      storageKey={STORAGE_WORK_INSIGHTS}
+      onExpand={() => setAnimationKey((k) => k + 1)}
+    >
+      {({ mounted }) =>
+        !mounted ? null : (
+          <>
+            {/* Row 1 — 3 columns */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-7">
+              <WaffleChart
+                industryCounts={insights.industryCounts}
+                total={insights.totalProjects}
+                animationKey={animationKey}
+              />
+              <CapabilityRadar
+                axes={insights.radarAxes}
+                animationKey={animationKey}
+              />
+              <NetworkGraph
+                nodes={insights.networkNodes}
+                links={insights.networkLinks}
+                linkCounts={insights.networkLinkCounts}
+                nodeProjectCounts={insights.networkNodeProjectCounts}
+                animationKey={animationKey}
+              />
+            </div>
 
-        {/* Collapsible body */}
-        <div ref={contentRef}>
-          <p className="font-body font-normal text-sm text-text-muted mt-3 mb-6">
-            {subLabel}
-          </p>
-
-          {mounted && (
-            <>
-              {/* Row 1 — 3 columns */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <WaffleChart
-                  industryCounts={insights.industryCounts}
-                  total={insights.totalProjects}
-                  animationKey={animationKey}
-                />
-                <CapabilityRadar
-                  axes={insights.radarAxes}
-                  animationKey={animationKey}
-                />
-                <NetworkGraph
-                  nodes={insights.networkNodes}
-                  links={insights.networkLinks}
-                  linkCounts={insights.networkLinkCounts}
-                  nodeProjectCounts={insights.networkNodeProjectCounts}
+            {/* Row 2 — treemap spans 2, stat spans 1 — desktop only */}
+            <div className="hidden md:grid grid-cols-3 gap-3 mt-3">
+              <div className="md:col-span-2">
+                <TechTreemap
+                  stackTree={insights.stackTree}
                   animationKey={animationKey}
                 />
               </div>
-
-              {/* Row 2 — treemap spans 2, stat spans 1 — desktop only */}
-              <div className="hidden md:grid grid-cols-3 gap-3 mt-3">
-                <div className="md:col-span-2">
-                  <TechTreemap
-                    stackTree={insights.stackTree}
-                    animationKey={animationKey}
-                  />
-                </div>
-                <AvgMVPStat
-                  avgMVP={insights.avgMVP}
-                  animationKey={animationKey}
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
+              <AvgMVPStat
+                avgMVP={insights.avgMVP}
+                animationKey={animationKey}
+              />
+            </div>
+          </>
+        )
+      }
+    </InsightsPanel>
   );
 }

@@ -17,6 +17,10 @@ export const TIMEZONE_STAVANGER = "Europe/Oslo";
 // Used as both the localStorage key and the DOM event name
 export const STYLEGUIDE_UNLOCK_KEY = "sc-styleguide-unlocked";
 
+// Insights panel toggle persistence
+export const STORAGE_WORK_INSIGHTS = "sc-work-insights";
+export const STORAGE_WRITING_INSIGHTS = "sc-writing-insights";
+
 // Identity
 export const SITE_OWNER = "Stephen Chiang";
 export const SITE_LOCATION = "Stavanger, Norway";

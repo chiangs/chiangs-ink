@@ -1,11 +1,10 @@
-// hooks.ts
-// Reusable React hooks shared across the site.
-
-import { useEffect, useState } from "react";
-import { TIMEZONE_STAVANGER } from "./constants";
-
+// useStavTime.ts
 // Returns the current Stavanger time as "HH:MM TZ" (e.g. "10:49 CET").
 // Updates every second.
+
+import { useEffect, useState } from "react";
+import { TIMEZONE_STAVANGER } from "~/lib/constants";
+
 export function useStavTime(): string {
   const [time, setTime] = useState("");
 
@@ -31,17 +30,4 @@ export function useStavTime(): string {
   }, []);
 
   return time;
-}
-
-// Returns true when the page has been scrolled past `threshold` pixels.
-export function useScrolled(threshold = 60): boolean {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > threshold);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [threshold]);
-
-  return scrolled;
 }

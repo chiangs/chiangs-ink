@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useReducer, useRef } from "react";
 import { useLoaderData } from "react-router";
 import { EmptyState, FilterDropdown, SearchIcon, WorkRow } from "~/components/common";
-import { InsightsPanel } from "~/components/work";
+import { WorkInsightsPanel } from "~/components/work";
 import { ITEM_STAGGER_S, SEARCH_INPUT_STYLE } from "~/lib/constants";
 import { Fuse } from "~/lib/fuse";
 import { getAllProjects } from "~/lib/mdx.server";
@@ -444,7 +444,7 @@ export default function WorkIndex() {
       </div>
 
       {/* Insights panel — always receives all projects, not filtered subset */}
-      <InsightsPanel projects={projects} />
+      <WorkInsightsPanel projects={projects} />
 
       {/* Control bar + active tags */}
       <div ref={controlBarRef}>

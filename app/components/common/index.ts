@@ -1,4 +1,5 @@
 export { ContactStrip } from "./ContactStrip";
+export { InsightsPanel } from "./InsightsPanel";
 export { EmptyState } from "./EmptyState";
 export { FilterDropdown } from "./FilterDropdown";
 export { SearchIcon } from "./SearchIcon";

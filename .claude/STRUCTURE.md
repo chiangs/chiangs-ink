@@ -40,6 +40,12 @@ chiangs-ink/
     │       ├── index.tsx             ← Writing index
     │       └── $slug.tsx             ← Article page template
     │
+    ├── hooks/                        ← Client-side React hooks (never imported server-side)
+    │   ├── index.ts                  ← Barrel re-export
+    │   ├── useScrolled.ts            ← Returns true when page scrolled past threshold
+    │   ├── useStavTime.ts            ← Live Stavanger time "HH:MM TZ", updates every second
+    │   └── useCountDown.ts           ← GSAP number countdown animation; re-runs on animationKey
+    │
     ├── components/
     │   ├── index.ts                  ← Barrel: re-exports CursorFollower + layout/*
     │   ├── CursorFollower.tsx        ← RAF-driven cursor dot + ripple (desktop only)
@@ -59,6 +65,38 @@ chiangs-ink/
     │   │   ├── AboutStrip.tsx        ← Bio strip with scroll animation
     │   │   └── ContactStrip.tsx      ← Contact CTA strip
     │   │
+    │   ├── about/
+    │   │   ├── index.ts              ← Barrel re-export
+    │   │   ├── Timeline.tsx          ← Career timeline section
+    │   │   ├── Industries.tsx        ← D3 world map — highlighted countries
+    │   │   ├── Skills.tsx            ← Skills grid
+    │   │   ├── LanguageList.tsx      ← Languages + tools list
+    │   │   └── ImageGrid.tsx         ← Photo grid (placeholder images)
+    │   │
+    │   ├── work/
+    │   │   ├── index.ts              ← Barrel re-export
+    │   │   └── WorkInsightsPanel.tsx ← Collapsible panel: WaffleChart, HeatmapRect,
+    │   │                               NetworkGraph, TechTreemap, AvgMVPStat
+    │   │                               Shell delegated to common/InsightsPanel
+    │   │
+    │   ├── writing/
+    │   │   ├── index.ts              ← Barrel re-export
+    │   │   └── WritingInsightsPanel.tsx ← Collapsible panel: topic bars, read time,
+    │   │                               WritingStreamgraph, avg read time countdown
+    │   │                               Shell delegated to common/InsightsPanel
+    │   │
+    │   ├── common/
+    │   │   ├── index.ts              ← Barrel re-export
+    │   │   ├── InsightsPanel.tsx     ← Collapsible panel shell — toggle button, GSAP
+    │   │   │                           height tween, onMount/onExpand/storageKey props
+    │   │   │                           Shared by WorkInsightsPanel + WritingInsightsPanel
+    │   │   ├── ContactStrip.tsx      ← Shared contact CTA strip
+    │   │   ├── FilterDropdown.tsx    ← Multi-select dropdown (Work + Writing indexes)
+    │   │   ├── SearchIcon.tsx        ← 14×14px SVG magnifier (shared)
+    │   │   ├── WorkRow.tsx           ← Single work project row
+    │   │   ├── WritingRow.tsx        ← Single writing article row
+    │   │   └── EmptyState.tsx        ← No-results state (Work + Writing indexes)
+    │   │
     │   ├── credentials/
     │   │   ├── index.ts              ← Barrel re-export
     │   │   ├── CredentialsBar.tsx    ← Identity + stats + status strip
@@ -69,14 +107,18 @@ chiangs-ink/
     │       └── TerminalIcon.tsx
     │
     ├── lib/
-    │   ├── constants.ts              ← Shared literals: nav links, keys, timing constants
+    │   ├── constants.ts              ← Shared literals: nav links, keys, timing constants,
+    │   │                               storage keys (STORAGE_WORK_INSIGHTS etc.)
     │   ├── utils.ts                  ← Pure utilities: formatDate, etc.
-    │   ├── hooks.ts                  ← Custom hooks: useScrolled, useStavTime
+    │   ├── storage.ts                ← SSR-safe localStorage utility (storage.get/set/getJSON/setJSON)
     │   ├── motion.ts                 ← GSAP animation functions (typed, return tweens)
     │   ├── ripple.ts                 ← Touch ripple effect for interactive rows
     │   ├── currently.ts              ← Currently drawer content data
     │   ├── styleguide.ts             ← Style guide drawer content data
-    │   └── mdx.server.ts             ← MDX loader utilities (server-only)
+    │   ├── mdx.server.ts             ← MDX loader utilities (server-only)
+    │   ├── visx.ts                   ← @visx/* static re-exports
+    │   ├── fuse.ts                   ← fuse.js static re-export
+    │   └── d3.ts                     ← async loadD3() + loadD3Force() loaders
     │
     └── types/
         └── content.ts                ← Frontmatter type definitions

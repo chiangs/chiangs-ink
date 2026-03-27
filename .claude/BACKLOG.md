@@ -138,8 +138,8 @@
 - [ ] **DESIGN.md sync**
       Update DESIGN.md after every significant
       build session per CLAUDE.md instructions.
-      Last updated: March 2026 (writing index page +
-      streamgraph + shared components complete)
+      Last updated: March 2026 (InsightsPanel refactor +
+      useCountDown hook + avg read time animation)
 
 ---
 
@@ -174,8 +174,22 @@
 - [x] About page — desktop + mobile
 - [x] Work index page — with insights panel,
       search, filters, visualisations
+- [x] Work insights animations — treemap left-to-right stagger,
+      waffle diagonal wave, network graph nodes/links,
+      avg MVP countdown, animationKey restart pattern,
+      accent glow pulse on toggle
 - [x] Writing index page — with streamgraph insights panel,
       search, filters, 3-digit ghost numbers
+- [x] Writing insights animations — streamgraph re-animates
+      on expand, collapse bug fixed, accent glow pulse on toggle
+- [x] InsightsPanel refactor — common shell extracted to
+      common/InsightsPanel.tsx (toggle, GSAP height tween,
+      onMount/onExpand callbacks); WorkInsightsPanel and
+      WritingInsightsPanel use render-prop pattern
+- [x] WorkInsightsPanel renamed (file + component + barrel)
+- [x] useCountDown hook — ~/lib/hooks.ts; replaces inline
+      countdown logic in AvgMVPStat and WritingInsightsPanel
+- [x] Avg read time animation — countdown on mount + re-expand
 - [x] Nav order: ABOUT · WORK · WRITING · CONTACT
 - [x] Easter eggs — Currently drawer,
       Style Guide drawer

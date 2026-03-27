@@ -6,7 +6,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { NAV_LINKS, ITEM_STAGGER_S } from "~/lib/constants";
-import { useScrolled, useStavTime } from "~/lib/hooks";
+import { useScrolled, useStavTime } from "~/hooks";
 
 // Copy constants
 const MONOGRAM_DESKTOP = "S.CHIANG";

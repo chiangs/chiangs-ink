@@ -368,11 +368,23 @@ WORK INDEX PAGE (routes/work/index.tsx)
     Inner content: max-w-container mx-auto px-margin-mob md:px-margin
     Padding: 32px vertical
     Toggle row: "WORK INSIGHTS" label (#FFB77D, Manrope 500, 11px,
-                uppercase, ls 0.15em) + "Hide ↑"/"Show ↓" (#737371)
+                uppercase, ls 0.15em) + "Hide ↑"/"Show ↓"
+    Toggle button "Hide ↑"/"Show ↓" text:
+                accent-glow-pulse CSS animation (see Motion System)
+                Pulses between #737371 (muted) and #FFB77D (accent)
+                with text-shadow glow, 2.4s ease-in-out infinite
     Sub-label: "N projects across X industries."
                Manrope 400, 12px, #737371
     Default: expanded (desktop), collapsed (mobile)
-    Collapse: GSAP height tween 0.4s
+    Collapse/expand: GSAP height tween 0.4s power2.inOut
+      Collapse: gsap.set height=scrollHeight, overflow=hidden,
+                then gsap.to height=0
+      Expand:   set overflow=hidden, then gsap.to height=auto,
+                clear overflow on complete
+    isAnimating guard: ref prevents double-tap during tween
+    animationKey: integer state incremented on every expand —
+                  passed as prop to all child visualisations so
+                  they restart animations each time panel opens
     Always receives ALL projects (not filtered subset)
     Layout — 3-column × 2-row grid:
       Row 1, Col 1: INDUSTRY PROPORTION — Waffle chart
@@ -380,6 +392,8 @@ WORK INDEX PAGE (routes/work/index.tsx)
         Cell: 14×14px, 2px gap, 0px radius
         Colors: industry-mapped to accent scale
         Legend: below chart, color swatch + name + %
+        Animation: diagonal wave bottom-left → upper-right
+          (see Motion System → WaffleChart)
       Row 1, Col 2: PROJECT ACTIVITY — Calendar heatmap
         @visx/heatmap HeatmapRect
         Years (columns) × Months (rows)
@@ -392,15 +406,21 @@ WORK INDEX PAGE (routes/work/index.tsx)
         Simulation: frozen after 200 ticks (simulation.stop()
           before tick loop — CRITICAL for performance)
         No continuous animation — static layout after init
+        Animation: links fade in, nodes pop in with scale
+          (see Motion System → NetworkGraph)
       Row 2, Col 1–2 (span-2): TECH STACK — Treemap
         @visx/hierarchy Treemap + treemapSquarify
         d3.hierarchy for data structure
         Height: 200px fixed
         Cells labeled with tech name, #FFB77D if count≥2
+        Animation: stagger left-to-right by x-position
+          (see Motion System → TechTreemap)
       Row 2, Col 3: AVG. TIME TO MVP — Stat
         Number: Space Grotesk 700, 48px, #FFB77D
         Sub-label: "months to MVP" — Manrope 400, 14px, #737371
         Computed from metrics where label contains "month" or "MVP"
+        Animation: counts DOWN from ~3× the real value to the real
+          value (see Motion System → AvgMVPStat)
     All charts: bg #131313 cells, 20px cell padding
     Chart labels: Manrope 500, 10px, #737371
     SSR guard: mounted state (useState + useEffect) — all charts
@@ -485,10 +505,17 @@ WRITING INDEX PAGE (routes/writing/index.tsx)
     Inner content: max-w-container mx-auto px-margin-mob md:px-margin
     Padding:      32px vertical
     Toggle row:   "WRITING INSIGHTS" label + "Hide ↑"/"Show ↓"
+    Toggle button "Hide ↑"/"Show ↓" text:
+                  accent-glow-pulse CSS animation (see Motion System)
+                  Identical treatment to Work InsightsPanel toggle
     Sub-label:    "N articles. Writing focus over time."
                   Manrope 400, 12px, #737371
     Default:      expanded (desktop), collapsed (mobile)
-    Collapse:     GSAP height tween 0.4s
+    Collapse/expand: GSAP height tween 0.4s power2.inOut
+      Same pattern as Work InsightsPanel — gsap.set + gsap.to,
+      overflow managed, isAnimating guard ref
+    animationKey: integer state incremented on expand —
+                  passed to WritingStreamgraph to restart animation
     Always receives ALL articles (not filtered subset)
     Content:      WritingStreamgraph (see below)
     Insufficient data guard: return null when < 2 quarters OR < 4 articles
@@ -822,7 +849,7 @@ WORK INDEX — Header pattern reveal (on page load):
   Delay:        0.2s before timeline starts
   Guard:        typeof window !== 'undefined'
 
-WRITING INDEX — Streamgraph animation (on mount, client-side only):
+WRITING INDEX — Streamgraph animation (on mount + on expand, client-side only):
   Technique 1 — Clip scan reveal:
     SVG <clipPath> containing a <rect> with width animated 0 → full width
     AreaStack Group wrapped in clipPath="url(#stream-chart-clip)"
@@ -834,8 +861,74 @@ WRITING INDEX — Streamgraph animation (on mount, client-side only):
     gsap.set: opacity 0, y: 6
     gsap.to: opacity 1, y: 0, duration 0.7s, stagger 0.12s,
              ease power2.out, delay 0.1s
+  Re-animation: animationKey prop — animation useEffect depends on
+                animationKey, so every panel expand triggers a fresh run
   Guard: isMounted flag + typeof window !== 'undefined'
-  Cleanup: tl.kill() in useEffect return
+  Cleanup: tweens array — forEach t.kill() in useEffect return
+
+WORK INDEX — InsightsPanel chart animations (GSAP, client-side only):
+  All charts re-animate every time the panel is expanded.
+  Pattern: animationKey integer prop incremented on expand,
+           each chart useEffect depends on animationKey.
+  Guard: isMounted flag + typeof window !== 'undefined'
+  Cleanup: tweens array — forEach t.kill() in useEffect return
+
+  TechTreemap (left-to-right stagger by x-position):
+    Target:   [data-treemap-x] leaf cell <rect> elements
+    Sort:     Sorted ascending by data-treemap-x attr value
+    Initial:  opacity 0, scaleY 0, transformOrigin "50% 100%"
+    Animate:  opacity 1, scaleY 1, ease back.out(1.4)
+    Stagger:  stagger: { amount: 0.6s } distributed across all cells
+    Delay:    0.1s
+
+  WaffleChart (diagonal wave, bottom-left → upper-right):
+    Grid:     10 × 10 (WAFFLE_COLS × WAFFLE_ROWS)
+    Key:      data-diagonal={col + (WAFFLE_ROWS - 1 - row)} on each <rect>
+              Bottom-left cell has highest key, top-right has lowest —
+              sorting by key ascending = bottom-left → upper-right order
+    Target:   [data-diagonal] <rect> elements sorted by attr value
+    Initial:  opacity 0, scale 0, transformOrigin "50% 50%"
+    Animate:  opacity 1, scale 1, ease back.out(1.4)
+    Stagger:  stagger: { amount: 0.8s } distributed across all cells
+    Delay:    0.15s
+    Complete: clearProps "opacity,transform,transformOrigin" restores
+              SVG attribute-based hover dimming
+    Note:     clearProps is critical — GSAP inline style.opacity would
+              mask the SVG opacity attribute used for hover dim effect
+
+  NetworkGraph (links fade + nodes scale in):
+    Links:    [data-network-link] <line> elements
+              gsap.fromTo opacity: 0 → 0.5, duration 0.4s, stagger 0.03s
+    Nodes:    Inner [data-network-node] <g> wrapper inside outer
+              translate <g> — outer handles position, inner handles scale
+              gsap.fromTo scale: 0 → 1, opacity: 0 → 1
+              ease back.out(1.4), duration 0.4s, stagger 0.04s, delay 0.2s
+              svgOrigin "0 0" / transformOrigin "0px 0px"
+    Re-animation guard: lastAnimatedKey ref (not hasAnimated bool)
+              Animates when lastAnimatedKey.current !== animationKey
+              Prevents resize from re-triggering animation while
+              still allowing expand to re-trigger it
+
+  AvgMVPStat (count-down number animation):
+    Start:    Math.ceil(avgMVP * 3) — approximately 3× the real value
+    End:      avgMVP — the real computed value
+    Object:   const counter = { value: start }
+              gsap.to(counter, { value: end, ... })
+    Update:   onUpdate sets display state to Math.round(counter.value)
+    Duration: 1.2s, ease power2.out
+    Hydration: useState initialized with finalDisplay (real value)
+               to match SSR; useEffect resets to start then animates
+    Cleanup:  tween ref — tween?.kill() in useEffect return
+
+ACCENT GLOW PULSE (toggle button — both InsightsPanels):
+  Target:   "Hide ↑" / "Show ↓" <span> in both InsightsPanel
+            and WritingInsightsPanel toggle buttons
+  Class:    .accent-glow-pulse (in app/app.css)
+  Keyframes: @keyframes accent-glow-pulse
+    0%/100%: color var(--color-text-muted), text-shadow: none
+    50%:     color var(--color-accent), text-shadow: 0 0 12px rgba(255,183,125,0.5)
+  Duration: 2.4s, ease-in-out, infinite
+  Implementation: pure CSS — no GSAP
 
 CURSOR FOLLOWER (desktop only):
   Behaviour:    Hybrid — native cursor visible everywhere
