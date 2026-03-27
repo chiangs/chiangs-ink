@@ -72,7 +72,7 @@ const avgValueStyle: React.CSSProperties = {
   lineHeight: 1,
   fontFamily: "var(--font-display)",
   fontWeight: 700,
-  background: "var(--gradient-viz)",
+  background: "var(--gradient-viz-cool)",
   WebkitBackgroundClip: "text",
   backgroundClip: "text",
   WebkitTextFillColor: "transparent",
@@ -94,6 +94,7 @@ const tooltipBaseStyle: React.CSSProperties = {
   zIndex: 10,
   maxWidth: 180,
 };
+const treemapLeafInitialStyle: React.CSSProperties = { opacity: 0 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -233,6 +234,48 @@ function WaffleChart({
   total: number;
 }) {
   const [hoveredIndustry, setHoveredIndustry] = useState<string | null>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let isMounted = true;
+
+    const run = async () => {
+      const { default: gsap } = await import("gsap");
+      if (!isMounted) return;
+
+      const rects = Array.from(
+        svgRef.current?.querySelectorAll("[data-diagonal]") ?? [],
+      ) as SVGRectElement[];
+      if (!rects.length) return;
+
+      rects.forEach((rect) => {
+        const diagonal = parseInt(rect.dataset.diagonal ?? "0", 10);
+        const delay = diagonal * 0.04;
+        gsap.fromTo(
+          rect,
+          { scale: 0, opacity: 0, transformOrigin: "50% 50%" },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.35,
+            delay,
+            ease: "back.out(1.4)",
+            onComplete: () => {
+              gsap.set(rect, {
+                clearProps: "opacity,transform,transformOrigin",
+              });
+            },
+          },
+        );
+      });
+    };
+
+    run();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const { cells, cellInfo } = useMemo(() => {
     const filledCells = new Array<string>(WAFFLE_TOTAL).fill(
@@ -263,6 +306,7 @@ function WaffleChart({
       </p>
       <div className="flex gap-4 items-start">
         <svg
+          ref={svgRef}
           viewBox={`0 0 ${WAFFLE_SVG} ${WAFFLE_SVG}`}
           width={WAFFLE_SVG}
           height={WAFFLE_SVG}
@@ -287,6 +331,7 @@ function WaffleChart({
                 height={WAFFLE_CELL}
                 fill={color}
                 opacity={isDimmed ? 0.2 : 1}
+                data-diagonal={col + (WAFFLE_ROWS - 1 - row)}
                 style={{ cursor: "default", transition: "opacity 0.15s" }}
                 onMouseEnter={() => {
                   if (cellInfo[i]) setHoveredIndustry(cellInfo[i]);
@@ -924,7 +969,48 @@ function TechTreemap({
   stackTree: { name: string; children: { name: string; value: number }[] }[];
 }) {
   const { parentRef, width } = useParentSize({ debounceTime: 100 });
+  const svgRef = useRef<SVGSVGElement | null>(null);
   const HEIGHT = 150;
+
+  useEffect(() => {
+    if (!width || !stackTree.length) return;
+    let isMounted = true;
+
+    const run = async () => {
+      const { default: gsap } = await import("gsap");
+      if (!isMounted) return;
+
+      const cells = Array.from(
+        svgRef.current?.querySelectorAll("[data-treemap-x]") ?? [],
+      ) as SVGGElement[];
+      if (!cells.length) return;
+
+      cells.sort(
+        (a, b) =>
+          parseFloat(a.dataset.treemapX ?? "0") -
+          parseFloat(b.dataset.treemapX ?? "0"),
+      );
+
+      const maxX = Math.max(
+        ...cells.map((c) => parseFloat(c.dataset.treemapX ?? "0")),
+      );
+
+      cells.forEach((cell) => {
+        const cellX = parseFloat(cell.dataset.treemapX ?? "0");
+        const delay = (cellX / Math.max(maxX, 1)) * 0.5;
+        gsap.fromTo(
+          cell,
+          { opacity: 0, y: 5 },
+          { opacity: 1, y: 0, duration: 0.4, delay, ease: "power2.out" },
+        );
+      });
+    };
+
+    run();
+    return () => {
+      isMounted = false;
+    };
+  }, [width, stackTree.length]);
 
   if (!stackTree.length) return null;
 
@@ -964,7 +1050,7 @@ function TechTreemap({
             round
           >
             {(treemap) => (
-              <svg width={width} height={HEIGHT}>
+              <svg ref={svgRef} width={width} height={HEIGHT}>
                 {treemap
                   .descendants()
                   .filter((n) => n.depth > 0)
@@ -979,7 +1065,11 @@ function TechTreemap({
                       ? "#1e1e1e"
                       : (groupColors[node.data?.name ?? ""] ?? "#2a2a2a");
                     return (
-                      <g key={`treemap-${i}`}>
+                      <g
+                        key={`treemap-${i}`}
+                        data-treemap-x={isLeaf ? x : undefined}
+                        style={isLeaf ? treemapLeafInitialStyle : undefined}
+                      >
                         <rect
                           x={x + 1}
                           y={y + 1}
@@ -1033,7 +1123,7 @@ function AvgMVPStat({ avgMVP }: { avgMVP: number | null }) {
   return (
     <div style={cellStyle} className="flex flex-col justify-between h-full">
       <ChartLabel>{LABEL_AVG_MVP}</ChartLabel>
-      <div className="flex flex-col justify-center flex-1">
+      <div className="flex flex-col justify-center items-center flex-1">
         <span style={avgValueStyle}>{displayValue}</span>
         <span className="font-body font-normal text-sm text-text-muted block mt-2">
           {LABEL_MONTHS_TO_MVP}

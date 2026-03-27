@@ -35,6 +35,8 @@
 
     /* Visualization gradient — flows through solid stream colors */
     --gradient-viz: linear-gradient(135deg, #F472B6, #A78BFA, #34D399, #FF9A3C, #00E5C7, #4DA6FF);
+    --gradient-viz-cool: linear-gradient(135deg, #4DA6FF, #00E5C7, #34D399, #4DA6FF);
+    --gradient-viz-hot: linear-gradient(135deg, #F472B6, #A78BFA, #FF9A3C, #F472B6);
 
     /* Typography — Space Grotesk + Manrope */
     --font-display: "Space Grotesk", sans-serif;
