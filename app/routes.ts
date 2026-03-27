@@ -9,5 +9,6 @@ export default [
     route("writing", "routes/writing/index.tsx"),
     route("writing/:slug", "routes/writing/$slug.tsx"),
     route("contact", "routes/contact.tsx"),
+    route("*", "routes/not-found.tsx"),
   ]),
 ] satisfies RouteConfig;
