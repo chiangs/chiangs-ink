@@ -25,11 +25,16 @@
     --gradient-accent: linear-gradient(135deg, #FFB77D, #D97707);
 
     /* Visualization palette — used sparingly in data viz contexts */
-    --color-viz-teal: #2DD4BF;
-    --color-viz-blue: #60A5FA;
+    /* Matches STREAM_COLORS in WritingInsightsPanel.tsx */
+    --color-viz-orange: #FF9A3C;
+    --color-viz-teal: #00E5C7;
+    --color-viz-blue: #4DA6FF;
     --color-viz-pink: #F472B6;
     --color-viz-purple: #A78BFA;
     --color-viz-green: #34D399;
+
+    /* Visualization gradient — flows through solid stream colors */
+    --gradient-viz: linear-gradient(135deg, #F472B6, #A78BFA, #34D399, #FF9A3C, #00E5C7, #4DA6FF);
 
     /* Typography — Space Grotesk + Manrope */
     --font-display: "Space Grotesk", sans-serif;
@@ -275,14 +280,12 @@ html {
     left: 0;
     right: 0;
     height: 120px;
-    background: linear-gradient(
-        to bottom,
-        #131313 0%,
-        #131313 40%,
-        rgba(19, 19, 19, 0.85) 60%,
-        rgba(19, 19, 19, 0.4) 80%,
-        transparent 100%
-    );
+    background: linear-gradient(to bottom,
+            #131313 0%,
+            #131313 40%,
+            rgba(19, 19, 19, 0.85) 60%,
+            rgba(19, 19, 19, 0.4) 80%,
+            transparent 100%);
     z-index: 4;
     pointer-events: none;
 }
@@ -503,6 +506,7 @@ html {
 /* ─── Drawers ───────────────────────────────────── */
 
 @media (max-width: 768px) {
+
     .style-guide-drawer,
     .currently-drawer {
         width: 100vw !important;

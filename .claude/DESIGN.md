@@ -67,15 +67,23 @@ decisions take precedence. Stitch's superior principles
 --color-hover-surface:    #1e1e1e   /* Work row hover background */
 
 VISUALIZATION PALETTE (used sparingly in charts only — not UI chrome):
-  --color-viz-orange:  #FF9A3C   /* Solid stream 1 — primary accent */
+  --color-viz-orange:  #FF9A3C   /* Solid stream 1 — primary */
   --color-viz-teal:    #00E5C7   /* Solid stream 2 */
   --color-viz-blue:    #4DA6FF   /* Solid stream 3 */
   --color-viz-pink:    #F472B6   /* Patterned stream 4 */
   --color-viz-purple:  #A78BFA   /* Patterned stream 5 */
   --color-viz-green:   #34D399   /* Patterned stream 6 */
+  These values are canonical — STREAM_COLORS in WritingInsightsPanel.tsx
+  must stay in sync with these tokens.
   Defined in app.css @theme. Import as Tailwind class or CSS var.
   Rule: do not use viz palette colors in UI chrome, buttons, or text.
-        They are reserved for data visualization fills only.
+        Exception: --gradient-viz may be used as a text gradient on
+        key stat values (e.g. Avg. Time to MVP in InsightsPanel).
+
+  VISUALIZATION GRADIENT:
+  --gradient-viz: linear-gradient(90deg, #FF9A3C, #00E5C7, #4DA6FF)
+  Used on: Avg. Time to MVP number value in InsightsPanel
+  Applied as: background-clip text fill (WebkitTextFillColor: transparent)
 
 ACCENT GRADIENT (Stitch's "Copper Lead" — for primary CTAs):
   background: linear-gradient(135deg, #FFB77D, #D97707)

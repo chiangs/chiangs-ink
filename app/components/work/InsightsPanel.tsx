@@ -1,5 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { hierarchy, Treemap, treemapSquarify, Group, useParentSize } from "~/lib/visx";
+import {
+  hierarchy,
+  Treemap,
+  treemapSquarify,
+  Group,
+  useParentSize,
+} from "~/lib/visx";
 import { loadD3Force } from "~/lib/d3";
 import type { ProjectFrontmatter } from "~/types/content";
 
@@ -21,8 +27,7 @@ const LABEL_TECH_STACK_SUB =
   "Sized by frequency · Copper = used across multiple projects";
 const LABEL_AVG_MVP = "AVG. TIME TO MVP";
 const LABEL_MONTHS_TO_MVP = "months to MVP";
-const LABEL_NETWORK_EMPTY =
-  "Add more projects to reveal work connections.";
+const LABEL_NETWORK_EMPTY = "Add more projects to reveal work connections.";
 
 // ─── Industry colour map ──────────────────────────────────────────────────────
 
@@ -62,12 +67,15 @@ const NETWORK_LABEL_MAX = 14;
 
 const panelStyle = { paddingTop: "32px", paddingBottom: "32px" };
 const cellStyle = { padding: "20px", background: "#131313" };
-const avgValueStyle = {
-  fontSize: "48px",
+const avgValueStyle: React.CSSProperties = {
+  fontSize: "64px",
   lineHeight: 1,
-  color: "var(--color-accent)",
   fontFamily: "var(--font-display)",
   fontWeight: 700,
+  background: "var(--gradient-viz)",
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
+  WebkitTextFillColor: "transparent",
 };
 const networkLegendStyle: React.CSSProperties = {
   position: "absolute",
@@ -129,11 +137,13 @@ function computeInsights(projects: ProjectFrontmatter[]): InsightData {
     for (const sol of sols) {
       rawSolutionType[sol] = (rawSolutionType[sol] ?? 0) + 1;
       solSet.add(`sol:${sol}`);
-      nodeProjectCounts[`sol:${sol}`] = (nodeProjectCounts[`sol:${sol}`] ?? 0) + 1;
+      nodeProjectCounts[`sol:${sol}`] =
+        (nodeProjectCounts[`sol:${sol}`] ?? 0) + 1;
     }
     for (const role of roles) {
       roleSet.add(`role:${role}`);
-      nodeProjectCounts[`role:${role}`] = (nodeProjectCounts[`role:${role}`] ?? 0) + 1;
+      nodeProjectCounts[`role:${role}`] =
+        (nodeProjectCounts[`role:${role}`] ?? 0) + 1;
     }
     for (const sol of sols) {
       for (const role of roles) {
@@ -379,12 +389,18 @@ function CapabilityRadar({
             delay: i * 0.04,
             ease: "power2.out",
             onComplete: () => {
-              if (i !== lines.length - 1 || !isMounted || !polygonRef.current) return;
+              if (i !== lines.length - 1 || !isMounted || !polygonRef.current)
+                return;
               // Polygon scales in after last axis finishes
               gsap.fromTo(
                 polygonRef.current,
                 { scale: 0 },
-                { scale: 1, duration: 0.6, ease: "power2.out", transformOrigin: `${cx}px ${cy}px` },
+                {
+                  scale: 1,
+                  duration: 0.6,
+                  ease: "power2.out",
+                  transformOrigin: `${cx}px ${cy}px`,
+                },
               );
             },
           },
@@ -393,7 +409,9 @@ function CapabilityRadar({
     };
 
     run();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, n, cx, cy, outerR, isEmpty]);
 
@@ -407,11 +425,14 @@ function CapabilityRadar({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hoveredIdx, axes, cx, cy, outerR, maxVal]);
 
-  const tooltipStyle = useMemo((): React.CSSProperties => ({
-    ...tooltipBaseStyle,
-    left: tooltipData?.x ?? 0,
-    top: tooltipData?.y ?? 0,
-  }), [tooltipData]);
+  const tooltipStyle = useMemo(
+    (): React.CSSProperties => ({
+      ...tooltipBaseStyle,
+      left: tooltipData?.x ?? 0,
+      top: tooltipData?.y ?? 0,
+    }),
+    [tooltipData],
+  );
 
   // text-anchor based on position around the circle
   const labelAnchor = (i: number): "start" | "end" | "middle" => {
@@ -478,7 +499,9 @@ function CapabilityRadar({
                     return (
                       <line
                         key={i}
-                        ref={(el) => { axisRefs.current[i] = el; }}
+                        ref={(el) => {
+                          axisRefs.current[i] = el;
+                        }}
                         x1={cx}
                         y1={cy}
                         x2={outer.x}
@@ -534,7 +557,11 @@ function CapabilityRadar({
                         fill="#5a5a58"
                       >
                         {words.map((word, wi) => (
-                          <tspan key={wi} x={pt.x} dy={wi === 0 ? 0 : RADAR_LINE_HEIGHT}>
+                          <tspan
+                            key={wi}
+                            x={pt.x}
+                            dy={wi === 0 ? 0 : RADAR_LINE_HEIGHT}
+                          >
                             {word}
                           </tspan>
                         ))}
@@ -551,7 +578,8 @@ function CapabilityRadar({
                     {tooltipData.label}
                   </div>
                   <div className="font-body font-normal text-sm text-text-muted mt-0.5">
-                    {tooltipData.value} project{tooltipData.value !== 1 ? "s" : ""}
+                    {tooltipData.value} project
+                    {tooltipData.value !== 1 ? "s" : ""}
                   </div>
                 </div>
               )}
@@ -575,8 +603,12 @@ type LinkDatum = { source: string; target: string };
 
 type PositionedNode = { id: string; x: number; y: number; type: string };
 type PositionedLink = {
-  x1: number; y1: number; x2: number; y2: number;
-  sourceId: string; targetId: string;
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  sourceId: string;
+  targetId: string;
 };
 
 function truncateLabel(text: string): string {
@@ -616,8 +648,13 @@ function NetworkGraph({
     let isMounted = true;
 
     const run = async () => {
-      const { forceSimulation, forceLink, forceManyBody, forceCenter, forceCollide } =
-        await loadD3Force();
+      const {
+        forceSimulation,
+        forceLink,
+        forceManyBody,
+        forceCenter,
+        forceCollide,
+      } = await loadD3Force();
       if (!isMounted) return;
 
       const nodesCopy: (NodeDatum & { x: number; y: number })[] = rawNodes.map(
@@ -653,8 +690,10 @@ function NetworkGraph({
           const dist = Math.sqrt(dx * dx + dy * dy) || 1;
           if (dist < legendRepelR) {
             const f = ((legendRepelR - dist) / legendRepelR) * alpha * 2;
-            (node as { vx?: number }).vx = ((node as { vx?: number }).vx ?? 0) + (dx / dist) * f;
-            (node as { vy?: number }).vy = ((node as { vy?: number }).vy ?? 0) + (dy / dist) * f;
+            (node as { vx?: number }).vx =
+              ((node as { vx?: number }).vx ?? 0) + (dx / dist) * f;
+            (node as { vy?: number }).vy =
+              ((node as { vy?: number }).vy ?? 0) + (dy / dist) * f;
           }
         }
       };
@@ -668,7 +707,12 @@ function NetworkGraph({
         )
         .force("charge", forceManyBody().strength(-120))
         .force("center", forceCenter(width * 0.44, NETWORK_HEIGHT / 2 + 8))
-        .force("collide", forceCollide().radius(collideRadius as never).strength(0.8))
+        .force(
+          "collide",
+          forceCollide()
+            .radius(collideRadius as never)
+            .strength(0.8),
+        )
         .force("legendRepel", legendRepelForce as never)
         .stop();
 
@@ -686,7 +730,10 @@ function NetworkGraph({
         nodes: nodesCopy.map((n) => ({
           id: n.id,
           x: Math.max(PAD_X, Math.min(width - PAD_X, n.x ?? 0)),
-          y: Math.max(PAD_Y_TOP, Math.min(NETWORK_HEIGHT - PAD_Y_BOT, n.y ?? 0)),
+          y: Math.max(
+            PAD_Y_TOP,
+            Math.min(NETWORK_HEIGHT - PAD_Y_BOT, n.y ?? 0),
+          ),
           type: n.type,
         })),
         links: linksCopy.map((l) => ({
@@ -701,7 +748,9 @@ function NetworkGraph({
     };
 
     run();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, [width, rawNodes, rawLinks]);
 
   const edgeCount = (l: PositionedLink) => {
@@ -748,7 +797,11 @@ function NetworkGraph({
       ) : (
         <div
           ref={parentRef as React.RefObject<HTMLDivElement>}
-          style={{ height: NETWORK_HEIGHT, position: "relative", overflow: "hidden" }}
+          style={{
+            height: NETWORK_HEIGHT,
+            position: "relative",
+            overflow: "hidden",
+          }}
         >
           {positions && width > 0 && (
             <>
