@@ -1337,7 +1337,7 @@ export function InsightsPanel({
           <span className="font-body font-medium text-sm text-accent uppercase tracking-[0.15em]">
             {LABEL_WORK_INSIGHTS}
           </span>
-          <span className="font-body font-medium text-sm text-text-muted">
+          <span className="font-body font-medium text-sm accent-glow-pulse">
             {isExpanded ? LABEL_HIDE : LABEL_SHOW}
           </span>
         </button>

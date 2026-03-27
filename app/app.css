@@ -566,3 +566,21 @@ html {
     display: inline-block;
     animation: arrow-pulse 1.8s ease-in-out infinite;
 }
+
+@keyframes accent-glow-pulse {
+
+    0%,
+    100% {
+        color: var(--color-text-muted);
+        text-shadow: none;
+    }
+
+    50% {
+        color: var(--color-accent);
+        text-shadow: 0 0 12px rgba(255, 183, 125, 0.5);
+    }
+}
+
+.accent-glow-pulse {
+    animation: accent-glow-pulse 2.4s ease-in-out infinite;
+}
