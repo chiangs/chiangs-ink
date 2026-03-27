@@ -503,15 +503,18 @@ export function WritingInsightsPanel({
     const { default: gsap } = await import("gsap");
     if (!isExpanded) {
       setIsExpanded(true);
+      el.style.overflow = "hidden";
       gsap.to(el, {
         height: "auto",
         duration: 0.4,
         ease: "power2.out",
         onComplete: () => {
+          el.style.overflow = "";
           isAnimating.current = false;
         },
       });
     } else {
+      gsap.set(el, { height: el.scrollHeight, overflow: "hidden" });
       gsap.to(el, {
         height: 0,
         duration: 0.3,
