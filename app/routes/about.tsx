@@ -4,7 +4,14 @@
 // Mobile: horizontal pill nav sticky below main nav
 
 import { useEffect, useState } from "react";
-import { SITE_OWNER, SITE_LOCATION } from "~/lib/constants";
+import type { MetaFunction } from "react-router";
+import {
+  SITE_OWNER,
+  SITE_LOCATION,
+  SITE_URL,
+  LINKEDIN_URL,
+  GITHUB_URL,
+} from "~/lib/constants";
 import { ContactStrip } from "~/components/common";
 import {
   Timeline,
@@ -19,10 +26,82 @@ import {
 const META_TITLE = "About — Stephen Chiang";
 const META_DESC =
   "Senior technology and product leader at the intersection of design, engineering, and data. 20+ years. 9 industries. 6 countries. Based in Stavanger, Norway.";
+const META_URL = `${SITE_URL}/about`;
+const OG_IMAGE = `${SITE_URL}/og-image.png`;
+const OG_IMAGE_ALT =
+  "Stephen Chiang — Design Technologist & Technology Leader";
 
-export function meta() {
-  return [{ title: META_TITLE }, { name: "description", content: META_DESC }];
-}
+/*
+ * About page meta layer
+ * 1. Core SEO       — title, description, author, robots, canonical
+ * 2. Open Graph     — og:type, og:url, og:title, og:description, og:image,
+ *                     og:site_name, og:locale
+ * 3. Social cards   — twitter:card/title/description/image
+ *                     (parsed by LinkedIn, Slack, iMessage, and others)
+ * 4. Structured data — Person JSON-LD emphasising biography, career arc,
+ *                     geographic reach, and identity over skills/services
+ *
+ * Not in this function (already in root.tsx):
+ *   - lang="en" belongs on <html> in root.tsx
+ *   - viewport meta is in root.tsx
+ */
+export const meta: MetaFunction = () => [
+  // ── 1. Core SEO ─────────────────────────────────────────────────────────
+  { title: META_TITLE },
+  { name: "description", content: META_DESC },
+  { name: "author", content: "Stephen Chiang" },
+  { name: "robots", content: "index, follow" },
+  { tagName: "link", rel: "canonical", href: META_URL },
+
+  // ── 2. Open Graph ────────────────────────────────────────────────────────
+  { property: "og:type", content: "profile" },
+  { property: "og:url", content: META_URL },
+  { property: "og:title", content: META_TITLE },
+  { property: "og:description", content: META_DESC },
+  { property: "og:image", content: OG_IMAGE },
+  { property: "og:image:width", content: "1200" },
+  { property: "og:image:height", content: "630" },
+  { property: "og:image:alt", content: OG_IMAGE_ALT },
+  { property: "og:site_name", content: "Stephen Chiang" },
+  { property: "og:locale", content: "en_US" },
+  // og:profile fields
+  { property: "profile:first_name", content: "Stephen" },
+  { property: "profile:last_name", content: "Chiang" },
+
+  // ── 3. Social cards (parsed by LinkedIn, Slack, iMessage, and others) ───
+  { name: "twitter:card", content: "summary_large_image" },
+  { name: "twitter:title", content: META_TITLE },
+  { name: "twitter:description", content: META_DESC },
+  { name: "twitter:image", content: OG_IMAGE },
+  { name: "twitter:image:alt", content: OG_IMAGE_ALT },
+
+  // ── 4. Structured data — Person, biographical emphasis ───────────────────
+  {
+    "script:ld+json": {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Stephen Chiang",
+      jobTitle: "Design Technologist / Product & Technology Leader",
+      description:
+        "Senior technology and product leader with 20+ years spanning frontend engineering, design systems, human-machine interfaces, and AI integration. Former US Army Special Operations officer — 14 years of leadership across high-stakes, multifunctional environments. Has delivered across 9 industries and 8 countries.",
+      url: META_URL,
+      sameAs: [LINKEDIN_URL, GITHUB_URL],
+      nationality: "American",
+      homeLocation: { "@type": "Place", name: "Stavanger, Norway" },
+      workLocation: { "@type": "Place", name: "Stavanger, Norway" },
+      alumniOf: {
+        "@type": "Organization",
+        name: "United States Army Special Operations Command",
+      },
+      hasOccupation: {
+        "@type": "Occupation",
+        name: "Design Technologist",
+        description:
+          "Integrates design, data, and technology as a single practice — leading teams, shaping product strategy, and building enterprise software across global engagements.",
+      },
+    },
+  },
+];
 
 // ── Sidebar / nav ─────────────────────────────────────────────────
 

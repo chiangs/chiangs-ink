@@ -9,10 +9,12 @@ import {
   STYLEGUIDE_UNLOCK_KEY,
   SITE_OWNER,
   LINKEDIN_URL,
+  GITHUB_URL,
 } from "~/lib/constants";
 
 const EASTER_EGG_TEXT = "This site has secrets. Explore to find them.";
 const LABEL_STYLE_GUIDE = "Style Guide ↗";
+const LABEL_GITHUB = "GitHub";
 const LABEL_LINKEDIN = "LinkedIn";
 
 interface FooterProps {
@@ -71,6 +73,7 @@ export function Footer({ onOpenStyleGuide }: FooterProps) {
           </button>
         )}
 
+        <FooterLink href={GITHUB_URL} label={LABEL_GITHUB} />
         <FooterLink href={LINKEDIN_URL} label={LABEL_LINKEDIN} />
       </div>
     </footer>

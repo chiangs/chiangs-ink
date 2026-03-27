@@ -24,6 +24,8 @@ export const STORAGE_WRITING_INSIGHTS = "sc-writing-insights";
 // Identity
 export const SITE_OWNER = "Stephen Chiang";
 export const SITE_LOCATION = "Stavanger, Norway";
+export const SITE_URL = "https://chiangs.ink"; // Update if domain changes
+export const GITHUB_URL = "https://github.com/chiangs"; // Update if different
 export const LINKEDIN_URL = "https://linkedin.com/in/chiangs";
 
 // Routes
