@@ -19,7 +19,9 @@ Email:      stephen@chiang.studio
             Contact is via the contact form or LinkedIn only.
 Location:   Stavanger, Norway
 Timezone:   CET (Europe/Oslo)
-LinkedIn:   linkedin.com/in/stephenchiang
+Domain:     www.chiang.ink  ← CANONICAL. Never use "chiangs.ink" (wrong).
+            SITE_URL in ~/lib/constants.ts must always be "https://www.chiang.ink"
+LinkedIn:   linkedin.com/in/chiangs
 Social:     LinkedIn only — X/Twitter removed from all pages.
 
 Positioning:
