@@ -945,6 +945,34 @@ VESSEL PRIORITY DASHBOARD (interactive MDX component — writing articles)
                 Three terms highlighted in #FFB77D
   Footnote:     Manrope 400, 11px italic, #737371
 
+ARTICLE PAGE — MOBILE READING PROGRESS BAR (writing/$slug.tsx)
+  Visibility:   Mobile only (md:hidden)
+  Position:     Fixed, top: 64px (directly below h-16 nav), left 0, right 0
+  Height:       2px (h-0.5)
+  Z-index:      49 (below nav at z-100)
+  Track:        bg-border (#222220)
+  Fill:         bg-accent (#FFB77D)
+  Motion:       No CSS transition — fill width follows scrollY directly
+                Driven by single shared scroll listener (also drives desktop TOC line)
+  Calculation:  (scrollY / (scrollHeight - innerHeight)) × 100, clamped 0–100
+
+ARTICLE PAGE — FLOATING SCROLL + BACK BUTTONS (writing/$slug.tsx)
+  Visibility:   Mobile only (md:hidden)
+                Hidden: opacity 0, pointer-events none
+                Visible: opacity 1, pointer-events auto
+                Threshold: 400px scrollY — driven by useScrolled(400) hook
+                Transition: opacity 0.2s ease on container
+  Position:     Fixed, bottom: 24px (bottom-6), right: 24px (right-6)
+  Z-index:      48 (below progress bar at 49, below nav at 100)
+  Layout:       Two buttons stacked vertically, gap 8px (gap-2)
+  Button size:  40×40px (w-10 h-10)
+  Background:   #1a1a1a (bg-surface)
+  Border:       1px solid #222220 (border border-border)
+  Hover:        #202020 (hover:bg-surface-high), 0.2s ease
+  No border radius, no shadow
+  Top button:   Scroll to top — upward chevron SVG 16×16, stroke #FFB77D
+  Bottom button: Back to /writing — React Router Link, leftward chevron SVG 16×16
+
 ---
 
 ## PWA & Favicon
@@ -1285,6 +1313,17 @@ ARTICLES (MDX in /content/writing/)
                      with the audience priority flipped
     — Key insight: user first → team → functionality (design)
                    architecture first → team → user (development)
+
+  why-prototypes-lie.mdx
+    — Category: Design Technology
+    — 8 min read
+    — Core argument: prototypes are persuasion tools optimised for approval,
+                     not implementation truth — AI has changed the cost
+                     calculation that made the lie acceptable
+    — Framework: five specific lie categories (content, edge cases, motion
+                 cost, technical constraints, accessibility) + POC as special case
+    — Thesis: the excuse is now obsolete; honest prototyping taxonomy:
+              exploration / approval / production prototypes
 
 COPY — LOCKED AND FINAL
   Hero eyebrow:     "DESIGN TECHNOLOGIST // PORTFOLIO 2026"

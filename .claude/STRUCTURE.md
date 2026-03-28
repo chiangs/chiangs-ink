@@ -41,7 +41,10 @@ chiangs-ink/
     │   │   └── $slug.tsx             ← Project page template
     │   └── writing/
     │       ├── index.tsx             ← Writing index
-    │       └── $slug.tsx             ← Article page template
+    │       └── $slug.tsx             ← Article page template; mobile reading progress
+    │                                   bar (fixed top-16, h-0.5, z-49) + floating
+    │                                   scroll-to-top / back buttons (fixed bottom-6
+    │                                   right-6, z-48, visible after 400px scroll)
     │
     ├── hooks/                        ← Client-side React hooks (never imported server-side)
     │   ├── index.ts                  ← Barrel re-export

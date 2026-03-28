@@ -7,6 +7,7 @@ import {
   HeroPattern,
   VesselPriorityDashboard,
 } from "~/components/writing";
+import { useScrolled } from "~/hooks";
 import { HREF_WRITING, SITE_OWNER } from "~/lib/constants";
 import { createMdxComponents, type TocItem } from "~/lib/mdx-components";
 import { getAllArticles, getArticle } from "~/lib/mdx.server";
@@ -26,6 +27,8 @@ const BACK_HREF = HREF_WRITING;
 const META_SEP = " · ";
 const LABEL_IN_THIS_ARTICLE = "IN THIS ARTICLE";
 const LABEL_RELATED = "RELATED WRITING";
+const ARIA_SCROLL_TOP = "Scroll to top";
+const ARIA_BACK_WRITING = "Back to Writing";
 
 // ─── Style constants (module-level per CLAUDE.md) ─────────────────────────────
 const heroTitleStyle: CSSProperties = {
@@ -39,6 +42,11 @@ const heroSubtitleStyle: CSSProperties = {
 const tocProgressStyle: CSSProperties = {
   width: "0%",
   background: "var(--color-accent)",
+};
+const mobileProgressFillStyle: CSSProperties = {
+  width: "0%",
+  background: "var(--color-accent)",
+  height: "100%",
 };
 const heroDotsDimStyle: CSSProperties = {
   background: "rgba(0,0,0,0.55)",
@@ -82,6 +90,7 @@ export default function Article() {
   const [tocItems, setTocItems] = useState<TocItem[]>([]);
   const [activeId, setActiveId] = useState("");
   const tocProgressRef = useRef<HTMLDivElement>(null);
+  const mobileProgressRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
 
   // MDX content component for this slug
@@ -102,14 +111,15 @@ export default function Article() {
     [onHeading],
   );
 
-  // TOC border progress line — passive listener, no CSS transition
+  // Scroll progress — drives TOC border line (desktop) + mobile reading bar
+  // Single listener updates both refs; no CSS transition on either (direct follow)
   useEffect(() => {
     if (typeof window === "undefined") return;
     const handleScroll = () => {
-      if (!tocProgressRef.current) return;
       const total = document.documentElement.scrollHeight - window.innerHeight;
-      const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
-      tocProgressRef.current.style.width = `${pct}%`;
+      const pct = total > 0 ? Math.min((window.scrollY / total) * 100, 100) : 0;
+      if (tocProgressRef.current) tocProgressRef.current.style.width = `${pct}%`;
+      if (mobileProgressRef.current) mobileProgressRef.current.style.width = `${pct}%`;
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -161,6 +171,10 @@ export default function Article() {
     return () => observer.disconnect();
   }, [tocItems]);
 
+  const isScrolledDeep = useScrolled(400);
+
+  const handleScrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
   // TOC smooth scroll
   const handleTocClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -172,6 +186,7 @@ export default function Article() {
   };
 
   // ─── Derived values (computed before return per CLAUDE.md) ─────────────────
+  const floatingBtnsClass = `md:hidden fixed bottom-6 right-6 flex flex-col gap-2 z-[48] transition-opacity duration-200${isScrolledDeep ? " opacity-100 pointer-events-auto" : " opacity-0 pointer-events-none"}`;
   const formattedDate = formatDate(frontmatter.date);
   const metaText = `${formattedDate}${META_SEP}${frontmatter.readTime}`;
   const heroPatternVariant = getReadTimeVariant(frontmatter.readTime);
@@ -263,6 +278,33 @@ export default function Article() {
 
   return (
     <main>
+      {/* Mobile reading progress bar — fixed below nav, hidden on md+ */}
+      <div className="md:hidden fixed top-16 left-0 right-0 h-0.5 bg-border z-[49]">
+        <div ref={mobileProgressRef} style={mobileProgressFillStyle} />
+      </div>
+
+      {/* Floating scroll-to-top + back buttons — mobile only, appears after 400px */}
+      <div className={floatingBtnsClass}>
+        <button
+          onClick={handleScrollTop}
+          aria-label={ARIA_SCROLL_TOP}
+          className="w-10 h-10 flex items-center justify-center bg-surface border border-border hover:bg-surface-high transition-colors duration-200"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 10 L8 5 L13 10" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        <Link
+          to={BACK_HREF}
+          aria-label={ARIA_BACK_WRITING}
+          className="w-10 h-10 flex items-center justify-center bg-surface border border-border hover:bg-surface-high transition-colors duration-200"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M11 3 L6 8 L11 13" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </Link>
+      </div>
+
       {/* Article hero */}
       <header className="relative overflow-hidden border-b border-border pt-section-mob md:pt-section pb-12 md:pb-16">
         <HeroPattern variant={heroPatternVariant} />

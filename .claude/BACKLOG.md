@@ -640,7 +640,7 @@
       Style Guide drawer
 - [x] Design system — DESIGN.md locked
 - [x] CLAUDE.md — conventions documented
-- [x] MDX content — 3 projects, 2 articles
+- [x] MDX content — 3 projects (initial)
 - [x] Draft status field on content types
 - [x] Favicon SVG
 - [x] Deployed to Vercel at www.chiang.ink
@@ -657,3 +657,15 @@
       Used for navigation hint nudges (nav count thresholds 3 and 5).
 - [x] ButtonCta component — copper gradient primary CTA button,
       0px radius, used on 404 page
+- [x] Article page template — writing/$slug.tsx, full MDX pipeline,
+      hero, sticky TOC, GSAP entrance, related articles strip
+- [x] MDX component system — ArticleImage, FloatImage (raw prop on both),
+      Highlight, PullQuote, DefinitionBlock; createMdxComponents factory
+- [x] VesselPriorityDashboard — interactive MDX embed, desktop only;
+      mobile PNG fallback; expandable urgency breakdown per vessel
+- [x] Article mobile UX — reading progress bar (fixed top-16, h-0.5,
+      accent fill, no transition) + floating scroll-to-top / back-to-writing
+      buttons (fixed bottom-right, visible after 400px, opacity transition)
+- [x] MDX content — 3 projects, 3 articles published:
+      dashboards-are-not-for-overview, design-is-creation-with-researched-intent,
+      why-prototypes-lie

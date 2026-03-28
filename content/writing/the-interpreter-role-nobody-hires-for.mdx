@@ -1,0 +1,434 @@
+---
+title: "The Interpreter Role Nobody Hires For"
+subtitle: "What happens when nobody speaks all four languages"
+date: "2024-05-22"
+readTime: " min"
+category: "Product & Leadership"
+tags: ["Product & Leadership", "Cross-functional Teams", "Organisational Design", "Design Technology", "Engineering Culture", "Product Development"]
+featured: true
+order: 3
+status: "published"
+---
+
+The meeting had been in the calendar for three weeks.
+
+Eight people. A product decision that had been
+escalating for two months. The engineering lead,
+the design lead, the data team, and three people
+from the business — strategy, commercial, operations.
+A facilitator with a prepared agenda and a shared
+document already open on the screen.
+
+Two hours later, the meeting ended.
+
+Actions were assigned. A follow-up was scheduled.
+Everyone aligned and agreed on the next steps. 
+Nobody quite agreed on what the decision had been.
+
+Three months later the product shipped. It worked.
+The engineering was solid. The design was considered.
+The data was sound. The business case had been made
+and approved.
+
+And yet, something was off. The product didn't land
+the way anyone had intended. Users found it functional
+but effortful. Stakeholders found it correct but
+somehow beside the point. The team found it hard to
+articulate what had gone wrong because nothing, in
+isolation, had gone wrong.
+
+The problem wasn't the people.
+It wasn't the process.
+It wasn't even the decision.
+
+It was that nobody in the room could hold all four
+perspectives simultaneously — and <Highlight variant="flashy">the gap</Highlight> 
+between what each discipline heard and what each discipline
+meant had accumulated silently, across every
+conversation, until it <Highlight variant="subtle">was built into the product itself.</Highlight>
+
+<ArticleImage src="/images/content/air-traffic-tower.png" alt="An air traffic control tower at night, multiple screens glowing through darkened glass — simultaneous signals, multiple channels, no single point of resolution" caption="REF_001 // CONTROLLED COMPLEXITY" raw/>
+
+---
+
+## Four Languages, One Room
+
+Engineering, design, data, and business strategy
+are not just different disciplines. They are
+different languages — each with its own grammar,
+its own definition of quality, its own measure
+of done.
+
+<Highlight variant="strong">Engineering</Highlight> thinks in systems, constraints,
+and maintainability. A good engineering decision
+is one that works today, scales tomorrow, and
+can be safely changed by the next person who
+opens the codebase. Risk is a system that breaks
+under load or becomes unmaintainable under change.
+Done means stable, tested, and deployable.
+
+<Highlight variant="strong">Design</Highlight> thinks in behaviour, perception, and
+sequence. A good design decision is one that
+allows a person to achieve their goal without
+friction, confusion, or the need to think harder
+than the task requires. Risk is an interface that
+misleads, overwhelms, or fails the person using it.
+Done means the experience works for the human
+it was built for.
+
+<Highlight variant="strong">Data</Highlight> thinks in provenance, reliability, and
+inference. A good data decision is one that
+produces a claim that can be defended under
+scrutiny — where the methodology is sound,
+the collection is consistent, and the
+interpretation is bounded by what the evidence
+actually supports. Risk is a conclusion drawn
+from data that doesn't mean what it appears to mean.
+Done means defensible.
+
+<Highlight variant="strong">Business strategy</Highlight> thinks in markets,
+incentives, and trade-offs. A good strategic
+decision is one that creates measurable value
+or competitive advantage within a defined
+time horizon. Risk is a commitment that costs
+more than it returns. Done means delivered
+value, not delivered software.
+
+<DefinitionBlock definition="Four disciplines. Four definitions of quality.
+Four definitions of risk. Four definitions of done."/>
+
+And this is before anyone opens their mouth
+in a meeting.
+
+The problem is not that these disciplines
+disagree. Productive disagreement between
+them is how good products get built. The
+problem is that when they meet, they are
+not communicating — <Highlight variant="emphasis">they are translating.</Highlight>
+And translation always loses something.
+
+The same word means something genuinely
+different in each language. "Quality."
+"Risk." "Done." "User." "Simple."
+A designer and an engineer can spend
+forty minutes arguing about whether
+something is "simple" and discover,
+too late, that they were never talking
+about the same thing.
+
+## What Translation Loss Actually Costs
+
+<FloatImage src="/images/content/gauges.png" alt="Two analogue instruments mounted side by side on a dark industrial panel, each reading the same signal differently — amber backlit dials, heavy grain, the same input producing two distinct readings" caption="REF_002 // ONE SIGNAL READ DIFFERENTLY" side="right" raw/>
+The losses are not immediately noticeable. 
+They do not appear on risk registers or post-mortems.
+They accumulate quietly, at every boundary,
+across every handoff, until they are
+visible only in the gap between what
+the organisation intended to build
+and what it actually delivered.
+
+<Highlight variant="strong">The implementation gap — Engineering ↔ Design</Highlight>
+
+The designer specified intent. The engineer
+implemented reality. Neither is wrong.
+The designer made decisions about how
+something should behave; the engineer
+made decisions about how to build it
+within the constraints of the system.
+<Highlight variant="flashy">Both were doing their job.</Highlight>
+
+But the gap between intent and implementation
+is where the user experience quietly degrades.
+It's not negligence — it's the
+accumulation of small decisions made at
+the boundary between two disciplines,
+in the absence of anyone who could hold
+both simultaneously. The hover state that
+was slightly wrong. The transition that was close 
+enough to ship but not quite what was meant. The 
+loading behaviour the product owner approved in 
+the prototype was a spinner; the engineer implemented 
+a skeleton screen because that was the pattern in 
+the design system. Both are valid. Each one minor. 
+Together, the <Highlight variant="subtle">difference between a product that feels 
+deliberate and one that feels assembled.</Highlight>
+
+<Highlight variant="strong">The insight gap — Design ↔ Data</Highlight>
+
+The designer makes decisions based on
+research. The data exists that would
+change those decisions — but it never
+arrives in a form the designer can act on.
+
+Or the analytics are commissioned but
+the data model wasn't built to answer
+the questions the design work is asking.
+The designer wants to understand where
+users abandon the flow; the data team
+can tell them which screens were viewed
+and for how long. Both are doing their
+job. <Highlight variant="subtle">The connection</Highlight> between them —
+the translation between what the design
+needs to know and what the data can
+actually say — <Highlight variant="emphasis">was never made.</Highlight>
+
+The product ships optimised for the
+data that was available, not the
+understanding that was needed.
+
+<Highlight variant="strong">The interpretation gap — Data ↔ Business strategy</Highlight>
+
+The data says one thing. The business
+hears another.
+
+Not because the data is wrong. Not because
+the business is being wilfully selective.
+But because the people reading the data
+are optimising for <Highlight variant="emphasis">different outcomes</Highlight> —
+and nobody present can hold both the
+data's meaning and the business's intent
+simultaneously, in the same conversation,
+and surface the gap before it becomes
+a decision.
+
+A retention metric that looks healthy in aggregate 
+conceals a cohort that is churning at a rate that 
+will matter in six months. The data team sees it. 
+The strategy team doesn't — not because the data 
+wasn't shared, but because nobody translated it 
+into the frame the strategy team was working in.
+
+<Highlight variant="strong">The scope gap — Business strategy ↔ Engineering</Highlight>
+
+The business commits to a timeline.
+Engineering knows it's wrong.
+
+Not approximately wrong — structurally
+wrong, given the architecture, the team
+size, and the dependencies that the
+business commitment didn't account for.
+But engineering doesn't have the standing
+or the shared language to change the
+commitment before it becomes a public
+promise. The technical reality and the
+strategic commitment diverge at the
+moment the decision is made, invisibly,
+and the gap widens every week until
+it becomes a missed deadline or a
+reduced scope that nobody planned for.
+
+Both sides blame the other.
+Neither is entirely wrong.
+The real failure happened earlier —
+at the boundary, in translation,
+before anyone realised a decision
+was being made.
+
+## The Interpreter Role
+
+The instinct is to call this a "bridging" role.
+
+Most organisations reach for that word
+eventually — someone who can bridge design
+and engineering, bridge data and strategy,
+bridge the technical and the commercial.
+The job description practically writes itself.
+
+<DefinitionBlock definition="But a bridge is passive infrastructure."/>
+
+It gets built once and people cross it.
+The bridge does not participate in the
+conversation. It does not catch the moment
+when "simple" means two different things
+to two different people sitting at the
+same table. It does not translate in
+real time, in both directions, with full
+awareness of what each language loses
+when it crosses into another.
+
+The interpreter does something harder
+and more <Highlight variant="flashy">active: holding four distinct
+modes of thinking simultaneously</Highlight>, in
+every conversation, and doing the
+translation work that prevents loss
+at each boundary.
+
+This is not a soft skill. It is not
+stakeholder management or communication
+ability or the vague quality sometimes
+called "cross-functional effectiveness." 
+It is a <Highlight variant="subtle">specific cognitive and technical
+competency.</Highlight> 
+
+The person who has it can:
+
+- Hear a business requirement and understand
+its engineering implications without asking
+the engineering lead to translate. 
+- Read a data model and understand its design
+constraints without asking the data team
+to translate.
+- Look at a prototype and understand its strategic 
+implications without a strategy session to decode it.
+- Translate in all directions simultaneously,
+in real time, before the loss has occurred —
+not after it has compounded into a
+three-month delay or a product nobody
+uses the way it was intended.
+
+A bridge connects two fixed points.
+The interpreter operates at four
+boundaries at once.
+
+*And the work is never done.*
+
+<PullQuote>
+A bridge is passive infrastructure.
+The interpreter does something harder —
+holding four distinct modes of thinking
+simultaneously and translating between
+them in real time, with full awareness
+of what each language loses when it
+crosses into another.
+</PullQuote>
+
+## Why Nobody Hires For It
+
+Organisations hire for depth because
+depth is legible.
+
+A designer has a portfolio. An engineer
+has a codebase. A data analyst has a
+methodology. A PM has a roadmap and a
+set of shipped features. Each of these
+roles has a job description, a
+compensation band, a reporting line,
+and a career ladder that hiring managers
+know how to evaluate.
+
+<Highlight variant="subtle">The interpreter has none of these</Highlight>, or is forced
+to conform to one.
+
+The competency sits between disciplines
+in a way that confuses every standard
+hiring framework. It doesn't map to
+a single team or a single budget line.
+It is evaluated differently by every
+discipline it touches — an engineer
+assessing it will look for technical
+depth; a designer will look for design
+sensibility; a data practitioner will
+look for analytical rigour. None of
+these evaluations, individually, will
+find what they're actually looking for.
+
+Because what they're actually looking
+for is the ability to operate at the
+boundaries between all of them
+simultaneously — and that ability
+is invisible to <Highlight variant="emphasis">a hiring process
+designed to assess depth in a
+single discipline.</Highlight>
+
+So organisations don't hire for it.
+
+They hope it emerges. Sometimes it does —
+slowly, over years, as a senior engineer
+develops enough design fluency through
+proximity, or a designer develops enough
+data literacy through necessity. The
+emergence is real but it is slow,
+unreliable, and <Highlight variant="flashy">invisible until it
+happens.</Highlight> And then the person leaves,
+and the translation loss returns, and
+the organisation doesn't know exactly
+what it lost — because it never had
+a name for what it had.
+
+## The Cost of the Empty Seat
+
+The cost does not appear as a line item.
+
+It appears as the gap between what the
+organisation intended to build and what
+it actually delivered. It appears in
+products that work but don't land. In
+data products that are commissioned,
+built, and ignored. In technical debt
+introduced by designs that didn't account
+for architectural constraints that a
+different conversation would have surfaced.
+In strategic pivots that break systems
+built to last because the people who
+built them weren't present when the
+pivot was decided.
+
+None of these failures are dramatic.
+None of them trigger a post-mortem.
+They are the predictable, chronic cost
+of every handoff where something was
+lost in translation — accumulated across
+every programme, every quarter, every year.
+
+Most organisations absorb this cost as
+normal. The late delivery. The feature
+nobody uses. The dashboard that gets
+opened once and forgotten. The product
+that required three rounds of rework
+to get to something the users
+actually wanted.
+
+It isn't normal.
+
+It is the consequence of a structural
+absence — a seat at every critical
+conversation that nobody filled, because
+nobody thought to hire for it, because
+nobody had a clear name for what
+it would take to fill it.
+
+The cost compounds quietly.
+It always has.
+
+<ArticleImage src="/images/content/conference-table.png" alt="A single empty chair at a long dark conference table, lit from one end by a warm amber light — presence implied by absence" caption="REF_003 // PRESENCE OF ABSENCE" raw/>
+
+## The Question Worth Asking
+
+The question is not what title to put
+on the job description.
+
+Titles for this competency vary — and
+any specific label carries the baggage
+of how the last person with that label
+performed in a different organisation
+with a different context and a different
+set of gaps to close. The title is
+the least important part.
+
+The question is more fundamental:
+
+At the boundaries between engineering,
+design, data, and strategy in your
+organisation — how much is lost in
+translation? Where are the decisions
+being made in the wrong frame? Where
+is the implementation diverging quietly
+from the intent? Where is the data
+failing to reach the people who need
+it in the form they can act on?
+Where is the scope gap opening before
+anyone realises a commitment has been made?
+
+The organisations that ask those questions
+seriously, and answer them honestly, will
+know what competency they are looking for
+— even without a name for it. They will
+recognise it when they encounter it. And
+they will understand, perhaps for the first
+time, what the empty seat has been costing them.
+
+The ones that don't will keep scheduling
+the follow-up meeting.
+
+And wondering why the product never quite
+lands the way everyone agreed it would.

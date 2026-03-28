@@ -14,24 +14,37 @@ const overlayStyle = {
   mixBlendMode: "multiply" as const,
 } as const;
 
+const rawImgStyle = {
+  display: "block",
+  width: "100%",
+} as const;
+
 export function FloatImage({
   src,
   alt,
   caption,
   side = "right",
+  raw = false,
 }: {
   src: string;
   alt: string;
   caption: string;
   side?: FloatSide;
+  raw?: boolean;
 }) {
   const figureClass = `float-image float-image--${side}`;
 
   return (
     <figure className={figureClass}>
       <div className="float-image__frame">
-        <img src={src} alt={alt} style={imgStyle} />
-        <div className="float-image__overlay" style={overlayStyle} />
+        {raw ? (
+          <img src={src} alt={alt} style={rawImgStyle} />
+        ) : (
+          <>
+            <img src={src} alt={alt} style={imgStyle} />
+            <div className="float-image__overlay" style={overlayStyle} />
+          </>
+        )}
       </div>
       <figcaption
         className="font-body font-medium uppercase text-accent-muted"
