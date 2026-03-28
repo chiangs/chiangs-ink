@@ -129,17 +129,9 @@
       accountability — which are design and leadership problems.
       Oil & gas engagement is a direct (anonymised) case study.
 
-- [ ] **"Why Prototypes Lie"**
+- [x] **"Why Prototypes Lie"** — PUBLISHED ✓
       File: `content/writing/why-prototypes-lie.mdx`
-      Status: idea (not started)
-      Subtitle: "The gap between what a prototype communicates and what gets built"
-      Category: Design Technology
-      Angle: prototypes are optimised for persuasion, not
-      for implementation truth. They hide edge cases, content
-      failures, motion costs, and technical constraints.
-      Connects to the design-as-development thesis from
-      "Design Is Creation With Researched Intent" — the
-      prototype is where the fiction is most expensive.
+      Category: Design Technology · 8 min · order: 3
 
 - [ ] **"The Figma File Isn't the Design"**
       File: `content/writing/the-figma-file-isnt-the-design.mdx`
@@ -207,6 +199,289 @@
       assistant briefing screen — startup summary, ranked
       action list, drill-down toggle to reveal underlying data.
       Would be the article's equivalent of VesselPriorityDashboard.
+
+- [ ] **"The Designer Who Can See Around Corners"**
+      File: `content/writing/the-designer-who-can-see-around-corners.mdx`
+      Status: idea (not started)
+      Subtitle: "Why human judgment becomes more valuable
+      as AI makes data interpretation a commodity"
+      Category: Data & AI
+      Primary audience: Senior executives, functional leaders
+      Secondary audience: Designers, product practitioners
+      Anchor: Jensen Huang, CEO of Nvidia — when asked who
+      the smartest person he has ever met is, declined to
+      name an individual and redefined intelligence for the
+      AI era instead. Technical, coding-based intelligence
+      is becoming a commodity. Future-proof intelligence is
+      empathy, judgment, and the ability to see around corners.
+      Source: https://www.youtube.com/watch?v=07v7o4hO-4k&t=2
+      Core argument: AI commoditises the data interpretation
+      layer the same way it commoditises coding. The designer
+      who competes on the ability to read a heatmap, synthesise
+      user research, or generate insights is competing with a
+      tool that does it faster and cheaper. The designer whose
+      value is judgment — knowing which insight to act on,
+      which to question, which to ignore, and why — is not
+      competing with AI at all. They are doing the thing
+      AI structurally cannot do.
+      The Huang reframe applied to design: empathy is the
+      ability to understand what the data cannot capture —
+      the anxiety a user feels at a particular moment, the
+      political reason a stakeholder rejected a technically
+      correct recommendation, the cultural context that makes
+      a pattern in the data mean something different than it
+      appears. Judgment is knowing what to do with that
+      understanding. Seeing around corners is anticipating
+      the consequences of a design decision before the data
+      exists to confirm them.
+      Structure: open with Huang's reframe → apply it to
+      the designer's position in an AI-assisted workflow →
+      define what judgment actually means in practice →
+      argue that the organisations winning with AI-assisted
+      design are the ones investing in human judgment, not
+      replacing it → close with what this means for how
+      senior leaders should be hiring and developing
+      design talent
+      Executive angle: this is not an article about design
+      tools. It is an article about where irreplaceable
+      human value lives in an AI-augmented organisation —
+      and why the leaders who understand that distinction
+      will outperform the ones who don't.
+      Connections: companion piece to "Data Governance Isn't
+      a Technology Problem". Natural follow-on from
+      "Design Is Creation With Researched Intent" — judgment
+      is the advanced form of researched intent.
+      Notable: Huang quote as the opening anchor gives the
+      article immediate credibility and shareability with
+      a senior executive audience. Not a design trade press
+      article — a leadership article that happens to be
+      written by a designer.
+
+- [ ] **"Data Governance Isn't a Technology Problem"**
+      File: `content/writing/data-governance-isnt-a-technology-problem.mdx`
+      Status: idea (not started)
+      Subtitle: "Why the organisations that fail at data
+      governance fail at it for human reasons"
+      Category: Data & AI
+      Primary audience: Senior executives, functional leaders
+      Secondary audience: Designers, data practitioners
+      Core argument: Most organisations treat data governance
+      as a technology and taxonomy problem — buy the right
+      platform, define the right terms, appoint a data steward,
+      done. It fails because the hard problems are not technical.
+      They are organisational: who owns a definition when two
+      business units use the same term differently? Who has
+      the authority to resolve a data conflict between a CFO
+      and a COO? How do you design accountability structures
+      that survive a reorg? These are design problems —
+      problems of structure, incentive, and human behaviour
+      — that no amount of tooling solves.
+      Structure: general (what governance actually is) →
+      theoretical (why the organisational and human dimensions
+      are design problems) → practical (what this means for
+      large complex organisations trying to get this right)
+      Core argument: governance fails at the whiteboard, not
+      the server room. The question is never "what tool should
+      we buy" — it is "who is accountable, to whom, for what,
+      and what happens when they disagree." That is an
+      organisational design question. It requires design
+      thinking, not data engineering.
+      Secondary argument: ungoverned data makes design work
+      impossible. AI-generated insights applied to a
+      politically contested, inconsistently defined data
+      layer produce confident answers to the wrong questions.
+      The design work and the governance work are not
+      sequential — they are the same conversation.
+      Connections: companion piece to "The Designer Who Can
+      See Around Corners". Direct relevance to enterprise
+      data product design across maritime, oil & gas, and
+      financial services contexts.
+      Notable: no direct project references — argument is
+      general, theoretical, and practical. Credibility
+      comes from framework quality, not case study specifics.
+
+- [ ] **"The PM as Proxy Manager"**
+      File: `content/writing/the-pm-as-proxy-manager.mdx`
+      Status: idea (not started)
+      Subtitle: "How product management professionalised
+      around distance instead of closing it"
+      Category: Product & Leadership
+      Primary audience: Senior executives, CPOs, founders
+      Secondary audience: PMs, Design Technologists
+      Core argument: Product management has drifted from
+      a practitioner role into a coordination role. PMs
+      manage the distance between users and engineers —
+      translating research into requirements, requirements
+      into tickets, tickets into releases — rather than
+      closing it. The role has professionalised around
+      the proxy chain rather than against it.
+      The Design Technologist angle: a practitioner with
+      design and technical fluency doesn't manage the
+      proxy chain — they collapse it. Not by being a
+      better PM but by eliminating the need for translation
+      in the conversations where translation loss is most
+      expensive.
+      Executive angle: the proxy chain has a cost that
+      doesn't appear on any budget. It appears in delivery
+      timelines, in products that technically work but
+      nobody uses, and in the gap between what was approved
+      and what was built.
+      Series position: Article 1 of 4 — establishes the
+      structural problem the series diagnoses.
+      Connections: leads into discovery debt and the
+      technical credibility gap. Synthesis in
+      "When the PM and the Designer Are the Same Person".
+
+- [ ] **"Discovery Debt"**
+      File: `content/writing/discovery-debt.mdx`
+      Status: idea (not started)
+      Subtitle: "What teams get wrong about the most
+      consequential phase in product development"
+      Category: Product & Leadership
+      Primary audience: Senior executives, CPOs,
+      programme sponsors
+      Secondary audience: PMs, designers, delivery leads
+      Core argument: Discovery is under-resourced because
+      most teams don't know what it produces. It is treated
+      as a research phase — a box to tick before development
+      starts — rather than the phase that determines whether
+      the team is solving the right problem before committing
+      to solving it expensively.
+      What discovery actually produces: not research
+      artefacts. Not personas. Not journey maps. A confident
+      answer to one question: are we solving the right
+      problem, for the right person, in a way that is
+      technically and organisationally achievable?
+      The Design Technologist angle: a practitioner who
+      holds design research methods and technical fluency
+      simultaneously can run discovery that produces both
+      user insight and architectural constraint in the
+      same conversation.
+      Executive angle: the most expensive product decisions
+      are made in the discovery phase — or made by default
+      when discovery doesn't happen. Resourcing discovery
+      properly is the cheapest risk mitigation available
+      to a product programme.
+      Series position: Article 2 of 4.
+      Connections: pairs with "Who Owns the Outcome" to
+      complete the front-to-back product process diagnosis.
+
+- [ ] **"Who Owns the Outcome?"**
+      File: `content/writing/who-owns-the-outcome.mdx`
+      Status: idea (not started)
+      Subtitle: "Why product teams ship features and
+      call it success"
+      Category: Product & Leadership
+      Primary audience: Senior executives, CPOs,
+      board-level sponsors
+      Secondary audience: PMs, delivery leads,
+      engineering managers
+      Core argument: Most product teams own outputs —
+      features, releases, roadmap items. Very few own
+      outcomes. The failure is three simultaneous problems:
+      measurement (success was never defined in behavioural
+      terms), political (nobody wants accountability for a
+      metric they cannot fully control), and timing (the
+      team has moved on before the outcome is measurable).
+      All three reinforce each other.
+      The fix must be established before the build starts —
+      a clear definition of what behavioural change the
+      product is designed to produce, who is accountable
+      for measuring it, and what the team will do if the
+      measure doesn't move.
+      Executive angle: a board that accepts feature delivery
+      as a success metric is not governing a product
+      programme. It is governing a build programme.
+      Series position: Article 3 of 4.
+      Connections: pairs with "Discovery Debt".
+
+- [ ] **"The Technical Credibility Gap"**
+      File: `content/writing/the-technical-credibility-gap.mdx`
+      Status: idea (not started)
+      Subtitle: "Why the rarest PM is also the most
+      valuable — and what to do if you can't find one"
+      Category: Product & Leadership
+      Primary audience: CPOs, CTOs, founders,
+      senior hiring leaders
+      Secondary audience: PMs, Design Technologists,
+      engineering managers
+      Core argument: A PM with genuine technical fluency
+      is rare and disproportionately valuable. Not because
+      they can replace an engineer's judgment but because
+      they can engage with it directly without translation
+      loss. Organisations spend years searching for this
+      person. The search usually fails because the
+      combination doesn't emerge from standard career
+      paths in either discipline.
+      The structural answer: the Design Technologist holds
+      the technical and design dimensions natively. For
+      organisations that cannot find the unicorn PM,
+      understanding what the Design Technologist role
+      delivers — and where it overlaps with product
+      ownership — is the more productive question.
+      Executive angle: stop searching for the unicorn.
+      Start understanding what capability you actually
+      need and what kind of practitioner delivers it.
+      Series position: Article 4 of 4.
+      Connections: resolves into the synthesis piece.
+
+- [ ] **"When the PM and the Designer Are the Same Person"**
+      File: `content/writing/when-the-pm-and-designer-are-the-same-person.mdx`
+      Status: idea (not started)
+      Subtitle: "What the Design Technologist role actually
+      solves — and why most organisations haven't hired
+      for it yet"
+      Category: Product & Leadership
+      Primary audience: CEOs, CPOs, CTOs, board-level
+      sponsors, senior hiring leaders
+      Secondary audience: Design Technologists, senior
+      PMs, design and engineering leaders
+      Core argument: The four problems diagnosed in the
+      preceding articles are not individual failures.
+      They are structural failures produced by an
+      organisational model that separates design and
+      product ownership into sequential roles. When the
+      PM and the designer are the same person, the proxy
+      chain collapses, discovery gets resourced, outcome
+      ownership is natural, and technical credibility is
+      built in.
+      Why most organisations haven't hired for it yet:
+      the role doesn't fit standard job architecture.
+      It sits between disciplines in a way that confuses
+      reporting lines, compensation bands, and career
+      frameworks.
+      Executive angle: the question is not "should we
+      hire a Design Technologist." The question is "how
+      much are the seams in our current product
+      organisation costing us — and is that cost higher
+      than the investment in closing them."
+      Series position: Synthesis piece — references all
+      four preceding articles. Strongest piece for direct
+      promotion to senior executive audience. The piece
+      a CPO forwards to their CEO.
+      Connections: resolves the full Product & Leadership
+      series. Natural endpoint for a reader who has
+      followed the sequence.
+
+- [ ] **[STUB] Humorous / personality piece**
+      File: `content/writing/tbd.mdx`
+      Status: stub (direction not yet decided)
+      Subtitle: TBD
+      Category: TBD
+      Angle: A standalone article that shows personality
+      and voice. Counterbalances the rigour of the
+      rest of the writing section. Candidates under
+      consideration — revisit when ready:
+      "Things I've Heard In Stakeholder Meetings"
+      "A Brief History of Dashboards Nobody Used"
+      "What My Keyboard Says About Me"
+      "The Standup That Could Have Been An Email"
+      "Norwegian Winter and the 9am Meeting"
+      Tone: dry, specific, affectionate rather than
+      cynical. Humour comes from precision of
+      observation, not mockery.
+      Revisit: when the serious writing pipeline
+      has more volume and the moment feels right.
 
 ---
 

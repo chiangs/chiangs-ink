@@ -1,0 +1,368 @@
+---
+title: "Why Prototypes Lie"
+subtitle: "The gap between what a prototype communicates and what gets built"
+date: "2026-02-07"
+readTime: "8 min"
+category: "Design Technology"
+tags: ["Prototyping", "AI & Design", "Product Development", "Design Technology", "Technical Debt", "Design Process"]
+featured: false
+order: 3
+status: "published"
+---
+
+The prototype looked perfect.
+
+Clean layout. Smooth transitions. Every number
+formatted correctly, every label fitting neatly
+inside its container. The stakeholder leaned
+forward, nodded slowly, and said the words
+every project team is waiting for:
+
+*"Yes. That's exactly what we need."*
+
+Six months later, the product that shipped
+looked like the prototype the way a working
+vessel looks like the scale model in the
+boardroom. The proportions were roughly right.
+The intention was visible. But the model had
+no plumbing, no load calculations, no rust —
+and nobody had thought to mention that while
+the client was nodding. The model was built
+for the boardroom. The vessel has to survive
+the North Sea.
+
+This is not a story about a bad project.
+It is a story about what prototypes are
+actually for — and why that purpose and
+the one we pretend they serve have almost
+nothing in common.
+
+A prototype is not a design.
+It is not a specification.
+It is not a commitment.
+
+It is a persuasion tool dressed as a design
+tool <Highlight variant="strong">— optimised for the moment of approval</Highlight>,
+not the moment of delivery. Everything about
+how prototypes are built serves that moment:
+the happy path, the ideal content, the
+interaction that flows because nobody
+has introduced <Highlight variant="flashy">reality.</Highlight>
+
+<DefinitionBlock definition="real data, a real user, a real edge case."/>
+
+The gap between prototype and product has
+always been expensive. Teams have always
+known this and absorbed the cost anyway —
+because the alternative, building to production
+fidelity just to prove a concept, was more
+expensive still. The prototype was a rational
+approximation. A fiction everyone agreed to
+believe because <Highlight variant="subtle">the truth cost</Highlight> too much to tell.
+
+That cost calculation has changed.
+And with it, the excuse.
+
+<ArticleImage src="/images/content/cargo-vessel.png" alt="A pristine scale model of a cargo vessel on a dark boardroom table, illuminated by a single warm amber light — precise, immaculate, and entirely removed from the conditions the real vessel would face" caption="REF_001 // PROTOTYPE" raw/>
+
+---
+
+## What a Prototype Actually Is
+
+A prototype is not a design. It is a
+communication tool optimised for a specific
+audience at a specific moment: the stakeholder
+who needs to approve before the team can proceed.
+
+Everything about how prototypes are constructed
+serves that moment. The happy path is shown
+because the happy path is the most convincing.
+Ideal content is used because ideal content
+fits. Transitions are smooth because the tools
+that produce them make smoothness free.
+Edge cases are absent because edge cases
+are unconvincing in a presentation and
+expensive to prototype.
+
+This is not cynical. It is rational.
+The prototype exists to unlock the next phase
+of work. Optimising it for approval is
+optimising it for its actual purpose.
+
+The problem is not that prototypes are
+persuasion tools. The problem is that
+everyone downstream — developers, QA,
+content designers, accessibility engineers —
+has to build the truth from a fiction.
+And this fiction rarely comes with a label
+that says what it left out.
+
+<PullQuote>
+A prototype is a lie your client agreed
+to believe. The problem is your engineers
+have to build the truth.
+</PullQuote>
+
+## The Specific Lies
+
+Every prototype lies in the same directions.
+The specific details change by project.
+The categories don't.
+
+<Highlight variant="strong">Content failure</Highlight>
+
+The prototype was built with ideal content.
+Short names. Round numbers. One line of body
+copy per card. Real data has a 47-character
+vessel name that breaks the layout at the fold.
+Real data has a null state nobody designed.
+Real data has a number so large it pushes the
+label off the edge of its container. The
+prototype never met any of these because the
+person who built it was designing for approval,
+not for reality. Content failure is the most
+common prototype lie and the cheapest to find —
+if anyone thinks to look for it before handoff.
+
+To be fair, I have met good designers who stress 
+test their designs with extremely long data. However, 
+often they are still assumptions and not verified 
+by what real data looks like.
+
+<Highlight variant="strong">Edge cases</Highlight>
+
+The happy path is not the product. It is the
+best possible version of the product under
+ideal conditions with a cooperative user who
+does exactly what the prototype assumed they
+would do. Real users don't read labels. They
+arrive mid-flow. They go backwards. They submit
+empty forms. They have accounts in states the
+prototype never modelled. The prototype showed
+one path through a product that has hundreds.
+The team built confidence from a sample size of one.
+
+<Highlight variant="strong">Motion cost</Highlight>
+
+The transition looked effortless in the prototype.
+Smooth, considered, exactly right. Nobody mentioned
+that the component it implied doesn't animate that
+way natively, that achieving it requires a custom
+implementation, and that the custom implementation
+will take three weeks and introduce a regression
+in the component it shares state with. Motion is
+the most consistently undercosted element in any
+prototype because the tools that produce it make
+it free. Production never does.
+
+<Highlight variant="strong">Technical constraints</Highlight>
+
+The prototype implied a component that doesn't
+exist in the design system. It implied a data
+relationship the API doesn't support. It implied
+a real-time update the infrastructure wasn't
+built for. None of these were visible in the
+prototype because prototypes don't have backends.
+The stakeholder approved something the architecture
+couldn't deliver without significant additional
+work — work that wasn't scoped because nobody
+knew it was needed until development started.
+
+Sometimes this is ok, if the product's scope includes 
+being a forcing function to evolve architecture and 
+data relationships.
+
+<Highlight variant="strong">Accessibility</Highlight>
+
+Nobody prototypes a screen reader experience.
+Nobody prototypes keyboard navigation. Nobody
+prototypes a colour-blind user's path through
+the interface. Accessibility is the lie of
+omission — not a deliberate deception but a
+systematic absence. The prototype showed the
+interface to one type of user under one set
+of conditions. And yet, the product has to work 
+for everyone.
+
+<Highlight variant="strong">The "quick and dirty" prototype — a special case</Highlight>
+
+Some teams reach for a working proof of concept
+instead of a Figma prototype, believing that
+code closes the gap. It closes some of it.
+The motion lie disappears — at least what you
+see is physically achievable. But most of the
+other lies persist. The happy path problem
+persists. The content failure problem persists.
+The edge case problem persists. A POC is
+optimised for proving technical feasibility,
+not user truth. It shows that something can
+be built; there is little value 
+in proving the already known fact that pretty anything 
+can be built these days. It rarely shows whether it should
+be built the way it's being shown.
+
+And it introduces a risk the Figma prototype
+never carries.
+
+Quick and dirty code has a way of becoming
+the foundation. <Highlight variant="emphasis">"We'll refactor it properly
+once we've validated the concept"</Highlight> is the most
+expensive sentence in software development —
+not because the sentiment is wrong but because
+the mandate to refactor rarely arrives. The POC
+that proved the concept becomes the codebase
+the team is still working around three years
+later. The Figma prototype was thrown away
+after the presentation. *The POC became the product.*
+
+The prototype lied about the experience.
+
+The POC lied about the architecture.
+
+Both debts compound.
+
+## Why We Accepted the Lie
+
+The prototype was a rational response to a
+real constraint.
+
+<FloatImage src="/images/content/construction.png" alt="The interior skeleton of a structure under construction at night — raw framework, scaffolding and exposed materials illuminated by a single amber work light, the gap between plan and reality made visible" caption="REF_002 // CONSTRUCTION REALITY" side="right"/>
+Building to production fidelity to validate
+a concept used to cost weeks. A team that
+wanted to test whether a dashboard layout
+would work for its users had two options:
+spend a day in Figma and present something
+convincing, or spend three weeks in code
+and present something real. The Figma option
+won every time — not because anyone was
+being dishonest, but because the economics
+were overwhelming.
+
+The fiction was cheaper than the truth.
+Everyone knew it was fiction. The convention
+held because both sides — designers and
+developers — understood the gap and
+managed it through handoff rituals, QA
+processes, and the kind of institutional
+knowledge that lives in the heads of
+senior engineers who have seen this before.
+
+The system worked, after a fashion.
+The debt was real but it was predictable.
+Teams learned to read prototypes the way
+experienced translators read approximations —
+extracting the intent, discarding the
+literal, building the gap into their estimates.
+
+That translation layer is now obsolete.
+
+## AI Has Changed the Cost Calculation
+
+The tools have moved.
+
+A technical designer with access to v0,
+Cursor, or Claude can produce a working
+coded interface with real data, real content,
+and real edge cases in a day. Not a polished
+production application — but something
+significantly closer to the truth than a
+Figma prototype, at a cost that is now
+comparable to building the Figma prototype
+in the first place.
+
+The motion is real. The content failures
+surface immediately. The edge cases are
+visible before the stakeholder meeting.
+The technical constraints are discovered
+during the build, not after the approval.
+
+This does not make prototyping obsolete.
+<Highlight variant="emphasis">It makes the excuse obsolete.</Highlight>
+
+The gap between prototype and product was
+always a choice dressed as a constraint.
+The constraint was real — it used to cost
+too much to close. It no longer does.
+Which means teams that continue to present
+persuasion-optimised fiction as a design
+artefact are now making that choice
+deliberately, with full knowledge of what
+it costs downstream.
+
+That is a different kind of dishonesty
+than the one we normalised.
+
+## What Honest Prototyping Looks Like
+
+The answer is not to abolish prototypes.
+It is to be explicit about what each
+prototype is for — and what it is not.
+
+<Highlight variant="strong">Exploration prototypes</Highlight> are for the team,
+not the client. They are thinking tools —
+disposable by design, never intended to
+survive contact with a stakeholder.
+Treat them as such. Never present an
+exploration prototype as a design decision.
+It is a question, not an answer.
+
+<Highlight variant="strong">Approval prototypes</Highlight> should be accompanied
+by an explicit fidelity declaration: here
+is what this prototype shows, and here is
+the specific list of what it does not show.
+Content has been idealised. Edge cases have
+not been tested. Motion costs have not been
+assessed. Accessibility has not been considered.
+This list is not a caveat — it is the scope
+of the next phase of work. Making it explicit
+converts the fiction from a liability into a brief.
+
+<Highlight variant="strong">Production prototypes</Highlight> — working code with
+real data, real content, and real constraints —
+should now be the default for anything that
+will inform architectural decisions. AI makes
+this viable at a cost that was unthinkable
+three years ago. For the categories of work
+where the prototype has historically caused
+the most downstream damage — complex data
+interfaces, real-time systems, anything with
+significant state management — the production
+prototype is no longer a luxury. <Highlight variant="subtle">It is the
+responsible choice.</Highlight>
+
+## The Lie We Chose to Keep Telling
+
+The prototype was always a fiction.
+The team knew it. The experienced developers
+knew it. The senior designers knew it.
+The clients mostly didn't — and the
+convention held because the economics
+made honesty impractical.
+
+*The economics have changed.*
+
+The question AI forces on every team that
+still reaches for a Figma file when a
+working prototype is now a day's work is
+a simple one: why?
+
+If the answer is speed — that calculation
+needs revisiting. 
+
+If the answer is client
+expectation — that is a conversation worth
+having, and the tools now exist to have it
+with evidence rather than approximation.
+
+If the answer is habit — that is the most
+honest answer, and the most expensive one.
+
+The prototype that your client agreed to
+believe no longer has to be a lie.
+The teams that keep telling it anyway
+have stopped doing so out of necessity.
+They are doing it by choice.
+
+That choice has a cost.
+It always did.
+Now there is less excuse for not seeing it.
