@@ -5,11 +5,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
+  CURRENTLY_FOOTER,
   CURRENTLY_ITEMS,
   CURRENTLY_TITLE,
-  CURRENTLY_FOOTER,
   type CurrentlyItem,
 } from "~/lib/currently";
+import { WeeklyProportionBar } from "../common/Viz";
 
 const ARIA_CLOSE = "Close currently drawer";
 const LABEL_CLOSE = "ESC ✕";
@@ -117,6 +118,7 @@ export function CurrentlyDrawer({ isOpen, onClose }: CurrentlyDrawerProps) {
         </div>
 
         {/* Content blocks */}
+        <WeeklyProportionBar />
         {blocks}
 
         {/* Footer */}

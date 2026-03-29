@@ -869,10 +869,30 @@ CURRENTLY DRAWER (easter egg — time display click)
   Block hover:  scale(1.03) + drop-shadow(0 6px 20px rgba(0,0,0,0.6))
                 transform: 0.35s cubic-bezier(0.34,1.56,0.64,1) (spring)
                 filter: 0.3s ease
+                Applied to both CurrentlyBlock cards AND WeeklyProportionBar
   Label:        10px Manrope 500, uppercase, #737371
   Body:         16px Manrope 400, #E5E2E1, lh 1.75
   Footer:       "Updated periodically. Last updated March 2026."
                 Manrope 400, 11px, #737371
+  WeeklyProportionBar:
+    Position:   First item in drawer, above content blocks
+    Component:  app/components/common/Viz/WeeklyProportionBar.tsx
+    Title:      "A typical week in hours" — 10px Manrope 500, uppercase, #737371
+    Bar:        Segmented proportion bar, height 20px, 2px gaps, 0px radius
+                Animates from 0% → final width on mount (RAF trigger)
+                Width transition: 0.6s cubic-bezier(0.4,0,0.2,1), staggered 50ms per segment
+    Segments:   Parenting  — var(--color-viz-pink)
+                Deep work  — var(--color-viz-blue)
+                Sleep      — cross-hatch pattern: two repeating-linear-gradient at ±45°
+                             lines: var(--color-border), bg: #3a3a38
+                Training   — var(--color-viz-teal)
+                Reading    — var(--color-viz-orange)
+                Building   — var(--color-viz-green)
+    Legend:     Color swatch (8×8px) + label only — no hours shown
+                Wrap layout, gap 8px row / 20px col
+                Label: 11px Manrope 500, #737371
+    Footer:     "Categories overlap — parenting doesn't clock off."
+                11px Manrope 400 italic, #737371 @ 0.6 opacity
 
 STYLE GUIDE DRAWER (easter egg — SC monogram click on homepage)
   Trigger:      Click SC monogram when already on homepage
