@@ -5,6 +5,7 @@ import { ContactStrip } from "~/components/common";
 import {
   getReadTimeVariant,
   HeroPattern,
+  MobileBriefingDemo,
   VesselPriorityDashboard,
 } from "~/components/writing";
 import { useScrolled } from "~/hooks";
@@ -107,7 +108,11 @@ export default function Article() {
 
   // MDX component overrides — stable for lifetime of page
   const mdxComponents = useMemo(
-    () => ({ ...createMdxComponents(onHeading), VesselPriorityDashboard }),
+    () => ({
+      ...createMdxComponents(onHeading),
+      VesselPriorityDashboard,
+      MobileBriefingDemo,
+    }),
     [onHeading],
   );
 
@@ -118,8 +123,10 @@ export default function Article() {
     const handleScroll = () => {
       const total = document.documentElement.scrollHeight - window.innerHeight;
       const pct = total > 0 ? Math.min((window.scrollY / total) * 100, 100) : 0;
-      if (tocProgressRef.current) tocProgressRef.current.style.width = `${pct}%`;
-      if (mobileProgressRef.current) mobileProgressRef.current.style.width = `${pct}%`;
+      if (tocProgressRef.current)
+        tocProgressRef.current.style.width = `${pct}%`;
+      if (mobileProgressRef.current)
+        mobileProgressRef.current.style.width = `${pct}%`;
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -290,8 +297,20 @@ export default function Article() {
           aria-label={ARIA_SCROLL_TOP}
           className="w-10 h-10 flex items-center justify-center bg-surface border border-border hover:bg-surface-high transition-colors duration-200"
         >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 10 L8 5 L13 10" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M3 10 L8 5 L13 10"
+              stroke="var(--color-accent)"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
         <Link
@@ -299,8 +318,20 @@ export default function Article() {
           aria-label={ARIA_BACK_WRITING}
           className="w-10 h-10 flex items-center justify-center bg-surface border border-border hover:bg-surface-high transition-colors duration-200"
         >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M11 3 L6 8 L11 13" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M11 3 L6 8 L11 13"
+              stroke="var(--color-accent)"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </Link>
       </div>

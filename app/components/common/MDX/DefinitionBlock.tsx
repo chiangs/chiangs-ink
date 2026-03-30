@@ -19,6 +19,11 @@ export function DefinitionBlock({
   definition,
   children,
 }: DefinitionBlockProps) {
+  const childContent = children ? (
+    <div className="font-body text-base text-invert-text opacity-80 mt-6 leading-[1.8] max-w-2xl [&_p]:text-invert-text">
+      {children}
+    </div>
+  ) : null;
   return (
     <div className="bg-accent py-16 px-margin-mob md:px-margin my-12 -mx-margin-mob md:-mx-margin">
       <p className="font-body font-medium text-sm uppercase tracking-[0.15em] text-invert-text opacity-60">
@@ -30,11 +35,7 @@ export function DefinitionBlock({
       >
         {definition}
       </p>
-      {children && (
-        <div className="font-body text-base text-invert-text opacity-80 mt-6 leading-[1.8] max-w-2xl">
-          {children}
-        </div>
-      )}
+      {childContent}
     </div>
   );
 }

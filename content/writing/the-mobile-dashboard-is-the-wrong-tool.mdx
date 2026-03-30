@@ -105,9 +105,10 @@ The argument above is easy to accept in the abstract. What makes it real is the 
 ### Figure 1 — The dashboard on mobile today
 
 <ArticleImage
-  src="/images/content/mobile-dashboard-problem.png"
+  src="/images/content/mobile-dashboard.png"
   alt="A dense operational dashboard rendered on a mobile screen, showing illegible charts, collapsed filters, and truncated data tables"
   caption="FIG_01 // THE CURRENT STATE"
+  raw
 />
 
 A typical operational dashboard rendered at mobile width. Six panels, each containing a chart or table designed for a desktop viewport. Finding the relevant information requires scrolling through the equivalent of three screen lengths — past panels that aren't relevant to the immediate situation, back up to cross-reference a value seen two panels ago, down again to check a related metric. The filter bar has collapsed into a hamburger menu. The trend chart is 180 pixels wide — the Y-axis labels are illegible, the data points indistinguishable. The vessel status table has truncated three of its five columns. The date range selector requires precise tap interaction on a 28-pixel target.
@@ -118,54 +119,24 @@ The labelled failure points are not bugs. They are the predictable consequence o
 
 ### Figure 2 — The briefing layer
 
-<ArticleImage
-  src="/images/content/mobile-briefing-layer.png"
-  alt="A clean AI-generated mobile briefing screen showing three prioritised operational items with urgency context and single tap actions"
-  caption="FIG_02 // THE BRIEFING LAYER"
-/>
+The same underlying data. A different entry point. Every item drawn directly from the situation that woke the OIM up — not a generalised operational summary, but a precise answer to the question the moment is actually asking.
 
-The same underlying data. A different entry point.
+<MobileBriefingDemo/>
 
-The OIM opens their phone and sees this:
-
----
-
-**Good morning, Tor.**
-*03 items require your attention.*
-
-**1. CRITICAL — Pit volume gain, Well 34/7-A**
-Mud logger flagged a 12-barrel gain over three hours. Flow check completed — well showing slow bleed. Shut-in decision required.
-*→ View pit volume trend*
-
-**2. ACTION REQUIRED — Open permit-to-work**
-Evening shift permit on Deck C ventilation work not closed out. Crew change handover blocked until resolved.
-*→ View permit details*
-
-**3. TIME-SENSITIVE — POB list incomplete**
-14 of 36 crew change departures unconfirmed. Helicopter window opens at 06:00 — 3 hrs 43 min remaining.
-*→ View manifest*
-
----
-
-Three items. Three sentences of context. Three actions, each one tap away. No charts to navigate. No filters to set. No legend to decipher. And every item drawn directly from the situation that woke them up — not a generalised operational summary, but a precise answer to the question the moment is actually asking.
+<DefinitionBlock
+  label="What you're seeing"
+  definition="Three layers. One decision."
+>
+The briefing surfaces what matters. Tapping an item reveals the data summary and two immediate actions — act now, or escalate. The drill-down is a third tap away for the OIM who wants to see the underlying trend before deciding. Each layer is a deliberate choice, not a forced starting point.
+</DefinitionBlock>
 
 The AI has read the same data that fills the dashboard. It has applied the same logic that an experienced OIM would apply if they had thirty minutes to review the system properly. It has surfaced the three things that require human judgment and action, ranked them by urgency, and placed the right action one tap away from each.
 
-The Gulf of Evaluation is closed. The distance between the data and the decision has been collapsed to the point where the decision is almost the first thing the user sees.
+Tapping the first item reveals the data summary alongside an immediate decision — two clear options, each one action away. The chart is available if the OIM wants it, but it is not the first thing they are asked to process. If the data raises further questions, the next layer is one deliberate tap away. This is the progressive disclosure principle in practice — the briefing layer answers the primary question: *what needs my attention?* The detail answers the secondary question: *what do I need to know to act on it?* And if that raises further questions still, the full dashboard remains accessible — not as the starting point the user is forced to navigate, but as the end of a chain they choose to follow.
 
-### Figure 3 — The drill-down
+That is a fundamentally different relationship between the user and the data. And a fundamentally different design assumption about what the interface owes the person holding it.
 
-<ArticleImage
-  src="/images/content/mobile-drill-down.png"
-  alt="A single-purpose mobile visualisation showing only the 24-hour pressure trend for Compressor Unit 7, with a clear threshold line and anomaly marker"
-  caption="FIG_03 // THE DRILL-DOWN"
-/>
-
-The OIM taps "View pressure trend." What they get is not the dashboard. It is a single chart — the 24-hour pressure reading for Compressor Unit 7, with the normal operating threshold marked clearly and the variance period shaded. One chart. One data story. Everything needed to make the call on whether this requires an immediate wake-up or can wait for first light.
-
-This is the progressive disclosure principle in practice. The briefing layer answered the primary question: what needs my attention? The drill-down answers the secondary question: what do I need to know to act on it? And if that single view raises further questions — if the pressure trend prompts the OIM to want to see the last three drill reports, or cross-reference against a related system — those panels are available on demand, one deliberate request at a time. The full dashboard remains accessible for the analyst who needs to conduct a proper investigation. But it is the end of a chain the user chooses to follow, not the starting point they are forced to navigate. That is a fundamentally different relationship between the user and the data — and a fundamentally different design assumption about what the interface owes the person holding it.
-
-Nudelman writes about the importance of designing AI outputs that match the user's *decision horizon* — the timescale and scope within which they need to act. At 02:17 on an offshore platform, the decision horizon is immediate and narrow. One chart. One decision. One action. That is the interface the moment requires, and it is the interface the briefing layer delivers.
+Nudelman writes about the importance of designing AI outputs that match the user's *decision horizon* — the timescale and scope within which they need to act. At 02:17 on an offshore platform, the decision horizon is immediate and narrow. One alert. One decision. One action. That is the interface the moment requires, and it is the interface the briefing layer delivers.
 
 ---
 
