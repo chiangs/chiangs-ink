@@ -325,20 +325,6 @@ function BriefingScreen({
     }
   }, [expandedId, scrollRef]);
 
-  // Scroll to chart when it reveals — scrollIntoView handles nested containers correctly
-  useEffect(() => {
-    if (!showChart) return;
-    const id = setTimeout(() => {
-      if (chartRef.current) {
-        chartRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-        });
-      }
-    }, 800);
-    return () => clearTimeout(id);
-  }, [showChart]);
-
   // Spotlight helpers — which elements are active vs dimmed
   const guideActive = spotlightTarget !== null;
   const isActive = (target: SpotlightTarget) => spotlightTarget === target;
@@ -423,23 +409,35 @@ function BriefingScreen({
                 }}
               >
                 <div className="mt-3 pt-3 border-t border-border">
-                  {/* Data rows */}
-                  {item.detail.map((d) => (
+                  {/* Data rows OR chart — swapped in place */}
+                  {showChart && item.hasChart ? (
                     <div
-                      key={d.label}
-                      className="flex items-start gap-3 mb-1.5"
+                      ref={chartRef}
+                      className="mb-3"
+                      style={ringStyle("chart")}
                     >
-                      <span className="font-body text-[10px] text-text-muted uppercase tracking-[0.1em] flex-1">
-                        {d.label}
-                      </span>
-                      <span
-                        className="font-body text-[11px] text-text-primary font-medium text-right"
-                        style={{ flexShrink: 0, maxWidth: "55%" }}
-                      >
-                        {d.value}
-                      </span>
+                      <PitVolumeChart />
                     </div>
-                  ))}
+                  ) : (
+                    <div className="mb-3">
+                      {item.detail.map((d) => (
+                        <div
+                          key={d.label}
+                          className="flex items-start gap-3 mb-1.5"
+                        >
+                          <span className="font-body text-[10px] text-text-muted uppercase tracking-[0.1em] flex-1">
+                            {d.label}
+                          </span>
+                          <span
+                            className="font-body text-[11px] text-text-primary font-medium text-right"
+                            style={{ flexShrink: 0, maxWidth: "55%" }}
+                          >
+                            {d.value}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   {/* Action buttons — pulse sequentially when spotlit */}
                   <div
@@ -453,7 +451,7 @@ function BriefingScreen({
                         ).current = el;
                       }
                     }}
-                    className="mt-4 pt-3 border-t border-border flex flex-col gap-2"
+                    className="pt-3 border-t border-border flex flex-col gap-2"
                   >
                     {/* Primary action — focused state: copper outline, full opacity */}
                     <div
@@ -491,7 +489,7 @@ function BriefingScreen({
                     </div>
                   </div>
 
-                  {/* Drill-down link — pulses and grows when spotlit, tappable in interactive mode */}
+                  {/* Trend / data toggle — tappable in interactive mode, pulses in demo */}
                   {item.hasChart && (
                     <div
                       ref={drilldownRef}
@@ -512,7 +510,7 @@ function BriefingScreen({
                       <span
                         className="font-body font-medium transition-all duration-300"
                         style={{
-                          color: showTap ? "#FFB77D" : "#737371",
+                          color: showTap ? "#FFB77D" : "#D97707",
                           fontSize: isActive("drilldown") ? "13px" : "11px",
                           display: "inline-block",
                           animation: isActive("drilldown")
@@ -520,27 +518,8 @@ function BriefingScreen({
                             : "none",
                         }}
                       >
-                        ↓ {item.action}
+                        {showChart ? "View data" : item.action}
                       </span>
-                    </div>
-                  )}
-
-                  {/* Chart — copper ring when spotlit */}
-                  {item.hasChart && (
-                    <div
-                      className="overflow-hidden transition-all duration-700"
-                      style={{
-                        maxHeight: showChart ? 240 : 0,
-                        opacity: showChart ? 1 : 0,
-                      }}
-                    >
-                      <div
-                        ref={chartRef}
-                        className="mt-3 pt-3 border-t border-border"
-                        style={ringStyle("chart")}
-                      >
-                        <PitVolumeChart />
-                      </div>
                     </div>
                   )}
                 </div>
@@ -573,6 +552,10 @@ export function MobileBriefingDemo() {
   const timerRefs = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const actionsRefGlobal = useRef<HTMLDivElement | null>(null);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const wasAutoPausedRef = useRef(false);
+  const isPlayingRef = useRef(isPlaying);
+  isPlayingRef.current = isPlaying;
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -595,6 +578,32 @@ export function MobileBriefingDemo() {
       if (el) el.remove();
     };
   }, []);
+
+  // Auto-pause when scrolled out of view; auto-resume when scrolled back (unless manually paused)
+  useEffect(() => {
+    if (!isMounted || !rootRef.current) return;
+    const el = rootRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && isPlayingRef.current) {
+          wasAutoPausedRef.current = true;
+          timerRefs.current.forEach(clearTimeout);
+          timerRefs.current.clear();
+          setIsPlaying(false);
+        } else if (
+          entry.isIntersecting &&
+          !isPlayingRef.current &&
+          wasAutoPausedRef.current
+        ) {
+          wasAutoPausedRef.current = false;
+          setIsPlaying(true);
+        }
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isMounted]);
 
   useEffect(() => {
     if (!isMounted || !isPlaying) return;
@@ -652,10 +661,10 @@ export function MobileBriefingDemo() {
                     setSpotlightTarget("actions");
                     // Scroll back up to actions
                     if (scrollRef.current && actionsRefGlobal.current) {
-                      actionsRefGlobal.current.scrollIntoView({
-                        behavior: "smooth",
-                        block: "nearest",
-                      });
+                      const cTop = scrollRef.current.getBoundingClientRect().top;
+                      const eTop = actionsRefGlobal.current.getBoundingClientRect().top;
+                      const target = scrollRef.current.scrollTop + (eTop - cTop) - 16;
+                      smoothScrollTo(scrollRef.current, Math.max(0, target));
                     }
 
                     // Re-pulse primary then secondary
@@ -689,6 +698,7 @@ export function MobileBriefingDemo() {
   const handleToggle = () => {
     if (isPlaying) {
       // Pause — stop timers and reset to clean briefing state
+      wasAutoPausedRef.current = false; // manual pause — suppress auto-resume
       timerRefs.current.forEach(clearTimeout);
       timerRefs.current.clear();
       setDemoState("briefing");
@@ -733,7 +743,7 @@ export function MobileBriefingDemo() {
   );
 
   return (
-    <div className="w-full py-8">
+    <div ref={rootRef} className="w-full py-8">
       <p className="font-body text-[10px] uppercase tracking-[0.15em] text-text-muted mb-6 text-center">
         AI BRIEFING LAYER // LOOPING DEMO
       </p>

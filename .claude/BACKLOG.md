@@ -145,7 +145,7 @@
       Strong hiring signal: this is what senior design
       leadership actually thinks about.
 
-- [ ] **"The Interpreter Role Nobody Hires For"**
+- [x] **"The Interpreter Role Nobody Hires For"**
       File: `content/writing/the-interpreter-role-nobody-hires-for.mdx`
       Status: idea (not started)
       Subtitle: "What happens when nobody speaks all four languages"
@@ -487,7 +487,7 @@
 
 ## DESIGN — Deferred decisions
 
-- [ ] **Pattern header — fade transitions**
+- [x] **Pattern header — fade transitions**
       The three-segment chaos→waves→order pattern
       on the work page header currently has hard cuts
       between segments. Fade transition version was
@@ -497,7 +497,7 @@
       living with them for a while.
       Prompt is saved in chat history.
 
-- [ ] **About page visual upgrade**
+- [x] **About page visual upgrade**
       Current about page is functional and complete.
       CareerIntensityChart data viz added to Experience section
       (horizontal/vertical toggle on desktop, compact mobile layout).
