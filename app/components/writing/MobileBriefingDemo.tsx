@@ -1,4 +1,5 @@
 import { memo, useEffect, useRef, useState } from "react";
+import { PhoneFrame } from "~/components/common/PhoneFrame";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -234,53 +235,53 @@ const PitVolumeChart = memo(function PitVolumeChart() {
 
 // ─── Phone frame wrapper ──────────────────────────────────────────────────────
 
-function PhoneFrame({
-  children,
-  scrollRef,
-}: {
-  children: React.ReactNode;
-  scrollRef: React.RefObject<HTMLDivElement | null>;
-}) {
-  return (
-    <div className="relative mx-auto" style={{ width: 280 }}>
-      <div
-        className="relative bg-[#0a0a0a] border border-[#2a2a2a]"
-        style={{
-          borderRadius: 36,
-          padding: "12px 6px",
-          boxShadow:
-            "0 32px 64px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.04)",
-        }}
-      >
-        <div
-          className="mx-auto bg-[#0a0a0a] mb-2 relative z-10"
-          style={{
-            width: 80,
-            height: 20,
-            borderRadius: "0 0 12px 12px",
-            boxShadow: "0 1px 0 #2a2a2a",
-          }}
-        />
-        <div
-          ref={scrollRef}
-          className="bg-bg relative"
-          style={{
-            borderRadius: 24,
-            height: 520,
-            overflowY: "auto",
-            overflowX: "hidden",
-          }}
-        >
-          {children}
-        </div>
-        <div
-          className="mx-auto mt-2 bg-[#3a3a3a]"
-          style={{ width: 80, height: 4, borderRadius: 2 }}
-        />
-      </div>
-    </div>
-  );
-}
+// function PhoneFrame({
+//   children,
+//   scrollRef,
+// }: {
+//   children: React.ReactNode;
+//   scrollRef: React.RefObject<HTMLDivElement | null>;
+// }) {
+//   return (
+//     <div className="relative mx-auto" style={{ width: 280 }}>
+//       <div
+//         className="relative bg-[#0a0a0a] border border-[#2a2a2a]"
+//         style={{
+//           borderRadius: 36,
+//           padding: "12px 6px",
+//           boxShadow:
+//             "0 32px 64px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.04)",
+//         }}
+//       >
+//         <div
+//           className="mx-auto bg-[#0a0a0a] mb-2 relative z-10"
+//           style={{
+//             width: 80,
+//             height: 20,
+//             borderRadius: "0 0 12px 12px",
+//             boxShadow: "0 1px 0 #2a2a2a",
+//           }}
+//         />
+//         <div
+//           ref={scrollRef}
+//           className="bg-bg relative"
+//           style={{
+//             borderRadius: 24,
+//             height: 520,
+//             overflowY: "auto",
+//             overflowX: "hidden",
+//           }}
+//         >
+//           {children}
+//         </div>
+//         <div
+//           className="mx-auto mt-2 bg-[#3a3a3a]"
+//           style={{ width: 80, height: 4, borderRadius: 2 }}
+//         />
+//       </div>
+//     </div>
+//   );
+// }
 
 // ─── Briefing screen ──────────────────────────────────────────────────────────
 
@@ -661,9 +662,12 @@ export function MobileBriefingDemo() {
                     setSpotlightTarget("actions");
                     // Scroll back up to actions
                     if (scrollRef.current && actionsRefGlobal.current) {
-                      const cTop = scrollRef.current.getBoundingClientRect().top;
-                      const eTop = actionsRefGlobal.current.getBoundingClientRect().top;
-                      const target = scrollRef.current.scrollTop + (eTop - cTop) - 16;
+                      const cTop =
+                        scrollRef.current.getBoundingClientRect().top;
+                      const eTop =
+                        actionsRefGlobal.current.getBoundingClientRect().top;
+                      const target =
+                        scrollRef.current.scrollTop + (eTop - cTop) - 16;
                       smoothScrollTo(scrollRef.current, Math.max(0, target));
                     }
 

@@ -7,6 +7,8 @@ import {
   HeroPattern,
   MobileBriefingDemo,
   VesselPriorityDashboard,
+  ShiftConvergencePattern,
+  BriefingConversation,
 } from "~/components/writing";
 import { useScrolled } from "~/hooks";
 import { HREF_WRITING, SITE_OWNER } from "~/lib/constants";
@@ -112,6 +114,8 @@ export default function Article() {
       ...createMdxComponents(onHeading),
       VesselPriorityDashboard,
       MobileBriefingDemo,
+      ShiftConvergencePattern,
+      BriefingConversation,
     }),
     [onHeading],
   );

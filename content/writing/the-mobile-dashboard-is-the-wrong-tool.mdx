@@ -102,8 +102,6 @@ The underlying data hasn't changed. The charts are still there for the people wh
 
 The argument above is easy to accept in the abstract. What makes it real is the difference between the two interfaces side by side. Here is that difference, made concrete.
 
-### Figure 1 — The dashboard on mobile today
-
 <ArticleImage
   src="/images/content/mobile-dashboard.png"
   alt="A dense operational dashboard rendered on a mobile screen, showing illegible charts, collapsed filters, and truncated data tables"
@@ -117,11 +115,15 @@ Everything the user needs is somewhere in here. The back-and-forth required to p
 
 The labelled failure points are not bugs. They are the predictable consequence of taking an interface designed for one context and forcing it to serve a completely different one. The development team built exactly what they were asked to build. The problem was never the implementation. It was the assumption that making something technically accessible on a smaller screen is the same as designing for the person holding it.
 
-### Figure 2 — The briefing layer
+<ShiftConvergencePattern/>
 
-The same underlying data. A different entry point. Every item drawn directly from the situation that woke the OIM up — not a generalised operational summary, but a precise answer to the question the moment is actually asking.
+The same underlying data. A different entry point. Every item drawn directly from the situation that woke the OIM up — not a generalised operational summary, but a precise answer to the question the moment is actually asking. The AI has read the same data that fills the dashboard. It has applied the same logic that an experienced OIM would apply if they had thirty minutes to review the system properly. It has surfaced the three things that require human judgment and action, ranked them by urgency, and placed the right action one tap away from each.
+
+## The Briefing layer in action
 
 <MobileBriefingDemo/>
+
+Tapping the first item reveals the data summary alongside an immediate decision — two clear options, each one action away. The chart is available if the OIM wants it, but it is not the first thing they are asked to process. If the data raises further questions, the next layer is one deliberate tap away. This is the progressive disclosure principle in practice — the briefing layer answers the primary question: *what needs my attention?* The detail answers the secondary question: *what do I need to know to act on it?* And if that raises further questions still, the full dashboard remains accessible — not as the starting point the user is forced to navigate, but as the end of a chain they choose to follow.
 
 <DefinitionBlock
   label="What you're seeing"
@@ -130,9 +132,18 @@ The same underlying data. A different entry point. Every item drawn directly fro
 The briefing surfaces what matters. Tapping an item reveals the data summary and two immediate actions — act now, or escalate. The drill-down is a third tap away for the OIM who wants to see the underlying trend before deciding. Each layer is a deliberate choice, not a forced starting point.
 </DefinitionBlock>
 
-The AI has read the same data that fills the dashboard. It has applied the same logic that an experienced OIM would apply if they had thirty minutes to review the system properly. It has surfaced the three things that require human judgment and action, ranked them by urgency, and placed the right action one tap away from each.
+A note on what you just saw — and what you didn't.
+The briefing layer in this example could be built with AI, but it doesn't have to be. A sufficiently well-designed rules engine, a priority algorithm, and a structured data layer could produce something that looks similar. That is not a weakness of the pattern. It is the point. The best AI feature is often the one the user never notices — not because it is hidden, but because it is so well integrated into the experience that it feels like the product simply working as it should.
 
-Tapping the first item reveals the data summary alongside an immediate decision — two clear options, each one action away. The chart is available if the OIM wants it, but it is not the first thing they are asked to process. If the data raises further questions, the next layer is one deliberate tap away. This is the progressive disclosure principle in practice — the briefing layer answers the primary question: *what needs my attention?* The detail answers the secondary question: *what do I need to know to act on it?* And if that raises further questions still, the full dashboard remains accessible — not as the starting point the user is forced to navigate, but as the end of a chain they choose to follow.
+*What AI should be doing*
+
+Where AI earns its place in a briefing layer is in the synthesis. Rules engines are good at surfaces — they can flag when a value crosses a threshold. AI is good at context — it can recognise that three individually unremarkable signals, taken together, constitute a pattern worth surfacing. The pit volume gain in this example is not remarkable on its own. Combined with the open permit-to-work and the incomplete POB list, it tells a story about a shift handover that has gone wrong in three simultaneous ways — and that story only becomes visible when you read across all three data sources at once.
+
+There is a second capability worth naming. The chart the OIM sees when they tap "View pit volume trend" was not hardcoded. It was generated on demand from the underlying data, shaped by what the AI determined was relevant to this specific alert, at this specific moment. This matters because operational data environments are complex and unpredictable — no engineering team can anticipate every chart a user will need before they need it. A briefing layer backed by AI can generate purpose-built visualisations dynamically, pulling from whichever data sources are relevant to the situation at hand. The alternative — attempting to pre-build every possible chart and surface the right one — is both brittle and expensive. Dynamic generation keeps the analytical layer agile.
+
+And yes — a conversational layer can augment this. The OIM who wants to ask "what happened to the pressure readings on Well 34/7-A in the last 72 hours?" should be able to. A well-designed briefing layer is not a replacement for conversational AI — it is the entry point. The briefing surfaces what matters. The conversation handles what the briefing cannot anticipate. Together they close the distance between the data and the decision more completely than either does alone.
+
+<BriefingConversation/>
 
 That is a fundamentally different relationship between the user and the data. And a fundamentally different design assumption about what the interface owes the person holding it.
 
@@ -165,7 +176,7 @@ The dashboard earns its place in the moments that require depth — when an engi
 
 The briefing layer earns its place in the moments that require speed — when a decision cannot wait, when the context demands action over analysis, when the user is already carrying the weight of an operational situation and needs the data to meet them where they are rather than requiring them to come looking for it.
 
-These are not competing interfaces. They are complementary ones, drawing on the same data, serving different moments in the same operational reality. The failure is not building dashboards. The failure is assuming that a responsive version of a dashboard covers both moments — and discovering, at 02:17 on a live well, that it does not.
+These are not competing interfaces. They are complementary ones, drawing on the same data, serving different moments in the same operational reality. The failure is not building dashboards, it is assuming that a responsive version of a dashboard covers both moments — and discovering, at 02:17 on a live well, that it does not.
 
 Start with the person. The decision they need to make. The context they're in when they need to make it. The device in their hand. The stakes attached to getting it right.
 

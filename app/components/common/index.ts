@@ -3,6 +3,7 @@ export { ContactStrip } from "./ContactStrip";
 export { EmptyState } from "./EmptyState";
 export { FilterDropdown } from "./FilterDropdown";
 export { InsightsPanel } from "./InsightsPanel";
+export { PhoneFrame } from "./PhoneFrame";
 export { SearchIcon } from "./SearchIcon";
 export { Toast } from "./Toast";
 export { WorkRow } from "./WorkRow";
