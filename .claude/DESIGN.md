@@ -1099,7 +1099,7 @@ Favicon:        /public/favicon.svg
                 Pure SVG — no font dependency issues
                 512×512 viewBox, scales to all sizes
 
-PWA setup:      manifest.json — create in IDE
+PWA setup:      manifest.json — hand-authored in public/
                 Required icons: 192×192, 512×512 PNG
                 (generate from favicon.svg via realfavicongenerator.net)
                 apple-touch-icon: 180×180 PNG
@@ -1107,6 +1107,20 @@ PWA setup:      manifest.json — create in IDE
                 Background color: #131313
                 Display: standalone
                 Start URL: /
+
+Service worker: vite-plugin-pwa (Workbox) — configured in vite.config.ts
+                Generates sw.js + workbox-*.js at build time
+                registerType: "autoUpdate" — silent updates on new deploy
+                injectRegister: "auto" — no manual registration code needed
+                manifest: false — preserves hand-authored public/manifest.json
+                Cache strategies:
+                  - Built JS/CSS/HTML: precached with content-hash busting
+                  - /images/**: CacheFirst, 30-day TTL, 60-entry cap
+                  - Everything else: NetworkFirst with cache fallback
+
+LCP preload:    home.tsx exports a links function with:
+                { rel: "preload", href: "/images/portrait/stephen-chiang.jpg", as: "image" }
+                Ensures the portrait is fetched before render on the homepage.
 
 root.tsx links:
   { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }

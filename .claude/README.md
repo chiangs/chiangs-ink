@@ -4,7 +4,7 @@ Personal site and portfolio for Stephen Chiang,
 Design Technologist and Product & Technology Leader.
 
 Built with React Router v7 (framework mode),
-Tailwind CSS v4, GSAP, and MDX.
+Tailwind CSS v4, GSAP, MDX, and Workbox (via vite-plugin-pwa).
 
 ---
 
@@ -30,7 +30,25 @@ npm install gray-matter
 
 # Types
 npm install -D @types/mdx
+
+# PWA / Service Worker
+npm install -D vite-plugin-pwa
 ```
+
+## PWA Setup
+
+`vite-plugin-pwa` is configured in `vite.config.ts`. It:
+- Generates `sw.js` + `workbox-*.js` at build time with a precache manifest
+- Auto-injects the SW registration script — no manual code in root.tsx needed
+- Uses `manifest: false` so `public/manifest.json` is used as-is
+
+Cache strategies:
+- Built JS/CSS/HTML: precached at install (content-hash busting)
+- `/images/**`: runtime `CacheFirst`, 30-day TTL, 60-entry cap
+- Everything else: `NetworkFirst` with cache fallback
+
+The hero portrait (`/images/portrait/stephen-chiang.jpg`) is also served via
+`<link rel="preload" as="image">` in `home.tsx` to improve LCP.
 
 ## Font Setup
 

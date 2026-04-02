@@ -11,7 +11,7 @@ Personal portfolio site for Stephen Chiang — Design Technologist and Product &
 - **Data viz** — visx + D3
 - **Search** — Fuse.js (fuzzy search)
 - **Fonts** — Space Grotesk (display) + Manrope (body) via Google Fonts
-- **PWA** — Web App Manifest with maskable icons
+- **PWA** — Service worker (Workbox via `vite-plugin-pwa`) + Web App Manifest with maskable icons
 - **Deployment** — Vercel (`@vercel/react-router`)
 - **Language** — TypeScript (strict)
 
@@ -46,8 +46,9 @@ content/
   work/             # Project MDX files
   writing/          # Article MDX files
 public/
-  manifest.json     # PWA manifest
+  manifest.json     # PWA manifest (hand-authored — vite-plugin-pwa reads it as-is)
   icons/            # PWA icons (96–512px, maskable variants)
+  # sw.js + workbox-*.js are generated here at build time by vite-plugin-pwa
 .claude/
   DESIGN.md         # Design system — tokens, component patterns, motion
   STRUCTURE.md      # Annotated file tree
