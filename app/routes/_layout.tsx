@@ -3,7 +3,8 @@
 // All drawer + toast state lives here so it persists across route changes.
 
 import { useEffect, useRef, useState } from "react";
-import { Outlet, useLocation } from "react-router";
+import { isRouteErrorResponse, Outlet, useLocation, useRouteError } from "react-router";
+import { ErrorDisplay } from "~/components/common/error";
 import { CursorFollower } from "~/components/CursorFollower";
 import { Toast } from "~/components/common";
 import {
@@ -113,4 +114,10 @@ export default function Layout() {
       <LayoutInner />
     </ToastProvider>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  const code = isRouteErrorResponse(error) && error.status === 404 ? "404" : "500";
+  return <ErrorDisplay code={code} />;
 }

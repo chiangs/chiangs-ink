@@ -1,6 +1,7 @@
 import type { ComponentType, CSSProperties } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useLoaderData } from "react-router";
+import { isRouteErrorResponse, Link, useLoaderData, useRouteError } from "react-router";
+import { ErrorDisplay } from "~/components/common/error";
 import { ContactStrip } from "~/components/common";
 import {
   getReadTimeVariant,
@@ -87,6 +88,13 @@ export function meta({ data }: Route.MetaArgs) {
     { title: `${data.frontmatter.title} ${SITE_SUFFIX}` },
     { name: "description", content: data.frontmatter.subtitle },
   ];
+}
+
+// ─── Error boundary ───────────────────────────────────────────────────────────
+export function ErrorBoundary() {
+  const error = useRouteError();
+  const code = isRouteErrorResponse(error) && error.status === 404 ? "404" : "500";
+  return <ErrorDisplay code={code} />;
 }
 
 // ─── Route component ──────────────────────────────────────────────────────────

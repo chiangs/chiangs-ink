@@ -1,3 +1,5 @@
+import { isRouteErrorResponse, useRouteError } from "react-router";
+import { ErrorDisplay } from "~/components/common/error";
 import type { Route } from "./+types/$slug";
 
 const SITE_SUFFIX = "— Stephen Chiang";
@@ -9,6 +11,12 @@ const CONTENT_PLACEHOLDER = "Content coming soon.";
 
 export function meta({ params }: Route.MetaArgs) {
   return [{ title: `${params.slug} ${SITE_SUFFIX}` }];
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  const code = isRouteErrorResponse(error) && error.status === 404 ? "404" : "500";
+  return <ErrorDisplay code={code} />;
 }
 
 export default function WorkProject({ params }: Route.ComponentProps) {

@@ -104,14 +104,19 @@ function stepGlitch(cells: Cell[]): void {
 
 // ── Drawing ───────────────────────────────────────────────────────────────────
 
-function drawGhost(ctx: CanvasRenderingContext2D, w: number, h: number): void {
+function drawGhost(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  label: string,
+): void {
   const size = Math.min(w * 0.55, 200);
   ctx.save();
   ctx.font = `700 ${size}px 'Space Grotesk', sans-serif`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = `rgba(${CR},${CG},${CB},0.10)`;
-  ctx.fillText("404", w / 2, h / 2);
+  ctx.fillText(label, w / 2, h / 2);
   ctx.restore();
 }
 
@@ -194,9 +199,14 @@ const labelStyle: React.CSSProperties = {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export function Heatmap404() {
+type Heatmap404Props = {
+  statusCode?: string;
+};
+
+export function Heatmap404({ statusCode = "404" }: Heatmap404Props) {
   const panelRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const statusCodeRef = useRef(statusCode);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -234,7 +244,7 @@ export function Heatmap404() {
     function tick(ts: number) {
       if (!isMounted) return;
       ctxRef.clearRect(0, 0, w, h);
-      drawGhost(ctxRef, w, h);
+      drawGhost(ctxRef, w, h, statusCodeRef.current);
       stepGlitch(cells);
       drawCells(ctxRef, cells, w, h, ts);
       raf = requestAnimationFrame(tick);
