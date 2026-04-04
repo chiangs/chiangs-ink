@@ -67,7 +67,10 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw new Response("Not Found", { status: 404 });
   }
 
-  if (article.frontmatter.status === "draft") {
+  if (
+    article.frontmatter.status === "draft" &&
+    process.env.NODE_ENV !== "development"
+  ) {
     throw new Response("Not Found", { status: 404 });
   }
 

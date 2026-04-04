@@ -80,12 +80,19 @@ function DetailedRow({
 
       {/* Zone 2 — Title + tags */}
       <div className="flex-1 md:pl-20 md:py-6 w-full md:w-auto">
-        <span
-          className="font-display font-bold text-text-primary group-hover:text-accent block"
-          style={titleDetailStyle}
-        >
-          {article.title}
-        </span>
+        <div className="flex items-baseline gap-3">
+          <span
+            className="font-display font-bold text-text-primary group-hover:text-accent block"
+            style={titleDetailStyle}
+          >
+            {article.title}
+          </span>
+          {article.status === "draft" && (
+            <span className="shrink-0 font-body font-medium text-xs uppercase tracking-[0.1em] text-invert-text bg-invert-bg px-2 py-0.5">
+              Draft
+            </span>
+          )}
+        </div>
         {displayTags.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mt-2">
             {displayTags.map((tag) => (

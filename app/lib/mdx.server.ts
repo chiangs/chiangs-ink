@@ -26,8 +26,10 @@ export async function getAllArticles(): Promise<ArticleFrontmatter[]> {
       }),
   );
 
+  const isDev = process.env.NODE_ENV === "development";
+
   return articles
-    .filter((a) => a.status !== "draft")
+    .filter((a) => isDev || a.status !== "draft")
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 

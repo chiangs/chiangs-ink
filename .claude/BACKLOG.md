@@ -520,12 +520,10 @@
       Regenerate PNG icons after SVG update via realfavicongenerator.net.
       Sizes required: 32px, 180px, 192px, 512px.
 
-- [ ] **PWA service worker**
-      Offline support — not yet implemented
-      manifest.json exists, icons needed
-      Generate PNG icons from favicon.svg via
-      realfavicongenerator.net
-      Required sizes: 32px, 180px, 192px, 512px
+- [x] **PWA service worker** — DONE
+      vite-plugin-pwa (Workbox) configured in vite.config.ts.
+      CacheFirst for /images/**, NetworkFirst for everything else.
+      Portrait preloaded via home.tsx links export for LCP.
 
 - [ ] **Real images**
       Placeholder paths still in use:
@@ -543,6 +541,15 @@
       Each project MDX references a heroImage path
       that doesn't exist yet. Add real screenshots
       or mockups before launching project pages.
+
+- [ ] **Route-level ErrorBoundary for slug routes**
+      `writing/$slug.tsx` and `work/$slug.tsx` loaders throw
+      `new Response("Not Found", { status: 404 })` for missing slugs,
+      but this hits the root ErrorBoundary instead of rendering the
+      custom NotFound page. Fix: export an `ErrorBoundary` from each
+      slug route that checks `isRouteErrorResponse(error) && error.status === 404`
+      and renders the `NotFound` default export from `routes/not-found.tsx`.
+      Re-throw non-404 errors so root catches them.
 
 - [ ] **Motion layer audit**
       GSAP scroll triggers exist on homepage and

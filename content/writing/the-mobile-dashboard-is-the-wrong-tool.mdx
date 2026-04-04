@@ -59,7 +59,7 @@ Those are completely different design problems.
 
 <DefinitionBlock definition="What does this person need from this data, right now, on this device, with these stakes?"/>
 
-This is the framing at the heart of the <Highlight variant="accent">Jobs-to-be-Done</Highlight> framework — the idea that people don't use products, they hire them to do a job. The offshore OIM at 02:17 is not hiring a dashboard. They are hiring an answer. Specifically: <Highlight variant="mark">what is wrong, how serious is it, and what do I need to do about it right now?</Highlight>
+This is the framing at the heart of the <Highlight variant="accent">Jobs-to-be-Done</Highlight> framework — the idea that people don't use products, they hire them to do a job. Nudelman puts it plainly in UX for AI: don't ask users how they would use your AI product. Ask them what keeps them up at night. The answer to that question is the interface you should be building. The offshore OIM at 02:17 is not hiring a dashboard. They are hiring an answer. Specifically: <Highlight variant="mark">what is wrong, how serious is it, and what do I need to do about it right now?</Highlight>
 
 A dashboard — even a beautifully designed, fully responsive one — is built to shorten the distance between data and a decision. On mobile, at 02:17, on a live well, it cannot do that job. Not because the dashboard is wrong. Because the conditions the format requires don't exist in that moment. <Highlight variant="strong">Hick's Law</Highlight> formalises what every operational decision-maker already knows intuitively: the more options you present, the longer it takes to decide. Every additional chart panel, every filter dropdown, every navigational element is a tax on a decision the situation demands be made quickly. The right tool, in the wrong context, becomes the wrong tool.
 
@@ -69,7 +69,7 @@ The constraint of mobile, then, is not a design problem to be managed. It is a f
 
 ## Enter the briefing layer
 
-In <Highlight variant="accent">The UX of AI</Highlight>, Greg Nudelman argues that the most important design challenge in AI-powered products is not capability — it is trust and clarity. The question is not what the AI can do. It is what the user can understand, act on, and trust in the moment they need it. That framing reorients the entire design problem. You are not designing a feature. You are designing a moment of understanding.
+The most important design challenge in AI-powered products is not capability — it is trust and clarity. The question is not what the AI can do. It is what the user can understand, act on, and trust in the moment they need it. That framing reorients the entire design problem. You are not designing a feature. You are designing a moment of understanding.
 
 The briefing layer is:
 
@@ -89,7 +89,7 @@ Don Norman introduced the concept of the <Highlight variant="strong">Gulf of Eva
 
 The briefing layer closes that gulf.
 
-Nudelman's work on AI UX emphasises what he calls <Highlight variant="accent">graceful guidance</Highlight> — the idea that AI should lead users toward the right action without overwhelming them with the reasoning behind it. The briefing layer is graceful guidance made concrete. It doesn't show its working unless asked. It surfaces the signal, not the noise. It trusts the user to be capable of the decision while removing the burden of excavating the data to get there.
+The briefing layer is graceful guidance made concrete. It doesn't show its working unless asked. It surfaces the signal, not the noise. It trusts the user to be capable of the decision while removing the burden of excavating the data to get there.
 
 What the briefing layer looks like depends on who is receiving it:
 
@@ -135,7 +135,7 @@ The same underlying data. A different entry point. Every item drawn directly fro
 *Three layers. One decision.*
 The briefing surfaces what matters. Tapping an item reveals the data summary and two immediate actions — act now, or escalate. The drill-down is a third tap away for the OIM who wants to see the underlying trend before deciding. Each layer is a deliberate choice, not a forced starting point.
 
-The briefing layer in this example could be built with AI, but it doesn't have to be. A sufficiently well-designed rules engine, a priority algorithm, and a structured data layer could produce something that looks similar. That is not a weakness of the pattern. It is the point. The best AI feature is often the one the user never notices — not because it is hidden, but because it is so well integrated into the experience that it feels like the product simply working as it should.
+The briefing layer in this example could be built with AI, but it doesn't have to be. A sufficiently well-designed rules engine, a priority algorithm, and a structured data layer could produce something that looks similar. Nudelman calls this the best AI is no AI principle — if a well-designed rules engine can do the job reliably, that is the right tool. AI earns its place only where deterministic alternatives cannot go. The best AI feature is often the one the user never notices — not because it is hidden, but because it is so well integrated into the experience that it feels like the product simply working as it should.
 
 Where AI earns its place in a briefing layer is in the synthesis. Rules engines are good at surfaces — they can flag when a value crosses a threshold. AI is good at context — it can recognise that three individually unremarkable signals, taken together, constitute a pattern worth surfacing. The pit volume gain in this example is not remarkable on its own. Combined with the open permit-to-work and the incomplete POB list, it tells a story about a shift handover that has gone wrong in three simultaneous ways — and that story only becomes visible when you read across all three data sources at once.
 
@@ -145,9 +145,11 @@ And yes — a conversational layer can augment this. The OIM who wants to ask "w
 
 <BriefingConversation/>
 
+What you just saw in that final step — the AI flagging the incoming OIM and updating the crew change manifest without the OIM navigating to do it themselves — is the earliest form of agentic behaviour. Not autonomous. Not self-directed. But acting in the world on a human instruction, across system boundaries, in a single step. That is where the briefing layer ends and something more consequential begins.
+
 The conversation doesn't replace the briefing. It extends it — handling what the briefing couldn't anticipate, without requiring the OIM to navigate a dashboard to get there. That is a fundamentally different relationship between the user and the data. And a fundamentally different design assumption about what the interface owes the person holding it.
 
-Nudelman writes about the importance of designing AI outputs that match the user's *decision horizon* — the timescale and scope within which they need to act. At 02:17 on an offshore platform, the decision horizon is immediate and narrow. One alert. One decision. One action. That is the interface the moment requires, and it is the interface the briefing layer delivers.
+The importance and value of designing AI outputs that match the user's *decision horizon* cannot be ignored — the timescale and scope within which they need to act. At 02:17 on an offshore platform, the decision horizon is immediate and narrow. One alert. One decision. One action. That is the interface the moment requires, and it is the interface the briefing layer delivers.
 
 ---
 
@@ -187,6 +189,6 @@ The offshore OIM at 02:17 doesn't need a dashboard. They need an answer. Buildin
 
 ---
 
-*Greg Nudelman's [The UX of AI](https://www.oreilly.com/library/view/the-ux-of/9781098154929/) is the most grounded treatment of AI interface design I've encountered. If you are working on AI-powered products and thinking seriously about how humans experience AI outputs — not just what the AI can produce — it belongs on your desk.*
+*Greg Nudelman's [The UX for AI](https://uxforai.com/) is a practical framework for designing effective human-AI experiences — grounded, specific, and directly applicable to product work. The chapters on Digital Twins and the Value Matrix have particular relevance if you work at the intersection of operational data and AI.*
 
 *This article is a companion piece to [Dashboards Are Not For Overview](/writing/dashboards-are-not-for-overview). If the argument above resonated, that one sets up the design philosophy that this one builds on.*
