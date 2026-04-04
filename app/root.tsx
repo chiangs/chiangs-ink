@@ -23,8 +23,18 @@ export const links: Route.LinksFunction = () => [
   },
   { rel: "manifest", href: "/manifest.json" },
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-  { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
-  { rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+  {
+    rel: "icon",
+    href: "/favicon-32x32.png",
+    type: "image/png",
+    sizes: "32x32",
+  },
+  {
+    rel: "icon",
+    href: "/favicon-16x16.png",
+    type: "image/png",
+    sizes: "16x16",
+  },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
 ];
 
@@ -34,11 +44,8 @@ const PERSON_SCHEMA = {
   name: "Stephen Chiang",
   url: "https://www.chiang.ink",
   image: "https://www.chiang.ink/images/portrait/stephen-chiang.jpg",
-  sameAs: [
-    "https://www.linkedin.com/in/chiangs",
-    "https://github.com/chiangs",
-  ],
-  jobTitle: "Design Technologist",
+  sameAs: ["https://www.linkedin.com/in/chiangs", "https://github.com/chiangs"],
+  jobTitle: "Lead Design Technologist",
   description:
     "Senior product technology leader working at the intersection of design, data, and technology. 20+ years experience in maritime, oil & gas, financial services, and enterprise software.",
   knowsAbout: [
@@ -70,7 +77,7 @@ const WEBSITE_SCHEMA = {
   name: "Stephen Chiang — Design Technologist",
   url: "https://www.chiang.ink",
   description:
-    "Portfolio and writing of Stephen Chiang — Design Technologist and senior product technology leader working at the intersection of design, data, and technology.",
+    "Portfolio and writing of Stephen Chiang — Lead Design Technologist and senior product technology leader working at the intersection of design, data, and technology.",
   author: {
     "@type": "Person",
     name: "Stephen Chiang",
@@ -88,7 +95,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#0c0c0c" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
         <meta name="apple-mobile-web-app-title" content="SC" />
         <Meta />
         <Links />
@@ -132,7 +142,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="max-w-container mx-auto px-margin-mob md:px-margin py-16">
-      <h1 className="font-display text-accent text-4xl font-black mb-4">{message}</h1>
+      <h1 className="font-display text-accent text-4xl font-black mb-4">
+        {message}
+      </h1>
       <p className="text-text-primary">{details}</p>
       {stack && (
         <pre className="w-full p-4 overflow-x-auto bg-surface border border-border mt-4 text-sm">
