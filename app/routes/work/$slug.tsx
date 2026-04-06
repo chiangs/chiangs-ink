@@ -5,7 +5,12 @@ import type { Route } from "./+types/$slug";
 import { getProject } from "~/lib/mdx.server";
 import { createProjectMdxComponents } from "~/lib/mdx-components";
 import type { ProjectFrontmatter } from "~/types/content";
-import { ContributionBar, MetricsStrip, NdaDisclosure, TeamComposition } from "~/components/common/MDX";
+import {
+  ContributionBar,
+  MetricsStrip,
+  NdaDisclosure,
+  TeamComposition,
+} from "~/components/common/MDX";
 
 // ─── MDX module registry ──────────────────────────────────────────────────────
 const PROJECT_MODULES = import.meta.glob<{
@@ -94,13 +99,18 @@ export default function WorkSlug() {
     };
   }, []);
 
-  const components = useMemo(() => createProjectMdxComponents(), []);
+  const components = useMemo(
+    () =>
+      createProjectMdxComponents({
+        industry: (fm.industry ?? fm.industries?.[0] ?? [])[0],
+      }),
+    [fm],
+  );
 
   const moduleKey = `/content/work/${slug}.mdx`;
   const Content = PROJECT_MODULES[moduleKey]?.default ?? null;
 
-  // industry[] and industries[] both exist in frontmatter — prefer industry
-  const industryLabel = (fm.industry ?? fm.industries ?? []).join(" · ");
+  const industryLabel = fm.industry ?? "";
 
   // Metrics strip renders only when the array exists and is non-empty
   const hasMetrics = Array.isArray(fm.metrics) && fm.metrics.length > 0;

@@ -270,12 +270,15 @@ export function createWritingMdxComponents(onHeading: (item: TocItem) => void) {
   };
 }
 
+type ProjectMdxContext = {
+  industry?: string;
+};
+
 // ─── Project MDX component factory ───────────────────────────────────────────
 // No TOC — project pages don't need heading registration.
-export function createProjectMdxComponents() {
+export function createProjectMdxComponents(ctx: ProjectMdxContext = {}) {
   return {
     Situation,
-    WhatWasHard,
     WhatWasBuilt,
     ProjectImage,
     ProjectImagePair,
@@ -285,6 +288,18 @@ export function createProjectMdxComponents() {
     Challenge,
     SectionDivider,
     ImageGrid,
+
+    WhatWasHard: ({
+      children,
+      callout,
+    }: {
+      children: ReactNode;
+      callout?: string;
+    }) => (
+      <WhatWasHard callout={callout} industry={ctx.industry}>
+        {children}
+      </WhatWasHard>
+    ),
 
     h2: ({ children }: { children?: ReactNode }) => (
       <h2

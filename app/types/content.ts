@@ -32,7 +32,7 @@ export type ProjectFrontmatter = {
   year: number;
   status: "Live" | "Delivered" | "Ongoing" | "Confidential";
   tags?: string[];
-  industry?: string[];
+  industry?: string;
   industries?: string[];
   solutionType?: string[];
   metrics?: ProjectMetric[];

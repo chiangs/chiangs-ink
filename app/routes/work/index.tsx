@@ -168,7 +168,7 @@ export default function WorkIndex() {
 
     if (state.selectedIndustries.length > 0) {
       result = result.filter((p) =>
-        state.selectedIndustries.some((ind) => p.industry?.includes(ind)),
+        p.industry !== undefined && state.selectedIndustries.includes(p.industry),
       );
     }
 

@@ -47,7 +47,7 @@ function DetailedRow({
 }) {
   const displayTags = project.tags.slice(0, MAX_TAGS);
   const displayMetrics = project.metrics.slice(0, MAX_METRICS);
-  const industryLabel = project.industry?.[0] ?? "";
+  const industryLabel = project.industry ?? "";
 
   return (
     <Link

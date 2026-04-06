@@ -128,7 +128,7 @@ function computeInsights(projects: ProjectFrontmatter[]): InsightData {
   const nodeProjectCounts: Record<string, number> = {};
 
   for (const p of projects) {
-    const inds = p.industries ?? p.industry ?? [];
+    const inds = p.industry ? [p.industry] : [];
     const sols = p.solutionType ?? [];
     const roles = p.roles ?? [];
 
